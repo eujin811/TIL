@@ -39,14 +39,12 @@ branch 생성 -> 수정 -> add -> commit -> merge -> branch file delete -> push
 타입을 지정하지 않아도 컴파일시 타입추론 가능. (추론시간 때문에 컴파일 시간이 길어질 수 있다.)
 
 **Typealias**
-
 문맥상 더 적절한 이름으로 기존 타입 이름을 참조하여 사용하고 싶을경우 사용됨.
 typealias index = Int
 let firstIndex: Index = 0
 type(of: firstIndex)
 
 **범위연산자**
-
 1...  : 1이상의 모든 값
 ...100: 100까지의 모든 값
 ..<100: 100보다 작은 모든 값
@@ -57,13 +55,11 @@ type(of: firstIndex)
 **.isMultiple(of:2):** 몫을 구할때 사용 %
 
 **함수**
-
 -가변인자 사용가능(단, 가변인자 사용 뒤에는 argument생략 불가 -> 레이블의 끝을 알 수 없기 때문)
  func nameFunc(num1:Int..., inputNum num2: Int)
 -중첩이 가능하다.
 
 **if문**
-
 - && 대신 , 로 사용 가능하다
 	if (A && B) -> if(a,b)
 
@@ -72,7 +68,6 @@ type(of: firstIndex)
 -guard 1...100 ~= age else {return}
 
 **Switch case**
-
 -다른 언어에 비해서 case가 유연하다.
 -case를 범위로 받을 수 있다. 
 	case 1..10:
@@ -108,7 +103,6 @@ type(of: firstIndex)
 			...
 	}
 **repeat while**
-
 -코드를 무조건 한번 수행한 후 반복한다.
 repeat{
 	code
@@ -122,7 +116,6 @@ repeat{
 
 	
 **Tuples**
-
 -let three(Int,String,Bool) = (1, "hi", True)
 -7개 미만 
 -튜플안에 또 튜플 가능
@@ -135,4 +128,50 @@ repeat{
 **Dictionary Enumeration**
 -key, value시 자주 사용
 
+**Closure**
+- 일회용 함수, 한번만 사용할 구문들의 집합 (단, 형식은 함수로)
+- 익명함수 : 한번만 사용하고 버려져서 이름을 작성할 필요가 없다.
+- 자신이 정의되었던 문맥으로 부터, 모든 상수와 변수의 값을 캡처 or 레퍼런스 저장 하는것
+	> 전역함수: 이름이 있음, 주변 환경에서 캡허할 값 없는 클로저
+	> 중첩함수: 이름 있음, 자신을 둘러싼 함수로부터 값을 캡쳐할 수 있는 클로저
+	> 클로저 표현식: 이름이 없으며 주변 환경으로부터 값을 캡처하 수 있는 경량 문법
 
+- 두 가지로 이루어진 객체, 하나는 내부 함수이며 또 다른 하나는 내부 함수가 만들어진 주변 환경
+- 외부 함수 내에서 내부 함수를 반환하고, 내부 함수의 지역 변수나 상수를 참조할때 도 만들어진다.
+- 내부 함수와 내부함수에 영향을 미치는 주변 환경(Context)를 모두 포함한 객체.
+	> 클로저에서 저장하는 주변환경은 변수나 객체 자체가 아닌 이들의 값.
+	> 때문에 같은 정의를 갖는 함수가 서로 다른 환경을 저장하는 결과가 생긴다.
+	> * func basic(param: Int) -> (Int) -> Int {
+	    let value = param + 20
+	    func append(add: Int) -> Int {
+		return value + add
+	    }	
+
+	let result1 = basic(param: 10)
+		(10 +20 -> 30+add)
+	let result2 = basic(param: 5)
+		(5+20 -> 25+add)
+	> 외부 함수에서 정의된 객체가 만약 내부 함수에서도 참조되고 있고, 이 내부 함수가 반환되어 함수가 반환되어 참조가 유지되고 있는 상태라면 클로저에 의해 내부 함수 주변의 지역변수나 상수도 함께 저장된다. 
+	> 함수중첩 사용시 외부 함수 life cycle 끝나도 참조 카운트 up으로 살아있을 수 있음
+
+ -  형식: func 키워드 생략, 함수이름 생략
+	> {(매개변수) -> 반환 타입 in
+	> 	실행구문
+	> }
+- 상수 or 변수에 클로저 할당
+	> let f ={() -> Void in
+	> 	print("클로저 실행")
+	> }
+	> f()
+- 상수, 변수에 할당하지 않고 바로 쓰고 싶을 때.
+	> ({ () -> Void in
+	> print("클로저 실행")
+	> })()
+
+- 매개변수 있는 형태	
+	> let c  = {(s1: Int, s2: String) -> Void in
+	> print("s1:\(s1), s2:\(s2)")
+	> }
+	> c(1, "closure")
+
+- 클로저 호출시 매개변수명 붙일 필요 없다. **하지만** 공식적으로 결정된 문법 아니니 주의 요망!	
