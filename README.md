@@ -139,8 +139,10 @@ type(of: firstIndex)
 	-값을 전혀 가지고 있지x
 	-값이 있으며, 그 값에 접근하기 위해 unwrap할수 있음
 - 선언
-	* var variable name: Type?
-	* var variable name: Optional<Type>
+	```swift
+	var variable name: Type?
+	var variable name: Optional<Type>
+	```
 - 옵셔널 벗겨내기
 	```swift
 	if let {nonOptional} = {optionalName} 	//옵셔널 타입 아닌경우 오류
@@ -170,30 +172,38 @@ type(of: firstIndex)
 	-let forcedString: String = possibleString!
 	-var assumedString: String! = "An implicitly unwrapped optional String."
 - **Nill-coalescing Operator**
+	```swift
 	let another = {optional name} ?? "This is a nil value" -> nil 아니면 앞에것, nil이면 뒤에것.
+	```  
 	  ->nil일 때 사용할 기본값을 뒤에 작성	
+		```swift
 		* let setColor = blueColor ?? redColor
-	  ->위에것 줄이기 전
-		* var result = ""
-		* if optionalStr != nil{
-		*    result = optionalStr!
-		* } else{
-		* 	result = "This is a nil value"
-		* }
-- 함수로 옵셔널 가능하다.
-	* func sum(Int, Int) -> Int {
-	* 	return a+b
-	* }
-	* var sumFunction: ((Int, Int) -> Int)? = sum(a: b:)
-	* 
-	* sum(a: 1,b: 2)
-	* 
-	* print(sumFunction! (1,2))
-	* sumFunction = nil
-	* sumFunction?(1,2)
-	* 
-	* var aClosure: (() -> Int?)? = { return 10 }
+	 	```
+	   ->위에것 줄이기 전
+		```swift
+		var result = ""
+		if optionalStr != nil{
+		    result = optionalStr!
+		 } else{
+		 	result = "This is a nil value"
+		 }
+		```
 
+- 함수로 옵셔널 가능하다.
+	```swift
+	func sum(Int, Int) -> Int {
+	 	return a+b
+	 }
+	 var sumFunction: ((Int, Int) -> Int)? = sum(a: b:)
+	 
+	 sum(a: 1,b: 2)
+	 
+	 print(sumFunction! (1,2))
+	 sumFunction = nil
+	 sumFunction?(1,2)
+	 
+	 var aClosure: (() -> Int?)? = { return 10 }
+	```
 
 **Enumerations**
 
@@ -209,65 +219,75 @@ type(of: firstIndex)
 - 첫 글자만대문자 (구조체나 클래스 정의시 적용 규칙과 같다.)
 - 불연속된 값들의 집합
 - 선언
-	* enum CompassPoint {
-	*	case north
-	*	case south
-	*	case east
-	* 	case west
-	* }
+	```swift
+	 enum CompassPoint {
+		case north
+		case south
+		case east
+	 	case west
+	 }
 	
-	* enum planet { case mercur, venus, earth, mars, jupiter saturn, uranus, neptune, pluto}
-	* var directionToHead1 = CompassPoint.west
-	* directionToHead1 = .east
-	*
-	* var directionToHead2: CompassPoint = .north
-	* var directionTo : Planet = .earth
+	 enum planet { case mercur, venus, earth, mars, jupiter saturn, uranus, neptune, pluto}
+	 var directionToHead1 = CompassPoint.west
+	 directionToHead1 = .east
+	
+	 var directionToHead2: CompassPoint = .north
+	 var directionTo : Planet = .earth
+	```
 - 호출
-	* //호출	
-	* {enumName}.객체명	
-	* {enumName} = .객체명
+	```swift
+	//호출	
+	 {enumName}.객체명	
+	{enumName} = .객체명
+	```
 - Raw Value (.rawValue)
 	해당 enum 내에서 고유한 값 갖고 있어야한다.
-	* enum Weekday: Int {
-	*  case sunday, monday, tuesday, wendesday, thursday, friday, saturday, sunday}
-	* Weekday.wendesday
-	* Weekday.wendesday.rawValue	// 3
-
+	```swift
+	enum Weekday: Int {
+	   case sunday, monday, tuesday, wendesday, thursday, friday, saturday, sunday}
+	Weekday.wendesday
+	Weekday.wendesday.rawValue	// 3
+	```
 - Raw Value (rawValue: ~)
   Enum(rawValue: i) -> 옵셔널임.
 - Mutating
 	-구조체의 메소드가 구조체 내부에서 데이터 수정할 때 사용.
-	* enum {EnumName} {
-	*  case ... 
-	* Mutating func {funcName} { code }
-	* }
+	```swift
+	enum {EnumName} {
+	  case ... 
+	 Mutating func {funcName} { code }
+	 }
+	```
 - Recursive Enumerations (재귀 Enum)
 	-재귀 사용시 case 앞에 indirect 붙여주거나 enum 선언 앞에 indirect 붙여줌
-	* enum ArithmeticExpression {
-	*    case number(Int)
-	*    
-	*    indirect case addition(ArithmeticExpression, ArithmeticExpression)
-	*    indirect case multiplication(ArithmeticExpression, ArithmeticExpression)
-	* }
-
-	* indirect enum ArithmeticExpression {
-	*    case number(Int)
-	*    case addion(ArithmeticExpression, ArithmeticExpression)
-	*    case multiplication(ArithmeticExpression, ArithmeticExpression)
-	* }
+	```swift
+	enum ArithmeticExpression {
+	    case number(Int)
+	    
+	    indirect case addition(ArithmeticExpression, ArithmeticExpression)
+	    indirect case multiplication(ArithmeticExpression, ArithmeticExpression)
+	 }
+	
+	 indirect enum ArithmeticExpression {
+	    case number(Int)
+	    case addion(ArithmeticExpression, ArithmeticExpression)
+	    case multiplication(ArithmeticExpression, ArithmeticExpression)
+	 }
+	```
 	
 	-연산 프로퍼티와 메소드 정의 가능	
 	-인스턴스 만들 수 없다. (단, 멤버를 인스턴스처럼 사용가능.)
 	
 - 멤버와 실질적인 값이 분리되어 있어 멤버는 이해하기 쉬운 문자로
-	ex) HTTP코드
-	* enumHTTPCode: Int {
-	* 	case OK = 200
-	*	case NOT_MODIFY = 304
-	*	case INCORRECT_PAGE = 404
-	*	case SERVER_ERROR = 500
-	* }
-
+	```swift
+	// ex) HTTP코드
+	 enumHTTPCode: Int {
+	 	case OK = 200
+		case NOT_MODIFY = 304
+		case INCORRECT_PAGE = 404
+		case SERVER_ERROR = 500
+	 }
+	```
 
 
 **Closure**
@@ -281,28 +301,32 @@ type(of: firstIndex)
 	> Closure(클로저 표현식): 이름x, 주변 문맥의 값 캡쳐 가능, 간단한 문법으로 쓰여진 이름 없는 클로저
 - 전역 함수도 클로저의 일종
 - 사용	
-	* { (parameters) -> return type in
-	* 	statements
-	* }
+	```swift
+	 { (parameters) -> return type in
+	 	statements
+	 }
 
-	* 
-	* // 변수에 담아서 사용하는 경우 많다.
-	* let closure = { (parameters) -> return type in statements}
-	* closure()
+	 
+	 // 변수에 담아서 사용하는 경우 많다.
+	 let closure = { (parameters) -> return type in statements}
+	 closure()
+	```
 - 함수화 같은 타입이다. 클로저 타입 변수에 함수 담을 수 있고 반대의 경우도 같음
 
 - 사용
-	* let closureWithParamAndReturnType1: (String) -> String = {param in
-	*	return param + "!"
-	* }
-	* print(closureWithParamAndReturnType1("closure")
+	```swift
+	 let closureWithParamAndReturnType1: (String) -> String = {param in
+		return param + "!"
+	 }
+	 print(closureWithParamAndReturnType1("closure")
 
-	* let closureWithParamAndReturnType2 = { (param: String) -> String in
-	*	return param + "!"
-	* }
-	* print(closureWithParamAndReturnType2("closure"))
+	 let closureWithParamAndReturnType2 = { (param: String) -> String in
+		return param + "!"
+	 }
+	 print(closureWithParamAndReturnType2("closure"))
 
-	* let closureWithParamAndReturnType3 = {param in param + "!" }
+	 let closureWithParamAndReturnType3 = {param in param + "!" }
+	```
 
 **closure 사용이유**	
 	- 문법 간소화
@@ -315,7 +339,8 @@ type(of: firstIndex)
 - 내부 함수와 내부함수에 영향을 미치는 주변 환경(Context)를 모두 포함한 객체.
 	> 클로저에서 저장하는 주변환경은 변수나 객체 자체가 아닌 이들의 값.
 	> 때문에 같은 정의를 갖는 함수가 서로 다른 환경을 저장하는 결과가 생긴다.
-	> * func basic(param: Int) -> (Int) -> Int {
+	```swift
+	 func basic(param: Int) -> (Int) -> Int {
 	    let value = param + 20
 	    func append(add: Int) -> Int {
 		return value + add
@@ -325,29 +350,36 @@ type(of: firstIndex)
 		(10 +20 -> 30+add)
 	let result2 = basic(param: 5)
 		(5+20 -> 25+add)
+	```
 	> 외부 함수에서 정의된 객체가 만약 내부 함수에서도 참조되고 있고, 이 내부 함수가 반환되어 함수가 반환되어 참조가 유지되고 있는 상태라면 클로저에 의해 내부 함수 주변의 지역변수나 상수도 함께 저장된다. 
 	> 함수중첩 사용시 외부 함수 life cycle 끝나도 참조 카운트 up으로 살아있을 수 있음
 
  -  형식: func 키워드 생략, 함수이름 생략
-	> {(매개변수) -> 반환 타입 in
-	> 	실행구문
-	> }
+	```swift
+	 {(매개변수) -> 반환 타입 in
+	 	실행구문
+	 }
+	```
 - 상수 or 변수에 클로저 할당
-	> let f ={() -> Void in
-	> 	print("클로저 실행")
-	> }
-	> f()
+	```swift
+	 let f ={() -> Void in
+	 	print("클로저 실행")
+	 }
+	 f()
+	```
 - 상수, 변수에 할당하지 않고 바로 쓰고 싶을 때.
-	> ({ () -> Void in
-	> print("클로저 실행")
-	> })()
-
+	```swift
+	 ({ () -> Void in
+	 print("클로저 실행")
+	 })()
+	```
 - 매개변수 있는 형태	
-	> let c  = {(s1: Int, s2: String) -> Void in
-	> print("s1:\(s1), s2:\(s2)")
-	> }
-	> c(1, "closure")
-
+	```swift
+	 let c  = {(s1: Int, s2: String) -> Void in
+	 print("s1:\(s1), s2:\(s2)")
+	 }
+	 c(1, "closure")
+	```
 - 클로저 호출시 매개변수명 붙일 필요 없다. **하지만** 공식적으로 결정된 문법 아니니 주의 요망!	
 
  - **클로저 문법 최적화**
@@ -356,69 +388,73 @@ type(of: firstIndex)
     - 타입 생략가능
     - 반환 키워드 생략 가능
 
-	* 	
-	* func performClosure(param: (String) -> Int in
-	*	param("Swift")
-	* }
-	*
-	* performClosure(param: { (str: String)  in
-	* 	return str.count
-	* })
-	*
-	* performClosure(param: { str in
-	* 	return str.count
-	* })
-	*
-	* performClosure(param: {
-	*	return str.count
-	* })
-	*
-	* performClosure( param: {
-	* 	return $0.count
-	* })
-	* 
-	* performClosure( param: {
-	* 	$0. count
-	* })
-	*
-	* performClosure(param: ) {
-	* 	$0.count
-	* }
-	*
-	* performClosure { $0.count }
-
-
+	```swift	
+	 func performClosure(param: (String) -> Int in
+		param("Swift")
+	 }
+	
+	 performClosure(param: { (str: String)  in
+	 	return str.count
+	 })
+	
+	 performClosure(param: { str in
+	 	return str.count
+	 })
+	
+	 performClosure(param: {
+		return str.count
+	 })
+	
+	 performClosure( param: {
+	 	return $0.count
+	 })
+	 
+	 performClosure( param: {
+	 	$0. count
+	 })
+	
+	 performClosure(param: ) {
+	 	$0.count
+	 }
+	
+	 performClosure { $0.count }
+	```
+	
  - **Inline Closure**
 	-함수의 인수(Argument)로 들어가는 클로저	
 	-변수나 함수처럼 중간 매개체 없이 사용되는 클로저	
 	-사용
-	 	* closureParamFunction(closure: {
-		*    print("Inlin closure - Explicit closure parameter name")
-		* })
+	```swift
+	 	 closureParamFunction(closure: {
+		    print("Inlin closure - Explicit closure parameter name")
+		 })
+	```
  - **Trailing Closure**
 	-함수의 괄호가 닫힌 후에도 인수로 취급하는 클로저
 	-함수의 마지막 인수(Argumetn)에만 사용 가능하고 해당 인수명 생략	
 	-하나의 라인에 다 표현하지 못할 긴 클로저에 유용	
 	-코드의 가독성이 올라간다.
 	-사용:
-		* //인자 값 하나인 경우	
-		* value.sort { (s1, s2) in return s1>s2}
-		*
-		* //인자 값 여러개인 경우 마지막만 생략
-		* func divide(base: Int, success s: () -> Void -> Int {~~}
-		* divide(base: 100){ () in print("연산이 성공했습니다.")}
-		*
-		* //마지막 인자값이 모두 클로저인 경우	
-		* func divide(base: Int, success s: () -> Void, fail f: () -> Void) -> Int {
-		* 	guard base != else{ f()
-		*		//실패함수
-		*		return 0 
-		*	   }	
-		*	defer {s()}
-		*	return 100 / base
-		*	}
-		*
-		* //->
-		* divide(base: 100, success: { () in 
-		* 	print("연산성공")
-		* }) { () print("연산 실패")}
+	```swift
+		 //인자 값 하나인 경우	
+		 value.sort { (s1, s2) in return s1>s2}
+		
+		 //인자 값 여러개인 경우 마지막만 생략
+		 func divide(base: Int, success s: () -> Void -> Int {~~}
+		 divide(base: 100){ () in print("연산이 성공했습니다.")}
+		
+		 //마지막 인자값이 모두 클로저인 경우	
+		 func divide(base: Int, success s: () -> Void, fail f: () -> Void) -> Int {
+		 	guard base != else{ f()
+				//실패함수
+				return 0 
+			   }	
+			defer {s()}
+			return 100 / base
+			}
+		
+		 //->
+		 divide(base: 100, success: { () in 
+		 	print("연산성공")
+		 }) { () print("연산 실패")}
+	```
