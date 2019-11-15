@@ -174,22 +174,23 @@ type(of: firstIndex)
 - **Nill-coalescing Operator**
 	```swift
 	let another = {optional name} ?? "This is a nil value" -> nil 아니면 앞에것, nil이면 뒤에것.
-	```  
-	  nil일 때 사용할 기본값을 뒤에 작성
+	```
+  
+  nil일 때 사용할 기본값을 뒤에 작성
 	
-		```swift
-		* let setColor = blueColor ?? redColor
-	 	```
-	   위에것 줄이기 전
+	```swift
+	 let setColor = blueColor ?? redColor
+	```
+  위에것 줄이기 전
 
-		```swift
-		var result = ""
-		if optionalStr != nil{
-		    result = optionalStr!
-		 } else{
-		 	result = "This is a nil value"
-		 }
-		```
+	```swift
+	var result = ""
+	if optionalStr != nil{
+	    result = optionalStr!
+	 } else{
+	 	result = "This is a nil value"
+	 }
+	```
 
 - 함수로 옵셔널 가능하다.
 	```swift
