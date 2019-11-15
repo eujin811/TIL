@@ -128,6 +128,142 @@ repeat{
 **Dictionary Enumeration**
 -key, value시 자주 사용
 
+**Optional**
+- 값이 없는 것. Empty
+- 값이 없을 수 있는 상황에서 사용
+- 옵셔널 2가지 사항
+	-값을 전혀 가지고 있지x
+	-값이 있으며, 그 값에 접근하기 위해 unwrap할수 있음
+- 선언
+	* var variable name: Type?
+	* var variable name: Optional<Type>
+- 옵셔널 벗겨내기
+	* if let {nonOptional} = {optionalName} 	//옵셔널 타입 아닌경우 오류
+	* if let firstNumber = Int("4")
+	* let secondNumber = Int("42"),
+	* firstNumber < secondNumber,
+	* secondNumber < 100{
+	* 	print("\(firstNumber) < \(secondNumber) < 100")
+	* }
+
+	* //위 code와 같은 동작
+	* if let firstNumber = Int("4"){
+	* 	if firstNumber < secondNumber, secondNumber <100 {
+	*	   print("\(firstNumber) < \(secondNumber) < 100")
+	*	}
+	*  }
+	* }
+- Forced Unwrapping : ! 사용
+	-값이 있을꺼라고 확신하는 경우에만 사용
+	-nil값 들어있는경우 혹은 추후에 nil 들어오면 문제발생	
+	-절대 다른 값이나 상황이 없을 때 만 사용해야한다.
+	-잘 사용되지 않는다.
+
+	**IUO** (implicityly Unwrapped Optionals)
+	-String 안에 optional String 넣을 때 사용	
+	-let forcedString: String = possibleString!
+	-var assumedString: String! = "An implicitly unwrapped optional String."
+- **Nill-coalescing Operator**
+	let another = {optional name} ?? "This is a nil value" -> nil 아니면 앞에것, nil이면 뒤에것.
+	  ->nil일 때 사용할 기본값을 뒤에 작성	
+		* let setColor = blueColor ?? redColor
+	  ->위에것 줄이기 전
+		* var result = ""
+		* if optionalStr != nil{
+		*    result = optionalStr!
+		* } else{
+		* 	result = "This is a nil value"
+		* }
+- 함수로 옵셔널 가능하다.
+	* func sum(Int, Int) -> Int {
+	* 	return a+b
+	* }
+	* var sumFunction: ((Int, Int) -> Int)? = sum(a:b:)
+	* 
+	* sum(a: 1,b: 2)
+	* 
+	* print(sumFunction! (1,2))
+	* sumFunction = nil
+	* sumFunction?(1,2)
+	* 
+	* var aClosure: (() -> Int?)? = { return 10 }
+
+
+**Enumerations**
+
+- 연관된 값의 그룹에 대해 공통 타입을 정의한 뒤 type-safe하게 해당 값들 사용
+- 주 사용상황	
+	> 원치 않는 값이 잘못 입력되는 것을 막고 싶을 때.
+	  ->사용자의 직접 입력을 열거형 선택으로 선택을 강제 가능.
+	> 입력받을 값을 미리 특정할 수 있을 때	
+	  -> 성별: 여성, 남성, 제3의 성	
+	  -> 국가: 한국, 중국, 일본, 미국 ..
+	  -> 색상: 빨강, 파랑, 노랑 ..
+	> 제한된 값 중에서만 선택할 수 있도록 강제하고 싶을 때.
+- 첫 글자만대문자 (구조체나 클래스 정의시 적용 규칙과 같다.)
+- 불연속된 값들의 집합
+- 선언
+	* enum CompassPoint {
+	*	case north
+	*	case south
+	*	case east
+	* 	case west
+	* }
+	
+	* enum planet { case mercur, venus, earth, mars, jupiter saturn, uranus, neptune, pluto}
+	* var directionToHead1 = CompassPoint.west
+	* directionToHead1 = .east
+	*
+	* var directionToHead2: CompassPoint = .north
+	* var directionTo : Planet = .earth
+- 호출
+	* //호출	
+	* {enumName}.객체명	
+	* {enumName} = .객체명
+- Raw Value (.rawValue)
+	해당 enum 내에서 고유한 값 갖고 있어야한다.
+	* enum Weekday: Int {
+	*  case sunday, monday, tuesday, wendesday, thursday, friday, saturday, sunday}
+	* Weekday.wendesday
+	* Weekday.wendesday.rawValue	// 3
+
+- Raw Value (rawValue: ~)
+  Enum(rawValue: i) -> 옵셔널임.
+- Mutating
+	-구조체의 메소드가 구조체 내부에서 데이터 수정할 때 사용.
+	* enum {EnumName} {
+	*  case ... 
+	* Mutating func {funcName} { code }
+	* }
+- Recursive Enumerations (재귀 Enum)
+	-재귀 사용시 case 앞에 indirect 붙여주거나 enum 선언 앞에 indirect 붙여줌
+	* enum ArithmeticExpression {
+	*    case number(Int)
+	*    
+	*    indirect case addition(ArithmeticExpression, ArithmeticExpression)
+	*    indirect case multiplication(ArithmeticExpression, ArithmeticExpression)
+	* }
+
+	* indirect enum ArithmeticExpression {
+	*    case number(Int)
+	*    case addion(ArithmeticExpression, ArithmeticExpression)
+	*    case multiplication(ArithmeticExpression, ArithmeticExpression)
+	* }
+	
+	-연산 프로퍼티와 메소드 정의 가능	
+	-인스턴스 만들 수 없다. (단, 멤버를 인스턴스처럼 사용가능.)
+	
+- 멤버와 실질적인 값이 분리되어 있어 멤버는 이해하기 쉬운 문자로
+	ex) HTTP코드
+	* enumHTTPCode: Int {
+	* 	case OK = 200
+	*	case NOT_MODIFY = 304
+	*	case INCORRECT_PAGE = 404
+	*	case SERVER_ERROR = 500
+	* }
+
+
+
 **Closure**
 - 일회용 함수, 한번만 사용할 구문들의 집합 (단, 형식은 함수로)
 - 익명함수 : 한번만 사용하고 버려져서 이름을 작성할 필요가 없다.
