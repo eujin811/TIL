@@ -175,11 +175,13 @@ type(of: firstIndex)
 	```swift
 	let another = {optional name} ?? "This is a nil value" -> nil 아니면 앞에것, nil이면 뒤에것.
 	```  
-	  ->nil일 때 사용할 기본값을 뒤에 작성	
+	  nil일 때 사용할 기본값을 뒤에 작성
+	
 		```swift
 		* let setColor = blueColor ?? redColor
 	 	```
-	   ->위에것 줄이기 전
+	   위에것 줄이기 전
+
 		```swift
 		var result = ""
 		if optionalStr != nil{
@@ -237,14 +239,15 @@ type(of: firstIndex)
 - 호출
 	```swift
 	//호출	
-	 {enumName}.객체명	
+	{enumName}.객체명	
 	{enumName} = .객체명
 	```
 - Raw Value (.rawValue)
 	해당 enum 내에서 고유한 값 갖고 있어야한다.
 	```swift
 	enum Weekday: Int {
-	   case sunday, monday, tuesday, wendesday, thursday, friday, saturday, sunday}
+	   case sunday, monday, tuesday, wendesday, thursday, friday, saturday, sunday
+	}
 	Weekday.wendesday
 	Weekday.wendesday.rawValue	// 3
 	```
@@ -255,6 +258,7 @@ type(of: firstIndex)
 	```swift
 	enum {EnumName} {
 	  case ... 
+	
 	 Mutating func {funcName} { code }
 	 }
 	```
