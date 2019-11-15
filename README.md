@@ -178,7 +178,7 @@ repeat{
 	* func sum(Int, Int) -> Int {
 	* 	return a+b
 	* }
-	* var sumFunction: ((Int, Int) -> Int)? = sum(a:b:)
+	* var sumFunction: ((Int, Int) -> Int)? = sum(a: b:)
 	* 
 	* sum(a: 1,b: 2)
 	* 
@@ -265,12 +265,44 @@ repeat{
 
 
 **Closure**
+- 코드에서 사용하거나 전달할 수 있는 독립적 기능 갖는 블럭
 - 일회용 함수, 한번만 사용할 구문들의 집합 (단, 형식은 함수로)
 - 익명함수 : 한번만 사용하고 버려져서 이름을 작성할 필요가 없다.
 - 자신이 정의되었던 문맥으로 부터, 모든 상수와 변수의 값을 캡처 or 레퍼런스 저장 하는것
-	> 전역함수: 이름이 있음, 주변 환경에서 캡허할 값 없는 클로저
-	> 중첩함수: 이름 있음, 자신을 둘러싼 함수로부터 값을 캡쳐할 수 있는 클로저
-	> 클로저 표현식: 이름이 없으며 주변 환경으로부터 값을 캡처하 수 있는 경량 문법
+- 3가지 유형
+	> Global functions(전역함수): 이름이 있음, 캡쳐할 것이 없는 클로저
+	> Nested functions(중첩함수): 이름 있음, 자신을 둘러싼 함수로부터 값을 캡쳐할 수 있는 클로저
+	> Closure(클로저 표현식): 이름x, 주변 문맥의 값 캡쳐 가능, 간단한 문법으로 쓰여진 이름 없는 클로저
+- 전역 함수도 클로저의 일종
+- 사용	
+	* { (parameters) -> return type in
+	* 	statements
+	* }
+
+	* 
+	* // 변수에 담아서 사용하는 경우 많다.
+	* let closure = { (parameters) -> return type in statements}
+	* closure()
+- 함수화 같은 타입이다. 클로저 타입 변수에 함수 담을 수 있고 반대의 경우도 같음
+
+- 사용
+	* let closureWithParamAndReturnType1: (String) -> String = {param in
+	*	return param + "!"
+	* }
+	* print(closureWithParamAndReturnType1("closure")
+
+	* let closureWithParamAndReturnType2 = { (param: String) -> String in
+	*	return param + "!"
+	* }
+	* print(closureWithParamAndReturnType2("closure"))
+
+	* let closureWithParamAndReturnType3 = {param in param + "!" }
+
+**closure 사용이유**	
+	- 문법 간소화
+	- 자연생성: 실제 사용 경우에만 만들어진다. 컴파일시 바로x
+	- 주변 컨텍스트의 값을 캡쳐하여 작업 수행 가능.
+ 
 
 - 두 가지로 이루어진 객체, 하나는 내부 함수이며 또 다른 하나는 내부 함수가 만들어진 주변 환경
 - 외부 함수 내에서 내부 함수를 반환하고, 내부 함수의 지역 변수나 상수를 참조할때 도 만들어진다.
@@ -311,3 +343,76 @@ repeat{
 	> c(1, "closure")
 
 - 클로저 호출시 매개변수명 붙일 필요 없다. **하지만** 공식적으로 결정된 문법 아니니 주의 요망!	
+
+ - **클로저 문법 최적화**
+    - 반환값 생략 가능
+    - 매개변수 생략가능,
+    - 타입 생략가능
+    - 반환 키워드 생략 가능
+
+	* 	
+	* func performClosure(param: (String) -> Int in
+	*	param("Swift")
+	* }
+	*
+	* performClosure(param: { (str: String)  in
+	* 	return str.count
+	* })
+	*
+	* performClosure(param: { str in
+	* 	return str.count
+	* })
+	*
+	* performClosure(param: {
+	*	return str.count
+	* })
+	*
+	* performClosure( param: {
+	* 	return $0.count
+	* })
+	* 
+	* performClosure( param: {
+	* 	$0. count
+	* })
+	*
+	* performClosure(param: ) {
+	* 	$0.count
+	* }
+	*
+	* performClosure { $0.count }
+
+
+ - **Inline Closure**
+	-함수의 인수(Argument)로 들어가는 클로저	
+	-변수나 함수처럼 중간 매개체 없이 사용되는 클로저	
+	-사용
+	 	* closureParamFunction(closure: {
+		*    print("Inlin closure - Explicit closure parameter name")
+		* })
+ - **Trailing Closure**
+	-함수의 괄호가 닫힌 후에도 인수로 취급하는 클로저
+	-함수의 마지막 인수(Argumetn)에만 사용 가능하고 해당 인수명 생략	
+	-하나의 라인에 다 표현하지 못할 긴 클로저에 유용	
+	-코드의 가독성이 올라간다.
+	-사용:
+		* //인자 값 하나인 경우	
+		* value.sort { (s1, s2) in return s1>s2}
+		*
+		* //인자 값 여러개인 경우 마지막만 생략
+		* func divide(base: Int, success s: () -> Void -> Int {~~}
+		* divide(base: 100){ () in print("연산이 성공했습니다.")}
+		*
+		* //마지막 인자값이 모두 클로저인 경우	
+		* func divide(base: Int, success s: () -> Void, fail f: () -> Void) -> Int {
+		* 	guard base != else{ f()
+		*		//실패함수
+		*		return 0 
+		*	   }	
+		*	defer {s()}
+		*	return 100 / base
+		*	}
+		*
+		* //->
+		* divide(base: 100, success: { () in 
+		* 	print("연산성공")
+		* }) { () print("연산 실패")}
