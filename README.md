@@ -95,7 +95,7 @@ type(of: firstIndex)
 		case (let distance, 0),(0, let distance):
 		...
 	}
--where: switch case 안에서 쓰는 if 문
+- where: switch case 안에서 쓰는 if 문
 	```swift
 	switch anotherPoint{
 		case let(x,y) where x==y:
@@ -106,10 +106,11 @@ type(of: firstIndex)
 	```
 **repeat while**
 -코드를 무조건 한번 수행한 후 반복한다.
-repeat{
-	code
-}while i<=9
-
+```swift 
+ repeat{
+ 	code
+ }while i<=9
+```
 **continue**
 - 현재 반복문의 작업을 중다나고 다음 반복 아이템에 대한 작업 수행
 **return**
@@ -141,21 +142,23 @@ repeat{
 	* var variable name: Type?
 	* var variable name: Optional<Type>
 - 옵셔널 벗겨내기
-	* if let {nonOptional} = {optionalName} 	//옵셔널 타입 아닌경우 오류
-	* if let firstNumber = Int("4")
-	* let secondNumber = Int("42"),
-	* firstNumber < secondNumber,
-	* secondNumber < 100{
-	* 	print("\(firstNumber) < \(secondNumber) < 100")
-	* }
+	```swift
+	if let {nonOptional} = {optionalName} 	//옵셔널 타입 아닌경우 오류
+	if let firstNumber = Int("4")
+	let secondNumber = Int("42"),
+	firstNumber < secondNumber,
+	secondNumber < 100{
+	 	print("\(firstNumber) < \(secondNumber) < 100")
+	 }
 
-	* //위 code와 같은 동작
-	* if let firstNumber = Int("4"){
-	* 	if firstNumber < secondNumber, secondNumber <100 {
-	*	   print("\(firstNumber) < \(secondNumber) < 100")
-	*	}
-	*  }
-	* }
+	 //위 code와 같은 동작
+	 if let firstNumber = Int("4"){
+	 	if firstNumber < secondNumber, secondNumber <100 {
+		   print("\(firstNumber) < \(secondNumber) < 100")
+		}
+	  }
+	 }
+	```
 - Forced Unwrapping : ! 사용
 	-값이 있을꺼라고 확신하는 경우에만 사용
 	-nil값 들어있는경우 혹은 추후에 nil 들어오면 문제발생	
