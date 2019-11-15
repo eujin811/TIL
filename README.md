@@ -96,12 +96,14 @@ type(of: firstIndex)
 		...
 	}
 -where: switch case 안에서 쓰는 if 문
+	```swift
 	switch anotherPoint{
 		case let(x,y) where x==y:
 			...
 		case let(x,y) where x==-y:
 			...
 	}
+	```
 **repeat while**
 -코드를 무조건 한번 수행한 후 반복한다.
 repeat{
@@ -109,17 +111,18 @@ repeat{
 }while i<=9
 
 **continue**
--현재 반복문의 작업을 중다나고 다음 반복 아이템에 대한 작업 수행
+- 현재 반복문의 작업을 중다나고 다음 반복 아이템에 대한 작업 수행
 **return**
--현재 함수를 종료한다 (void형에서도 사용가능!)
+- 현재 함수를 종료한다 (void형에서도 사용가능!)
 
 
 	
 **Tuples**
--let three(Int,String,Bool) = (1, "hi", True)
--7개 미만 
--튜플안에 또 튜플 가능
--튜플의 크기 비교가 가능하다
+
+- let three(Int,String,Bool) = (1, "hi", True)
+- 7개 미만 
+- 튜플안에 또 튜플 가능
+- 튜플의 크기 비교가 가능하다
 	(a,12) < (b,1)
 	(abc, 0) > (ab, 0)
 	
