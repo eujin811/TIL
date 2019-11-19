@@ -463,3 +463,246 @@ type(of: firstIndex)
 		 	print("연산성공")
 		 }) { () print("연산 실패")}
 	```
+###Class
+- 타입 캐스팅: 실행 시 컴파일러가 클래 인스턴스의 타입을 미리 파악하고 검사할 수 있다.
+- 소멸화 구문: 인스턴스가 소멸되기 직전에 처리해야 할 구문을 미리 등록해 놓을 수 있다.
+- 참조에 의한 전달: 클래스 인스턴스가 전달될 때에는 참조 형식으로 제공되며, 이때 참조가 가능한 개수는 제약이 없다.
+- 함수의 인자 값으로도 사용할 수 있다.
+
+###구조체
+- 다음 지침중 하나이상 해당하는 경우라면 구조체를 사용하는 것 지향
+	> 1. 서로 연관된 몇 개의 기본 데이터 타입들을 캡슐화하여 묶는 것이 목적일 때
+	> 2. 캡슐화된 데이터에 상속이 필요하지 않을 때
+	> 3. 캡슐화된 데이터를 전달하거나 할당하는 과정에서 참조 방식보다는 값이 복사되는 것이 합리적일 때.
+	> 4. 캡슐화된 원본 데이터를 보존해야할 때
+
+###Property
+- 클래스 내부에서 정의된 변수나 상수
+
+**저장 프로퍼티 (Stored Property)**
+- 입력된 값을 저장하거나 저장된 값을 제공하는 역할
+- 상수 및 변수를 사용해 정의가능
+- 클래스와 구조체에서는 사용이 가능하지만, 열거형에서는 사용불가.
+- 구조체는 저장 프로퍼티의 값이 바뀌면 상수에 할당된 인스턴스 전체가 변경,
+- 클래스는 저장 프로퍼티의 값이 바뀌더라도 상수에 할당된 인스턴스 레퍼런스는 변경되지 않는다.
+
+**연산프로퍼티(Computed Property)**
+- 특정 연산을 통해 값을 만들어 제공하는 역할
+- 변수만 사용해서 정의 가능
+- 클래스, 구조체, 열거형 모두 사용가능
+
+**지연저장 프로퍼티(Lazy)**
+- 저장 프로퍼티의 초기화를 지연시킨다.
+- 클래스 인스턴스가 생성되어 모든 저장 프로퍼티가 만들어지더라도 lazy 키워드가 붙은 프로퍼티는 선언만 될 뿐 초기화되지 않고 계속 대기하고 있다가 프로퍼티가 호출되는 순간에 초기화 된다.
+- 호출저니 선언, 호출: 초기화
+- 처음으로 호출이 발생할 때 값을 평가, 이후 두번째 호출부터는 처음 초기화 된 값을 그대로 사용.
+
+**클로저를 이용한 저장 프로퍼티 초기화**
+- 최초 한번만 값이 평가된다.
+- 인스턴스가 생성될 때 함께 실행되어 초기값 반환후 인스턴스 내에서 재실행x
+- 저장 프로퍼티 값 역시 다시 참조해도 재평가x
+- Lazy 구문 사용하면 참조되는 시점에서 초기화 / 실제 값을 참조하는 시점에 실행
+- 초기값이 인스턴스의 생성이 완료 될 때까지도 알 수 없는 외부 요인에 의존할 때
+- 최초 호출시 이미 값이 저장되면 후에 값을 바꿔도 최초값이 저장되어있기 때문에 호출시 순서유의
+- 사용
+
+```swift
+ class className {
+	var with = 10
+	var height = 10
+	var area = with * height	// X 만들어지는 순간에불리기 때문
+ }
+
+ class className {
+	var with = 10
+	var height = 10
+	lazy var area = with * height	//최초 호출 시점, 초기화 될 때 만들어짐
+	}
+```
+- 최초 호출시 이미 값이 저장되면 후에 값을 바꿔도 최초값이 저장되어있기 때문
+```swift
+ class.area		//100
+ class.with = 20 
+ class.area		//100, 바뀌지 않는다.
+
+```
+- 계산 비용이 많이 드는 상황 / 당장 필요한게 아니라 어떤 행동을 취했을 때만 사용
+- 필요한 경우가 제한적인 상황
+```swift
+ func ifStatement() {
+	if true{   // 10%
+	  print(area)
+	}else{
+	  print(width)
+	}
+ }
+```
+**연산 프로퍼티**
+- 읽기전용 프로퍼티 -> get-only (get구문 생략가능) 
+- 함수로
+- get/seet
+- newValue : 값 집어 넣을 때 여기로 들어옴. set으로 들어오는 값
+```swift
+ var wonToDollar: Double {
+	get {
+	  return _koreaWon / 1136.5
+	}
+	set {
+	  _koreaWon = newValue
+	}
+}
+```
+
+
+###Property Observer
+- willSet: 값이 바뀌기 직전
+- didSet: 값이 바뀐 직후
+- 값이 바뀐지 여부를 알기위해 설정하기도한다.
+```swift
+class PropertyObserver{
+ var height = 0.0
+ var width = 0.0
+
+ willSet {
+	print("willSet:", width, "->", newValue)     
+ }
+ didSet {
+	print("didSet:", oldValue,"->",width)
+	height = width / 2	
+  }
+ }
+}
+
+var obs = PropertyObserver()
+obs.height = 456	// wilSet 0.0 -> 123.0
+obs.height		// 456
+obs.width = 123		// didSet 0.0 -> 123.0
+obs.height		//61.5
+```
+
+###TypeProperty
+- 객체로 만들어 사용하는게 아니라 해당타입, unit으로 사용
+```swift
+ class Type~~{
+	static var unit: String = "cm"
+ }
+
+ Type.unit	//담지않ㅎ고 바로사용.
+```
+- 서브클래스에서 override가능
+- 지연생성이 된다.
+- 선언
+```swift
+ static let(var) propertyName: Type
+ class var propertyName: Type {return code}
+```
+- 사용
+```swift
+ TypeName.propertyName
+```
+- 모든 객체들이 공통으로 사용해야되는것 바꿀 때.
+```swift
+ class TypeProperty {
+   static var unit: String = "cm"
+   var width = 5.0
+ } 
+
+ let square = TypeProperty()
+ square.width
+
+ let square1 = TypeProperty()
+ square1.width = 10.0
+ square1.width
+
+ TypeProperty.unit
+ print("\(square.width) \(TypeProperty.unit)")
+ print("\(square1.width) \(ThpeProperty.unit)")
+
+ TypeProperty.unit = "m"
+ print("\(square.width) \(TypeProperty.unit)")
+ print("\(square1.width) \(TypeProperty.unit)")
+```
+
+**Swift는 OOP를 바탕으로한 POP**
+- oop: 객체지향 프로그램
+- pop(Protocol Orented Programming): 프로토콜 지향프로그래밍 
+
+**생성자**
+- Init()
+
+**Access Control**
+- 다른 모듈의 코드 또는 다른 소스 파일 등으로부터 접근을 제한하는 것
+- 세부 구현 내용을 숨기고 접근할 수 있는 인터페이스 지정 가능
+- Module: import를 통해 다른 모듈로부터 불러들일 수 있는 하나의 코드 배포 단위
+	> Library / Framework / Application
+- 접근제한자 5가지
+ > open: 외부에서 접근가능, subClass 상속받아 내용 수정가능
+ > public: 외부에서 접근가능, 내용수정 불가능
+ > internal: Default 하나의 모듈 내에서 전체 접근가능
+ > fileprivate: 지금 다르고 있는 파일에서만 사용가능
+ > private: 클래스 내부에서만 사용가능
+
+**Getter / Setter**
+- private(set) var {name} = 0 : get은 냅두고 set만 변형하게 해주는 // set 명시적으로 가능
+- get / set 둘다 명시적으로 
+```swift
+ internal private(set) var {name} = 0
+```
+- get / set 따로 적용하고 싶을 때 (set: private, get: internal)
+```swift
+ private(set) var name: {}
+
+ //둘다
+ internal private(set) var {name}: { }
+```
+
+###OOP 4대 특성
+
+**Abstraction(추상화)**
+- 디자인 level
+```swift
+ Protocol {abstrcationName} {
+   var {name}
+   var {name}
+
+   func {name}()
+   func {name}()
+ }
+
+ class {name}: {abstractionName}{...}
+```
+
+**Encapsulation(캡슐화)**
+- 구현 level
+
+**Inheritance(상속)**
+- swift 다중 상속 비허용, protocol 사용하여 유사기능 구현
+- Final class : 더이상 상속하지 못하게 막음.
+
+**Polymorphism(다형성)**
+- 오버라이딩(상속관련) 오버로딩(상속무관)
+- **오버라이딩(overriding)**
+	> 상위 클래스에서 상속받은 메서드를 하위 클래스에서 필요에 따라 제정의
+	> 동일한 요청이 객체에 따라 다르게 응답	
+	```swift
+	override var title: String {
+	  get{
+		//return "Rectangle
+		return super.title + "=>Rectangle"
+	  }
+	  set{
+		super.title = newValue
+	  }
+	}
+	``` 
+	> 자기자신의 프로퍼티 먼저 초기화한후 상속받은 프로퍼티 초기화 해야한다.
+- **오버로딩(Overloading)**
+	> 동일한 이름의 메서드가 매개 변수의 이름, 타입, 개수 등의 차이에 따라 다르게 동작
+	> 동일 요청이 매개변수에 따라 다르게 응답.
+	```swift
+	func somFun(param: Int) {}
+	func someFunc(param: String) {}
+	```
+	> 다른 파라미터 이름, 다른 파라미터 타입, 다른 파라미터 개수
+
+**Final**: class 앞에 붙이면 더이상 상속 안되는 마지막 클래스, 상수 변수 앞에다 하면 상속 안되는 프로퍼티
