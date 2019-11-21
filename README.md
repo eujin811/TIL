@@ -721,3 +721,24 @@ obs.height		//61.5
 	- 다른 파라미터 이름, 다른 파라미터 타입, 다른 파라미터 개수
 
 **Final**: class 앞에 붙이면 더이상 상속 안되는 마지막 클래스, 상수 변수 앞에다 하면 상속 안되는 프로퍼티
+
+##iOS App구조
+-----------------------
+**Life Cycle**
+ 
+- **Not running**: 실행되지 않은 상태
+- **Inactive**: 실행중이지만 이벤트를 받고있지 않은 상태 / 앱 실행중 미리 알림 또는 일정 얼럿이 화면에 덮여서 앱 실질적 이벤트를 못하는 상태
+- **Active**: 실제 사용중인 상태
+- **Background**: 백그라운드 상태에서 실질적인 동작을 하고 있는 상태.(음악 실행 -> 멜론)
+- **Suspended**: 백그라운드 상태에서 활동을 멈춘 상태. 빠른재실행을 위해 메모리에 적제되어있지만 실질적 동작을 하지 않음. 메모리 부족시 시스템 강제종료.
+
+- application:willFinishLaunchingWithOptions: 어플리케이션이 최초 실행될 때 호출되는 메소드
+- application:didFinishLaunchingWithOptions: 어플리케이션이 실행된 직후 사용자의 화면에 보여지기 직전에 호출
+- applicationDidBecomeActive: 어플리케이션이 Active 상태로 전환된 직후 호출.
+- applicationWillResignActive: 어플리케이션이 Inactive 상태로 전환되기 직전 호출
+- applicationDidEnterBackground: 어플리케이션이 백그라운드 상태로 전환된 직후 호출
+- applicationWillEnterForeground: 어플리케이션이 Active 상태가 되기 직전에, 화면에 보여지기 직전의 시점에 호출.
+- applicationWillTerminate: 어플리케이션이 종료되기 직전에 호
+
+**@UIAplicationMain:** Swift는 main함수를 대신하는것 (main 함수 생략되있음.)
+
