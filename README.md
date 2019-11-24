@@ -797,3 +797,64 @@ UI용 일반 객체 -> UIView 상속
 ```
 - 매개변수는 UIView 타입. //UIView 상속받지 않는 객체는 임의로 화면에 나타낼 수 없다.
 
+**CGPoin**
+- 구조체
+- 위치 표현
+- 실수값을 갖는 (x, y) 쌍을통해 2차원 좌표를 표
+- 값 변경할일 있을 경우 변수에 할당.
+
+**CGSize**
+- 구조체
+- 크기표현
+- width, height // 실수값 갖음
+- 예시
+```siwft
+let size = CGSize(width: 150, height: 190)
+
+var size = CGSize()
+size.width = 150
+size.height = 190
+```
+
+**CGRect**
+- 구조체
+- 위치와 크기를 한번에 표현
+- CGPoint 와 CGSize 두개의 프로퍼티를 받는다.
+- CGRect 구조체 내부(public init(origin: CGPoint, size:CGSize))
+- 예시
+```swift
+let point = CGPoint(x: 100, y: 200)
+let size = CGSize(width: 150, height: 190)
+
+let rect = CGRect(origin: point, size: size)
+```
+
+```swift
+let rect = CGRect(x: 100, y: 200, width: 150, height: 190)
+```
+
+**Frame**
+- frmae은 뷰의 위치와 크기를 지정하는 데에 사용되는 속성
+- UIView클래스는 frame 속성을 인자값으로 하는 초기화 메소드 제공, 이를 이용해 인스턴스 생성과 동시에 frame 속성을 함께 설정 가능. 
+public init(frame: CGRect)
+- 예시
+```swift
+let rect = CGRect(x: 30, y: 50, width: 100, height: 130)
+
+//frame 속성에 값을 할당하면서 뷰생성
+let view = UIView(frame: rect)
+```
+
+```swift
+let view = UIView()
+
+view.frame = CGRect(x: 50, y: 70, width: 90, height: 130)
+```
+
+뷰는 자신의 콘텐츠를 표한하는 객체이자 동시에 서브 뷰를 포함하는 컨테이너 역할을 겸한다.
+
+**Bounds**
+- 기준 좌표 == 자신의 좌표(0,0)
+- 슈퍼뷰가 서브뷰에게 제공하는 좌표는 bounds속성, 서브뷰는 이 좌표를 기준으로 자신의 frame속성 설정
+- bounds 속성의 좌표를 강제로 변경하면 서브뷰가 좌표 기준점이 달라져 위치가 변경된다.
+
