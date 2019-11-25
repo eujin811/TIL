@@ -858,3 +858,85 @@ view.frame = CGRect(x: 50, y: 70, width: 90, height: 130)
 - 슈퍼뷰가 서브뷰에게 제공하는 좌표는 bounds속성, 서브뷰는 이 좌표를 기준으로 자신의 frame속성 설정
 - bounds 속성의 좌표를 강제로 변경하면 서브뷰가 좌표 기준점이 달라져 위치가 변경된다.
 
+**Window**
+- iOS에서 디바이스의 스크린을 빈틈없이 채우기 위한 객체로, 유저 인터페이스 표현 계층 최상위
+- 뷰의 일정이지만 직접 콘텐츠를 갖지 않는다
+- 콘텐츠를 갖는 뷰를 내부에 배치하여 화면에 출력
+- 화면 전환시 윈도우 객체는 전환x, 내부 배치 뷰의 콘텐츠만 변경
+- 하나의 뷰 컨트롤러를 루트 뷰 컨트롤러로 지정하여 참조.(그 외는 윈도우 관리대상x)
+
+**View**
+- 콘텐츠를 담아 이를 스크린상에 표시, 윈도우의 일부를 자신의 영역으로 정의
+- 윈도우로부터 전달된 사용자의 입력에 반응하여 그에 맞는 결과 처리.
+
+**ViewController**
+- 윈도우와 뷰 사이를 연결
+- 뷰의 계층을 관리하여 윈도우에 전달
+- 모바일 디바이스에서 감지된 터치 이벤트를 윈도우로 부터 전달받아 처리
+- 윈도우가 뷰를 직접 관리하지 않고 컨트롤러를 통해 제공되는 뷰를 읽어들여 표현만 함. 윈도우 객체에 커스텀 코드 난립 차단해 앱이 표현해야 하는 모든 뷸ㄹ 윈도우 객체 하나가 관리해야하는 불상사 막는다.
+
+**Navigation Controller**
+- 앱이 화면 이동에 대한 관리와 그에 연관된 처리를 담당해주는 컨트롤러
+- 컨트롤러끼리의 화면 이동 처리, 현재의 페이지 위치에 대한 내비게이션 역할
+- 하나의 화면을 담당하지는 못하고, 다른 컨트롤러와 결합하여 부분적으로 화면 구성
+
+**Table View Controller**
+- 내부에 리스트 형식의 데이블 뷰를 포함하고 있어 여러 항목이나 데이터를 화면에 나열할 때 사용
+- 하나의 컨트롤러가 하나의 화면 이름
+
+**Tap Bar Controller**
+- 화면을 나타내는 여러개의 탭이 있고, 탭을 터치하면 화면이 전환되는 형태의 앱을 만들고자 할 때 사용.
+- 탭 마다 다른 뷰 컨트롤러를 연결하여 화면을 구성하며 앞의 내비게이션 컨트롤러와 마찬가지로 직접 화면 전체 나타내지x
+
+**Split View Controller**
+- 메인 서브화면 분활용 컨트롤러
+
+
+## viewController
+- 뷰 계층 관리
+- content View Controllers: 뷰 단독으로 관리
+- container View Controllers
+	1. 자체 뷰 + 하나 이상의 자식 뷰 컨트롤러가 가진 루트뷰 관리
+	2. 각 컨텐츠를 관리하는 것이 아닌 루트뷰만 관리하며 컨테이너 디자인에 따라 크기 조정
+	3. Split View Controller -> 컨테이너 뷰 (다른 뷰 컨트롤러를 담아 쪼개서 보여준다.)
+- Data Marchaling: 자신이 관리하는 View와 Data간 중개 역할
+- view와 model 사이의 중개자
+- 뷰 컨트롤러 == Responder 객체 : 직접 이벤트를 받아 처리 가능하나 일반적으로 지양
+- 뷰가 그 자신의 터치 이벤트를 연관된 객체에 action 메서드나 delegate로 전달
+- 뷰 컨트롤러가 생성한 모든 뷰와 객체들은 뷰 컨트롤러의 책임
+- 뷰 컨트롤러의 생명주기에 따라 생성되었다가 자동 소멸되기도 하지만 ARC개념에 맞게 관리 필요
+
+**Adaptivity**
+- 뷰 컨트롤러는 뷰의 표현을 책임지고, 환경에 적절한 방법으로 적용되도록 책임 갖는다.
+
+**UIWindow**는 그 자체로는 유저에게 보여지는 컨텐츠를 갖지 못한다.
+- window는 정확히 하나의 Root View Controller를 갖는데 이것을 통해 컨텐츠 표현
+
+**ViewControllerLifeCycle**
+UIWindow(app의 바탕) -> Container Viw Controller -> Child View Controller
+
+**presentingViewController** : 나를 띄운 뷰 컨트롤러
+**presentedViewController** : 내가 띄운 뷰 컨트롤러
+
+UIViewController가 갖지 않고 새로 넣은것들 사용시 
+guard let vc = presentingViewController as? ViewController else{return}
+vc.button.setTitle("클릭", for: .normal)
+
+화면 이동시
+첫화면 -> 둘쨰화면 -> 셋째화면 -> 첫째화면
+presentingViewController?/presentedViewController?.dismiss(anmiated:true)
+
+## Card-Style Modal Presentation
+- iOS 13 버전부터
+- enum타입
+- 세로모드 : 카드모형
+- 가로모드 : 기존의 full스크린
+- 생명주기: full 스크린과 다르다.
+
+**Full 스크린**
+viewWillDisppear -> viewWillAppear -> viewDidAppear -> ViewDidDisappear
+
+**sheet Style**
+viewWillAppear -> ViewDidAppear
+
+
