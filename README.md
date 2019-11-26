@@ -939,4 +939,117 @@ viewWillDisppear -> viewWillAppear -> viewDidAppear -> ViewDidDisappear
 **sheet Style**
 viewWillAppear -> ViewDidAppear
 
+**TextField**   == 안드로이드 EditText
+- placeholder == hint
+- clearButton: text 적은 것 지워줄 것인지 선택하는 부분.
+- clear when editing begins  : 누를때 마다 지워짐.
+- Min Font Size : 일정량 이상 text 늘어날 경우 정해진 크기만큼 text 작아짐
+- Keyboard Type: 키보드 숫자만 한다던지 하는
+- Secure Text Entry : Password 타입
+
+
+**textFieldEditingDidBegin** : 텍스트 필드 터치했을 때.
+```swift
+ @IBAction func textFieldEditingDidBegin(_ sender: UITextField){
+        print("textFieldEditingDidBegin")       //
+  }
+```
+
+**textFieldEditingChanged** : 어떤 값 변경될 때마다. (실시간으로)
+```swift
+@IBAction func textFieldEditingChanged(_ sender: UITextField) {
+        print(sender.text ?? "")
+ }
+```
+
+**textFieldDidEndExit** : textField 선택해제
+```swift
+@IBAction func textFieldDidEndExit(_ sender: Anu) {
+
+}
+```
+
+**textFieldPrimaryActionTriggerd**
+- enter 눌렀을 때 호출, 입력 값 잘못됬을 때 다시 입력하는 행위등에서 사용
+- sender.resignFirstResponder() //키보드 행위에서사용
+```swift
+@IBAction func txtFPrimaryActionTriggerd(_ sender: UITextField){
+ if true{
+        sender.resignFirstResponder()
+  }
+ print("PrimaryActionTriggerd")
+}
+```
+
+**textFieldDidEndOnExit** : return 호출시 이 설정 되어있으면 return 무조건 내려>가
+```swift
+@IBAction func txtFDidOnExit(_ sender: Any){
+ print("DidEndOnExit")
+}
+```
+
+- 여러개의 textField가 위같은 것들 하나에 여러개 연결 가능하다.
+
+idTextField.becomeFirstResponder() : idTextField가 첫번째 포커스 이자, 키보드 바
+로 떠서 입력받음
+
+**resignFirstResponder()**
+- 키보드 내리거나 못내리게 하는 상황에서 사용.
+```swift
+if sender.text!.count > 6{
+  sender.resignFirstResponer()
+}
+
+view.endEditing(true)
+```
+
+```swift
+@IBAction func textFieldEditingChanged(_ sender: UITextField){
+ if sender == idTextField{
+
+  }
+ print(sender.text ?? "")
+ 
+if sender.text!.count > 6{
+  sender.resignFirstResponder()
+ }
+ view.endEditing(true)
+}
+```
+
+## AlertController
+
+**Alert** : 알림창 + 버튼
+
+**ActionSheet** : 여러버튼 선택
+
+style: .cancel -> 취소버튼
+style: .destructive -> 빨간 text 경고성 느끼는 상황에서 사용
+
+**alert에 TextField 추가**
+```swift
+@objc private func tapButton(_ sender: UIButton){
+  let myAlert = UIAlertController(title: "카운트 추가?", message: "", preferredStyle: .alert)
+
+  let addCountButton = UIAlertAction(title: "AddCount", style: .default){ _ in
+        var addValue = 1
+
+        //alert에 textField 넣는 부분
+        if let textField = myAlert.textFields?.first, let inputValue = textField.text, let number = Int(inputValue){
+                addValue = number
+        }
+        self.count += addValue
+        self.countLabel.text = String(self.count)
+        print("Add Count \(addValue)")
+     }
+    myAlert.addAction(addCountButton)
+
+    let cancel Button = UIAlertAction(title: "cancel", style: .cancel)
+    myAlert.addAction(cancelButton)
+
+    myAlert.addTextField($0.placeholder = "정수 값을 입력하세요."
+  }
+  present(myAlert, animated: true)
+}
+```
 
