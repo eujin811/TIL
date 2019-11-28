@@ -1020,9 +1020,10 @@ if sender.text!.count > 6{
 ## AlertController
 
 **Alert** : 알림창 + 버튼
-
+- Modal(그 창이 닫힐 때까지 그창을 제외한 화면 반응 잠김)
+- textField 추가가능.
 **ActionSheet** : 여러버튼 선택
-
+- 텍스트필드 추가불가
 style: .cancel -> 취소버튼
 style: .destructive -> 빨간 text 경고성 느끼는 상황에서 사용
 
@@ -1051,5 +1052,3 @@ style: .destructive -> 빨간 text 경고성 느끼는 상황에서 사용
   }
   present(myAlert, animated: true)
 }
-```
-
