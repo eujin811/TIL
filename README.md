@@ -1055,9 +1055,9 @@ style: .destructive -> 빨간 text 경고성 느끼는 상황에서 사용
 
 ## 구조체(Structure) vs 클래스(Class) vs 열거형(enum)
 
-|         | 구조체 | 클래스 | 열거형 |
-|-------|--------|---------|-------|
-| 내부 변수, 상수 | O | O |  △ |
+| |구조체|클래스|열거형|
+|:------:|:--------:|:--------:|:-------:|
+|내부 변수, 상수|O|O|△|
 | Stored property | O | O | X |
 | Computed propert | O | O | O |
 | Property Observer | O | O | X |
