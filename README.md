@@ -1055,20 +1055,21 @@ style: .destructive -> 빨간 text 경고성 느끼는 상황에서 사용
 
 ## 구조체(Structure) vs 클래스(Class) vs 열거형(enum)
 
+
                     구조체   클래스  열거형
 ----------------------------------------------------------
-내부 변수, 상수       O        O        △ 
+내부 변수, 상수          O        O        △ 
 Stored property       O        O        X 
 Computed propert      O        O        O 
 Property Observer     O        O        X 
-    내부 함수         O        O        O
-    서브스크립트      O        O        O 
-    초기화 블록       O        O        X
+    내부 함수           O        O        O
+    서브스크립트         O        O        O 
+    초기화 블록         O        O        X
      extensions       O        O        X 
-      프로토콜        O        O        O 
-        상속          X        O        X
-     타입 캐스팅      X        O  
-     소멸화 구문      X        O 
- 참조에 의한 전달     X        O        X 
-    카멜 표기법       O        O        O
+      프로토콜          O        O        O 
+        상속           X        O        X
+     타입 캐스팅        X        O  
+     소멸화 구문        X        O 
+ 참조에 의한 전달        X        O        X 
+    카멜 표기법        O        O        O
       인스턴스        O        O        X 
