@@ -1115,4 +1115,77 @@ style: .destructive -> 빨간 text 경고성 느끼는 상황에서 사용
 - 입력받을 값을 미리 특정할 수 있을 때
 - 제한된 값 중에서만 선택할 수 있도록 강제하고 싶을 때.
 
+##StoryBord
 
+**SeagueWay**
+
+unwindTo<name>: 다시 나에게로 돌아올 때.
+- 이동할 때 쓰일 버튼 exit 끌어와서 unwindTo<name>에 연결
+```swift
+@IBAction func unwindToSeconde(_ unwindSegue: UIStoryboardSegue){
+  let source = unwindSegue.source //내가 있는 viewController
+  
+  let destination = unwindSegue.destination	//다녀오는 viewController
+
+  //unwindto를 사용해 돌아올 때 데이터 전달하는 방법
+  guard let thirdVC = unwindSegue.source as? ThirdViewController else{
+	return
+  }
+
+	//thirdVC.어떤데이터
+	//self.text = 어떤데이터.
+}
+
+```
+
+
+prepare : 화면이 넘어갈 때 사용하는 메소드, 데이터 전달 등 화면 전환 과정에서 필요한 메서드
+
+```swift
+//화면이 넘어갈 때
+oveeride func prepare(for segue: UIStoryboardSegue, sender: Any?){
+   super.prepare(for: segue, sender: sender)
+   segue.destination	//목적지
+   segue.source		//출발지
+   sugue.identifier	//Card,FullScreen
+
+   if segue.identifier == "Card"{
+
+	}else{
+
+	}
+}
+```
+```swift
+//넘어간 화면에 값을 전달하고 싶을 때
+oveeride func prepare(for segue: UIStoryboardSegue, sender: Any?){
+   super.prepare(for: segue, sender: sender)
+  
+   guard let thirdVC = segue.destination as? ThirdViewController else{
+	return
+   }
+
+   //아직 view에 label 올라오지 않은 상태라서 코드처럼 label.text이러면 안되고 별도의 property에 전달해줘야 한다.
+  
+   if segue.identifier == "Card"{
+	thirdVC.text = "CARD"        
+     }else{
+	thirdVC.text = "FullScreen"	
+        }
+}
+```
+
+shouldPerformSegue: 화면 넘어가지 못하게 해줄수 있는 함수
+```swift
+   //기본값 true해서 화면 넘어가게 해줌
+  //false면 화면 눌러도 전환 안됨.
+
+   overrid func shouldPerformSegue(withIentifier identifier: String, sender: Any?) -> Bool {
+	if <조건>{
+	return false
+	}else{
+	return true
+	}
+	
+}
+```

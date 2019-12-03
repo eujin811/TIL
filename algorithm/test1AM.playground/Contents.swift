@@ -11,9 +11,6 @@ import Foundation
  }
 */
 
-func performClosure(param: (String) -> Int) {
-  param("Swift")
-}
 
 
 /*
@@ -25,6 +22,8 @@ func performClosure(param: (String) -> Int) {
  Intput : 2019
  Output : 윤년에 속하는 해는 총 489회입니다.
 */
+
+print("\n-------------윤년-----------------\n")
 
 func yearFunc(num: Int){
     var normalYearCount = 0
@@ -56,23 +55,34 @@ yearFunc(num: 200)
  > Output : ["b", "e" ,"d"]
 */
 
+func checkFunc(characterArr: [Character]) -> [Character]{
+//    var minusArray = characterArr
+//    minusArray -= Array(Set(characterArr))
+//
+//    print(minusArray)
+    var uniqArray = [characterArr[0]]
+    var k = 0
+    for i in 1...(characterArr.count - 1){
+        
+        for _ in 1...i{
+            
+            if uniqArray[k] == characterArr[i]{
+                print("continue characterArra[\(i)] \(characterArr[i]), uniqArray[\(k)] \(uniqArray[k])")
+//                 k += 1
+               continue
+            }
+            
+            print("break characterArra[\(i)] \(characterArr[i]), uniqArray[\(k)] \(uniqArray[k])")
+            uniqArray.append(characterArr[i])
+            k += 1
+            
+        }
 
-//func changeSet(arr:[Character]) -> [Character]{
-//    let minusArr = Array(Set(arr))
-//    var changeArr = arr
-//
-//    for i in 0...(arr.count-1){
-//        for j in 0...(minusArr.count - 1){
-//            arr[i] == minusArr[j]
-////            changeArr.remove(at: i)
-//        }
-//    }
-//
-////    changeArr.removeAll(where: {minusArr.contains($0)})
-//    return changeArr
-//}
-//
-//print(changeSet(arr: ["a", "b", "c", "a", "e", "d", "c"]))
+    }
+    return uniqArray
+}
+
+checkFunc(characterArr: ["a", "b", "c", "a", "e", "d", "c"])
 
 
 /*
@@ -83,25 +93,33 @@ yearFunc(num: 200)
  > Input : 10
  > Output : 10보다 작거나 같은 소수는 [2, 3, 5, 7]이고, 총 4개입니다.
 */
-
-func checkPrimeNumbers(number: Int){
+print("\n-----------------소수구하기-------------------------\n")
+func checkPrimeNumbers(number: UInt){
     
-//    var arr = [Int]()
-//
-//    for i in 1...number{
-//        if i == 1{
-//            continue
-//        }else if( i != 2 && i % 2 == 0){
-//            continue
-//        }
-//
-//
-//
-//    }
-    
-    for i in 1...number{
-        
+    var checkArray = [2]
+    var flag = true
+    if number == 1{
+        print("1은 소수가 아닙니다. 1보다 큰 숫자를 입력하세요.")
+        return
     }
+    
+    for i in 3...number{
+        
+        for j in 2...i-1{
+            if i % j == 0 {
+                flag = false
+                break
+            }
+            flag = true
+        }
+        if flag == false{
+            continue
+        }
+        checkArray.append(Int(i))
+
+    }
+    
+    print(checkArray)
 }
 
 checkPrimeNumbers(number: 1)
