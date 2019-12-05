@@ -1115,7 +1115,7 @@ style: .destructive -> 빨간 text 경고성 느끼는 상황에서 사용
 - 입력받을 값을 미리 특정할 수 있을 때
 - 제한된 값 중에서만 선택할 수 있도록 강제하고 싶을 때.
 
-##StoryBord
+## StoryBord
 
 **SeagueWay**
 
@@ -1189,3 +1189,267 @@ shouldPerformSegue: 화면 넘어가지 못하게 해줄수 있는 함수
 	
 }
 ```
+**Generic**
+- 값이 들어오는 순간에 타입을 결정
+
+```swift
+ func printGenericInfo<T>(_ value:T){
+	let types = type(of: value)
+	print("\(value) type of \(types)")
+ }
+
+ printGenericInfo(1)	// 1 type of Int
+ printGenericInfo(2.0)	// 2 type of Double
+ printGenericInfo("3")	// 3 type of String
+```
+
+## 타입캐스팅
+
+** is **
+- 상속관계 비교가능.
+	자식 클래스 is 부모클래스 -> true
+	부고 클래스 is 자식클래스 -> false
+- is 사용해 타입비교 가능 : bool로 반환
+
+```swift
+let number = 1
+number == 1	//true
+number is Int	//true
+
+let someAnyArr:[Any] = [1, 2.0, "3"]
+
+for data in someAnyArr {
+ if data is int{
+	print("int type data:", data)
+  }else if data is Double{
+	print("Double type data: ", data)
+  }else{
+	print("String type data: ", data)
+  }
+}
+```
+
+같은 부모클래스 갖고있으면 부모클래스 타입으로 들어감
+```swift
+//Human 부모 클래스, Baby:Human, UnivesityStudent:Human
+let someArr = [Human(), Baby(), UniversityStudent()]
+type(of: someArr)
+```
+
+컴파일시와 런타임시 타입을 다르게 갖을 수 있다.
+```swift
+ var human: Human = Student()
+ type(of: human)	//Student.Type
+```
+
+- 부모클래스 타입에 자식 클래스 넣으면 돌아간다. 컴파일에서는 부모클래스 타입으로 런타임에서 자식클래스 타입으로 나옴.
+- 정적인 타입은 부모타입, 동적인 타입은 자식타입
+
+```swift
+ var james = Student()
+ james = UniversityStudent()   //정적 타입 Student 동적 타입 UniversityStudent
+
+```
+
+```swift
+ var james = Student()
+ james = UniversityStudent()	//정적 타입 Student 동적타입 UniversityStudent
+
+//james.univName	//UniversityStudent 속성 오류남, 정적타입이 Student라서  타입캐스팅 해야됨.
+```
+
+부모타입에 자식타입 넣을 수 있는 이유? 자식은 부모의 요소들 사용가능
+하지만 부모는 자식의 요소 사용 불가.
+
+
+```
+
+**업캐스팅**
+- 상속관계에 있는 자식 클래스가 부모 크래스로 형 변환 하는 것.
+- 항상 성공, as 키워드 사용
+- 자기 자신에 대한 타입 캐스팅도 항상 성공 as 키워드 사용
+- 부모클래스로 타입 변환하면 상속받지 않았던것들 사용 불가능.
+- 사용빈도수 낮다.
+
+**다운캐스팅**
+- 자식클래스로 as 업캐스팅 불가한 이유?
+     : 자식 클래스는 부모 클래스가 무조건 하나, 부모클래스는 자식 클래스 여러개라
+- 형제 클래스나 다른 서브 클래스 등 수퍼클래스에서 파생된 각종 서브 클래스로의 타입 변환 의미
+- 반드시 성공한다는 보장 없으므로 옵셔널
+- as?, as! : 오류날 확률 높아서 옵셔널 타입인 as? 사용권장.
+- 자식 클래스의 내용 커스텀해서 사용.
+
+```swift
+ let shapeRect: Shape = Rectangle()
+ vvar downcastedRect = Rectangle()
+
+//downcastedRect = shapeRect		//오류남, 정적타입 달라서
+```
+
+**Initializer 생성자**
+- 최종 생성자는 Designated
+- Designated 에서는 Designated 사용불가
+- 초기화 이전 프로퍼티 사용 불가
+- 다른 메서드 호출 중 초기화 되지 않은 프로퍼티 사용할 수도 있기 때문
+- 모든 저장 프로퍼티 초기화 이전에는 함수 사용 불가능 (초기화하지 않은 내용이 함수에 들어있을 수도 있어서)
+
+**Designated Initaializer 지정생성자**
+- 그냥 init()
+- 초기화 필요한 모든 프로퍼티를 단독으로 초기화 가능
+- 초기화 과정에서 반드시 한번은 호출
+- 초기화를 끝낸다.
+
+**Convenience init 편의 생성자**
+- 특정 값만 입력받음
+- 생성자 안에서 호출가능.
+- Designated에서 초기화해야 convenience에서 self로 가능!
+- Designated(init) convenience에서 사용가능하고, 컨비니언스 안에서 컨비니언스도 사용 가능
+
+```swift
+convenience init(xPosition: Int){
+ //convenience init -> designated init -> overwirte
+ self.init()
+ self.xPosition = xPosition
+}
+```
+
+```swift
+ convenience init(width: Int, height: Int, cornerRadius: Int){
+ //convenience init -> designated init
+  self.init(width: width, height: height, xPosition: 10, yPosition: 30, cornerRadius: cornerRadius)
+ } 
+```
+
+**Failable Initializer**
+- 인스턴스 생성시 특정 조건 불만족시 객체 생성 불가
+- 생성이 되면 옵셔널 타입 반환, 생성 실패시 nil 반환
+```swift
+ class Person{
+   let name: String?
+   let age: Int
+
+   init?(name: String, age: Int){
+	guard age > 0 else {return nil}
+	self.name = name
+	self.age = age
+   }
+ }
+
+ if let person = Person(name: "James", age: 20){
+  person
+ }
+
+ if let person = Person(name: "James", age: -5){
+  person
+ } else{
+   "Failed"
+  }
+```
+
+**Super Class Initializing**
+- 서브 클래스는 자기자신 이외에 수퍼 클래스의 저장 프로퍼티까지 초기화 해야한다.
+- 서브 클래스는 수퍼 클래스의 convenience 호출 불가
+- 수퍼 클래스의 지정 생성자가 기본 init 함수 하나만 있으면 별도로 저장 안해도 된다.
+- 생성자 여러개인 경우, 어떤 초기화 메서드를 선택해야 할지 알 수 없으므로 선택하지 않으면 오류남. 이 때는 서브 클래스에서 수퍼 클래스 생성자 명시적으로 선택함. (Convenience 무관)
+- 상속시 기분 초기화시 내꺼 먼저 초기화해줘야함.
+- Convenience와 오버라이드 둘다 사용가능
+- 스위프트는 자식 클래스를 먼저 초기화하고 부모 클래스 초기화 메서드 나중에 호출, 혹시라도 init에 있는 함수 자식이 오버라이드할 경우 자식것 나타냄, 자기 자신부터 호출해야 내것이 아닌것 다른데서 사용하지 않게된다.
+
+```swift
+class Human {
+  var name: String
+  
+  init() {
+    self.name = "홍길동"
+  }
+  init(name: String) {
+    self.name = name
+  }
+}
+
+
+class Student: Human {
+  var school: String
+  
+  override init() {
+    self.school = "University"
+    
+    // 두 개의 지정 생성자 중 하나 호출
+    super.init()
+//    super.init(name: "이순신")
+  }
+  
+  init(school: String) {
+    self.school = school
+    super.init()
+  }
+  
+  
+  // 수퍼 클래스의 지정 생성자 오버라이드와 편의 생성자 기능 동시 사용 가능
+  convenience override init(name: String) {
+    self.init(school: "Univ")
+    self.name = name
+  }
+//    convenience override init(name: String, school: String) {
+//      self.init(school: school)
+//      self.name = name
+//    }
+}
+```
+
+**Extension Initializer**
+- Convenience 추가 가능하지만 그냥 기본 init (Designated)사용 불가.
+
+**Required Initializer**
+- 상속받은 클래스에서 반드시 작성해주어야 하는 초기하 메서드 있을 때 required키워드 사용
+- 서브 클래스에서 해당 초기화 메서드 반드시 작성해줘야한다. Override 키워드 생략가능
+- 구현을 강제하는 init()
+
+```swift
+class Animal {
+  let name: String
+  let age: Int
+
+  init(age: Int) {
+    self.age = age
+    self.name = "Tori"
+  }
+  required init(name: String) {
+    self.name = name
+    age = 3
+  }
+}
+
+class Dog: Animal {
+  let type: String
+  
+  init(type: String) {
+    self.type = type
+    super.init(name: "Tori")
+  }
+  
+  required init(name: String) {
+    self.type = "Poodle"
+    super.init(name: name)
+  }
+}
+
+class Dog2: Animal {
+  let type: String
+  
+  init(type: String, name: String) {
+    self.type = type
+     self.type = "Poodle"
+    super.init(name: "Tori")
+  }
+  
+ 
+}
+
+let dog1 = Dog(type: "Poodle")
+let dog2 = Dog(name: "Tori")
+
+```
+**Deinitializer 소멸자**
+- 할당된 객체가 해제될 때 deinit 메서드 호출
+
