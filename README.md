@@ -1262,7 +1262,7 @@ type(of: someArr)
 하지만 부모는 자식의 요소 사용 불가.
 
 
-```
+
 
 **업캐스팅**
 - 상속관계에 있는 자식 클래스가 부모 크래스로 형 변환 하는 것.
@@ -1278,6 +1278,7 @@ type(of: someArr)
 - 반드시 성공한다는 보장 없으므로 옵셔널
 - as?, as! : 오류날 확률 높아서 옵셔널 타입인 as? 사용권장.
 - 자식 클래스의 내용 커스텀해서 사용.
+
 
 ```swift
  let shapeRect: Shape = Rectangle()
@@ -1453,3 +1454,82 @@ let dog2 = Dog(name: "Tori")
 **Deinitializer 소멸자**
 - 할당된 객체가 해제될 때 deinit 메서드 호출
 
+**DatePicker**
+
+```swift
+let datePicker = UIDataPicker()
+```
+datePicker.date : 데이트피커가 현재 선택한 값 갖고있음.
+데이터 피커 셋팅 바꿀 때 : datePicker.date = data
+
+## Singleton
+- 특정 클래스의 인스턴스에 접근할 때 항상 동일한 인스턴스만을 반환하도록 하는 설계 패턴
+- 한 번 생성된 이후에는 프로그램이 종료될 때까지 항상 메모리에 상주
+- 어플리케이션에서 유일하게 하나만 필요한 객체에 사용
+- UIApplicaion, AppDelegate등
+- Static 전역변수로 선언한 것은 지연 생성됨으로 처음 Singleton을 생성하기 전까지 메모리에 올라가지 않음
+
+```swift
+
+class SingletonClass{
+ static let shared = SingletonClass()
+ var x = 0
+}
+
+let singleton1 = SingletonClass.shared 		// == let singleton1 = SingletonClass() -> 인스턴스 생성.
+singleton1.x = 10
+
+let singleton2 = SingletonClass.shared		// 이미 생성된 인스턴스에 접근해서 사용된다.
+singleton2.x = 20
+
+singleton1.x		// 20
+singleton2.x		// 20 따로 선언했지만 같은것.
+
+SingletonClass.shared.x = 30
+
+singletonClass.shared.x		// 30
+singleton1.x			// 30
+singleton2.x			// 30
+
+SingletonClass().x = 90		// 따로 변수나 상수에 보관하지 않아서 만들어지자 메모리에서 사라짐.
+SingletonClass().x		// 0
+singleton1.x			// 30
+singleton2.x			// 30
+
+```
+- 항상 하나의 객체만 사용하는 것을 보장해야 한다. 생성자의 접근을 막아야함 (private)
+
+```swift
+class MySingleton{
+  static let shared = MySingleton()
+  var x = 0
+  private init() {}
+ } 
+``` 
+
+- 최초 생성만 인스턴스로 사용되고 그 뒤로는 기존에 만들어진 애한테 계속접근
+
+```swift
+class User{
+ static let shared = User()
+ var friends: [Friends] = []
+ var blocks: [Friends] = []
+}
+
+struct Friends: Equatable{
+  let name: String
+}
+
+class FriendList{
+ func addFriend(name: String) {
+   let user = User.shared	//최초 생성만 인스턴스로 그뒤로는 기존에 만들어진 애한테 계속접근
+   let friend = Friends(name: name)
+   user.friends.append(friend)
+ }
+
+```
+
+## UserDefaults
+- iOS에서 데이터를 파일에 저장하기 위해 사용하는 대표적인 클래스 중 하나
+- 간단한 정보를 저장하고 불러올 때 내부적으로 pList 파일로 저장.
+- 파일로 저장시 인코딩시 데이터 저장 과정이 필요함. 때문에 커스텀 타입은 그런 과정이 필요하다.(커스텀 타입은 별도의 인코딩 타입 필요.)
