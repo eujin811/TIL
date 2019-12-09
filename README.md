@@ -1556,3 +1556,162 @@ y: view.center.y
 - 여러 단계에 걸쳐 옵셔널 사용중.
 -옵셔널 타입이 중첩되더라도 여러겹 쌓이지 않는다.
 
+## Structures
+- deinit, 참조카운트등은 사용하지 않는다.
+- 구조체는 생성되고 사라질때 deinit 메소드만 제공되지 않을 뿐.
+- 값에 의한 참조 상수에 인스턴스 할당시 요소의 값 변경 불가.
+```swift
+class Dob{
+ var name = "tory"
+}
+struct Cat{
+ var name = "릴리"
+}
+
+ let dog = Dog()	// Dog위치를 가르키는 주소값 고정된것, 내부 요소 변경가능
+ let cat = Cat()	// Cat()값으로 할당. 값자체가 고정됨
+
+ dog.name = "릴리"
+ //cat.name = "토리"	// 에러남. 값 자체가 할당되어서 값 변경되면 오류
+```
+
+- 구조체의 경우 생성자 작성이 필수가 아니다.(자동으로 값이 비어있는 것에 대한 생성자 만들어져있다.)
+- 생성자 별도 구현시 생성자 자동구현 안함.
+- 편의 생성자(Convenience)개념 없음, init 과 convenience init 구분 안함.
+- 구조체는 extension에서도 생성자 추가가 가능하다.
+- enum, struct 경우에 내부 func에서 프로퍼티 값 변경시 mutating func 형식으로 사용함.
+- mutating func과 func은 다른 타입.
+- 클래스나 프로토콜 내부에서 구조체나 열거형 사용하여 mutating func 만든거 불러낼 때 mutating func 형식으로 불러야함.
+
+```swift
+protocol Mutate{
+ mutating func mutatingUpdate()
+}
+struct PointStruct1: Mutate {
+ var x = 0
+
+ mutating func update() {
+   self.x = 5
+ }
+}
+```
+
+- 스위프트는 구조체를 기본형식으로 사용한다.
+- 클래스를 기본적으로 사요하는 경우
+	> object - c 호환성
+	> 동등성 (equality) 외에 identity(정체성, 동일성)을 제어해야 할 때.(값만이 아닌 완전 동일한 경우인지 아닌지 비교해야 하는 상황)
+	> RC 와 소멸자가 필요한 경우
+	> 값이 중앙에서 관리되고 공유되어야 할 때
+- eauatable 
+```swift
+ struct Friends: Equatable {}
+```
+	> 값이 같은지등과 같은 부분 비교가능
+
+## ARC
+- 클래스의 인스턴스에만 적용
+- 활성화된 참조카운트가 하나라도 있을 경우 메모리에서 해제되지 않음.
+- 강함참조: 기본값, 참조될 때마다 참조 카운트 +1
+- 약한참조(weak), 미소유 참조(Unownde): 참조 카운트 증가시키지 않음.
+- 강한참조Strong ->  var, let, optional, nonOptinal 사용가능
+- 약한참조 weak -> var, optional
+- 미소유참조 Unownde -> var, let, nonOptional
+- 참조 카운트가 0이 되어 메모리에서 사라져도 참조되었던 값들이 아예 없어지지 않고 쓰레기 값으로 남는다.
+- 참조타입이면 ARC 사용된다고 보면 됨.
+
+**ARC in Struct**
+- 구조체의 인스턴스는 참조처럼 더 이상 사용되지 않는 공간에 접근하는 경우가 생기지 않아 상관 없음
+- 데이터가 메모리에서 쓰이지만 문제가 생기지는 않는다.
+
+**강한 참조순환**
+- 객체에 접근 가능한 모든 연결을 끊었음에도 순환참조를 통해 활성화된 참조카운트가 남아 메모리 누수 발생시킴.
+- 좀비값 존재시 앱 실행이 느려지거나 오작동 발생가능성 있음.
+
+```swift
+class Person{
+ var pet: Dog?
+ 
+ func doSomething() {}
+ deinit{
+	print("Person is being deinitialized")
+ }
+}
+
+class Dog {
+ var owner: Person?
+ func doSomething() {}
+ deinit{
+	print("Dog is being deinitialized")
+ }
+
+}
+
+var giftbot: Person? = Person()		//person count1
+var tory: Dog? = Dog()			// dog count1
+
+giftbot?.pet = tory		//dog count2
+tory?.owner = giftbot		//person count2
+
+giftbot?.doSomething()
+tory?.doSomething()
+```
+```swift
+// 참조카운트가 1씩 남아있어서 deinit 호출 안됨.
+giftbot = nil			//person count 1 주소값만 잃은 상태
+tory = nil			//dog count 1	주소값만 잃은 상태
+
+```
+
+```swift
+//완전희 제거
+// 순서주의. 내부 요소부터 제거해야 된다. 외부것 부터 제거하면 내부 요소 접근 방법 없음.
+giftbot?.pet = nil		// 둘중 하나만 해제해도 연결되어 있어서 해제됨
+//tory?.owner = nil
+
+giftbot = nil
+tory = nil
+```
+
+약한 참조
+- unowned: count 증가 안하고, 참조 객체 해제해도 기존 포인터 주소 유지
+- weak: count 증가 안함. 참조하던 객체 해제시 nil값으로 변경
+- weak는 참조하는 주소값 nil로 변할수 있기 때믄에 변수에만 사용해야한다.
+- weak의 경우 nil로 바뀌기 떄문에 옵셔널 타입이다.
+
+```swift
+class  Teacher{
+ var student: Student?
+
+ dinit{
+	print("Teacher is being deinitialized")
+ }
+}
+
+ class Student{
+  // strong, unowned, weak
+
+  // let teacher: Teacher 	//count 2
+  unowned let teacher: Teacher	//count 1
+  //weak var teacher: Teacher 	//count 1
+ } 
+
+ init(teacher: Teacher){
+   self.teacher = teacher
+ }
+ deinit{
+   print("Student is being deinitialized")
+ }
+}
+
+var teacher: Teacher? = Teacher()		//teacher count1
+var student: Student? = Student(teacher: teacher!)	// strong: student count1 teacher count2
+// unownde, weak -> student count 1 teacher count 1 (teacher count 증가 안함.)
+teacher?.student = student		//strong: student count 2
+
+
+```
+
+``swift
+teacher = nil 	//약한 참조 student count 1
+student =  nil	// " 	student count 0
+```
