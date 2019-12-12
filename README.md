@@ -1715,3 +1715,39 @@ teacher?.student = student		//strong: student count 2
 teacher = nil 	//약한 참조 student count 1
 student =  nil	// " 	student count 0
 ```
+## AutoLayout
+- 뷰에 주어진 제약조건에 따라 뷰의 크기와 위치를 동적으로 계산해 배치하는 것.
+- 외부 또는 내부의 변환에 동적으로 반응하여 유저 인터페이스 구성
+- 한번 설정하면 전부다 autoLayout으로 설정해야한다.
+- view: 화면 위치 제약 없다.
+- safeArea: 노치랑 하단바 부분 제외한 영역
+
+**Frame으로 위치 잡을 떄**
+```swift
+viewDidLoad() -> print(safeAreaInsets) 0,0,0,0
+```
+viewSafeAreaInsetsDidChange() 이후로 노치가 반영된 크기로 나옴.
+
+```swift
+print(safeAreaInsets) //세로모드 44, 0, 34, 0
+```
+
+UIApplicatjion.chared.statusBarFrame
+- stausBar 높이 알수있음.
+
+view.safeAreaInsets
+- viewSafeAreaDidChange()에서 처음 사용됨.
+- view가 자신의 서브뷰를 처음 사용할 때 사용하는 두가지
+ viweWillAppear -> viewWillLayoutSubView -> viewDidLayoutSubViews -> viewDidAppear
+
+viewSafeAreaInsetsDidChange()
+- Lyout 전반에 걸친 작업들 이곳에서
+
+**AutoLayout Anchor**
+- 별도의 오토레이아웃을 잡으려면 
+```swift
+firstView.translatesAutoresizingMaskIntoConstraints = false
+```
+설정한뒤 직접 다시 잡아줘야한다.
+
+
