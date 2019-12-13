@@ -1750,4 +1750,69 @@ firstView.translatesAutoresizingMaskIntoConstraints = false
 ```
 설정한뒤 직접 다시 잡아줘야한다.
 
+애니메이션 효과
+
+```swift
+testView.alpha = 0		//투명한 상태 1은 완전 불투명
+//testView.isHiddent = true
+testView.backgroundColor = .black
+//testView.backgroundColor = UIColor.black.widthAlphaComponent(0.5)	//컬러에 투명도 적용가능
+
+UIView.animate(withDuration: 1) {	//1초동안
+testView.alpha = 1
+testView.frame.origin.x += 150	//x좌표 이만큼 이동
+ }
+
+//1초동안 뷰가 x 좌표 기준 150만큼 이동.
+//투명했다가 1초동안 서서히 나타남.
+//다른것들에도 적용 가능. (키보드등)
+```
+```swift
+UIView.animate(withDuration: 3){	//3초동안
+ // 	self.testView.isHidden = false	//안돼! 단계가 없이 true -> false
+	self.testView2.alpha = 1	// 0~1까지 가는 단계가 있음.
+	self.testView2.background = .red //검정에서 레드로 변화.
+}
+
+```
+
+```swift
+//라운드 주기.
+testView.layer.cornerRadius = 20	//끝에 20만큼 깍은 둥근값 넣어준다.
+
+//원 만들기.
+testView.layer.cornerRadius = testView.frame.width / 2
+//이미지 뷰 원형으로 만들기
+imageView.layer.cornerRadius = ImageView.frame.width / 2
+
+```
+
+**window창 자체를 바꾸는 법**
+- 화면 전환시 present가 아닌 window 자체를 바꿔버림.
+present(vc,animated:true)  (x)
+Window = Second	//윈도우 자체를 바꾸면 바꾸기 전화면 메모리에서 없앰.
+
+**씬델리게이트에서 윈도우 바꾸는 법**
+```swift
+if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            //새윈도우 만듬.
+            let window = UIWindow(windowScene: windowScene)
+            window.rootViewController = SecondeViewController()
+            
+            //어디서 윈도우 놓는가? -> 신델리게이트에 접근해서 바꾸어준다.
+            let sceneDelegate = windowScene.delegate as? SceneDelegate
+            sceneDelegate?.window = window           //
+            window.makeKeyAndVisible()      //화면 바뀜.
+        }
+```
+
+**App델리게이트에서 윈도우 바꾸는법 **
+```swift
+let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let window = UIWindow(frame: UIScreen.main.bounds)
+            window.rootViewController = SecondeViewController()
+            window.makeKeyAndVisible()
+            appDelegate.window = window
+```
+
 
