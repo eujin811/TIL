@@ -4,23 +4,23 @@
 
 **branch**
 
- -분기점을 생성하고 독립적으로 코드를 변경할 수 있도록 도와주는 모델
- -코드 수정전branch에서 수정후 merge하는것이 좋다.
- -master와 똑같은 파일을 갖는다.
- -git branch {name} 
+ - 분기점을 생성하고 독립적으로 코드를 변경할 수 있도록 도와주는 모델
+ - 코드 수정전branch에서 수정후 merge하는것이 좋다.
+ - master와 똑같은 파일을 갖는다.
+ - git branch {name} 
 	*branch명 생성시 하게될 행위에대한 명칭이 좋음
 	  ex) edit-README.md
- -branch 삭제
+ - branch 삭제
 	git branch -D {name}
 
 **merge**
 
--브랜치와 마스터의 병합
--git merge {name} 		// merge시에 따로 commit 필요없음.
+- 브랜치와 마스터의 병합
+- git merge {name} 		// merge시에 따로 commit 필요없음.
 
 **diff**
 
--현재 branch와 선택한 branch와의 차이를 볼 수 있다.
+- 현재 branch와 선택한 branch와의 차이를 볼 수 있다.
 
 코드 수정시 추천 순서
 branch 생성 -> 수정 -> add -> commit -> merge -> branch file delete -> push
@@ -281,6 +281,7 @@ type(of: firstIndex)
 	```
 	
 	-연산 프로퍼티와 메소드 정의 가능	
+
 	-인스턴스 만들 수 없다. (단, 멤버를 인스턴스처럼 사용가능.)
 	
 - 멤버와 실질적인 값이 분리되어 있어 멤버는 이해하기 쉬운 문자로
@@ -1806,7 +1807,7 @@ if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScen
         }
 ```
 
-**App델리게이트에서 윈도우 바꾸는법 **
+** App델리게이트에서 윈도우 바꾸는법 **
 ```swift
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let window = UIWindow(frame: UIScreen.main.bounds)
