@@ -1816,4 +1816,9 @@ let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.window = window
 ```
 
+**resignFirstResponder()**: 해당 객체로부터 최초 응답자 상태를 해제하고 싶을때 호출.
+**becomeFirstResponder()**: 특정 개체를 최초 응답자로 만들고 싶을 때 사용.
 
+최초응답자 : UIWindow에서 이벤트가 발생했을 때 우선적으로 응답할 객체를 가리키는 포인터. 대부분의 뷰들은 최초 응답자가 되길 거부한다. 선택된 텍스트 필드나 텍스트 뷰에서 포커스 뺏기기 싫어서.
+
+## Intrisic Content Szie(고유 컨텐츠 사이즈)
