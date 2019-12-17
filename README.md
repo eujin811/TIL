@@ -1822,3 +1822,166 @@ let appDelegate = UIApplication.shared.delegate as! AppDelegate
 최초응답자 : UIWindow에서 이벤트가 발생했을 때 우선적으로 응답할 객체를 가리키는 포인터. 대부분의 뷰들은 최초 응답자가 되길 거부한다. 선택된 텍스트 필드나 텍스트 뷰에서 포커스 뺏기기 싫어서.
 
 ## Intrisic Content Szie(고유 컨텐츠 사이즈)
+
+
+
+
+
+
+## UITableView
+plain TableView
+- 기본 스타일
+- 하나 이상의 섹션 갖을 수 있음.
+- 각 섹션 그 자신의 헤더 푸터 뷰 갖을 수 있음. top bottom에 고정가능
+- Indexed List 설정가능
+
+Grouped Table Views
+- top bottm에 헤더 뷰, 푸터 뷰 고정안됨.
+
+dataSource
+- numberOfRowsInsection section: 섹션별 row 개수
+- cellForRowAt indexPath: Cell에대한 커스터마이징 델리게이트
+- interaction과 관련된 커스터마이징
+- cell: 테이블뷰에서 사용하는 각 아이템을 담는 컨테이너. 반복되는 셀을 매번생성, 해제, 재할당하는 부담을 덜기 위해 화면에 보여지지 않는 부분의 셀을 재사용
+- 추가하고 싶은것은 contentView에 올려서 사용.
+	1. textLabel
+	2. detailTextLabel
+	3. imageView
+- view를 올릴때는 table뷰에 직접 올리기보다는 content view에 올려라!
+
+스토리보드에서 사용
+- 뷰컨트롤러 연결
+- Datasource 필수, 나머지 두개 (delegate, prefetchDataSource)
+
+**UITableViewDatasource**
+- 자기자신 넘겨줘야함. (Tableview.dataSource = self)
+
+numberOfRowInSection
+- 만든셀 나타내는 함수
+```swift
+func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+ //만든셀 나타냄.
+//하나의 색션에 몇개의 row(행) 들어갈지 표현
+
+ return 10
+}
+
+```
+cellForRowAt: 셀만드는 함수, Cell보여질 때 마다 매번 생성
+```swift
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+ //여기서 셀만듬.
+//indexPath 몇번쨰 row(행)인지
+
+ let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
+
+ cell.textLabel?.text = "\(indexPath.row)"
+ return cell
+}
+```
+
+**TableView  Cell생성방식**
+1. 매번 새로운 cell생성: 좊지않다.
+```swift
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+ //매번 보여줌, 낭비
+ let cell = UITableViewCell(style: .default, reuseldentiFier: "CellID")
+ cell.textLabel?.text = "\(indexPath.row)"
+ return cell
+}
+```
+
+2. 재사용 방식: ID 미등록 후 내부에서 id만듬. id 없어도 죽지 않음. 레지스터 불필요
+```swift
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+ let cell: UITableViewCell
+
+ //CellID있으면 if 실행, 없으면 새로만듬.
+ if let reusableCell = tableView.dequeueReusableCell(withIdentifier: "CellID"){
+	cell = reusableCell
+	print("재사용")
+  } else {
+	cell = UITableViewCell(style: .default, reuseIdentifier: "CellID")
+	print("새로생성")
+  }
+  cell.textLabel?.text = "\(indexPath.row)"
+  return cell
+}
+```
+
+3. 재사용 방식: 이상적! ID선등록 -> 별도의 등록코드 없음. 한번 등록한 아이디는 재사용가능한 상황에서 재사용해준다. 재사용 불가능시 새로생성.
+```swift
+override func viewDidLoad() {
+ super.viewDidLoad()
+ let tableView = UITableView(frame: view.frame)
+ tableView.dataSource = self
+ view.addSubview(tableViw)
+
+ //타입 자체를 전달할떈 class.self로 넘겨줌.
+ tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellID")
+}
+
+
+ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+ // Id 선등록.
+  let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
+  cell.textLabel?.text = "\(indexPath.row)"
+  return cell
+ }
+
+```
+
+**TableViewSection**
+- numberOfSections: 섹션 추가함수.
+- titleForHeaderInSection: 섹션에 헤더 추가
+```swift
+extension TableViewSection: UITableViewDataSource {
+ func numberOfSection(in tableView: UITableView) -> Int {
+	fruitsDict.count
+ }
+}
+
+//  titleForHeaderInSection: 섹션에 헤더 추가
+
+ func tableView(_ tableView: UITableView, titleForHeaderInsection section: Int) -> String? {
+	sectionTitles[section]
+ }
+
+ @objc func reloadData() {
+	// data 오름차순 -> 내림차순 -> 오름차순.
+	data.reverse()
+
+	//refreshControl 이제 그만뜨게 하는. 안그러면 UI계속 떠있음.
+	tableView.refreshControl?.endRefreshing()
+
+	tableView.reloadData()
+ }
+```
+
+**로딩바**
+```swift
+ let refreshControl = UIRefreshControl()
+    refreshControl.tintColor = .blue
+
+    refreshControl.addTarget(self, action: #selector(reloadData), for: .valueChanged)
+    refreshControl.atributedTitle = NSAttributedString(string: "Refreshing..")
+
+    tableView.refreshControl = refreshControl
+
+```
+- 추가
+```swift
+ let refreshControl = UIRefreshControl()
+  refreshControl.tintColor = .blue
+
+  refreshControl.addTarget(self, ation: #selector(reloadData), for: .valueChanged)
+   let attrStr = NSAttributedString(
+     string: "Refreshing..", attributes: [
+	.font: UIFont.systemFont(ofSize: 30),
+	.kern: 5
+     ]
+   )
+   refreshControl.attributedTitle = attrStr
+   tableView.refreshControl = refreshControl
+```
+
