@@ -1822,11 +1822,40 @@ let appDelegate = UIApplication.shared.delegate as! AppDelegate
 최초응답자 : UIWindow에서 이벤트가 발생했을 때 우선적으로 응답할 객체를 가리키는 포인터. 대부분의 뷰들은 최초 응답자가 되길 거부한다. 선택된 텍스트 필드나 텍스트 뷰에서 포커스 뺏기기 싫어서.
 
 ## Intrisic Content Szie(고유 컨텐츠 사이즈)
+- 컨텐츠를 잘라내거나 줄이지 않고도 온전히 표현할 수 있는 최소한의 공간
+- 레이아웃 작업 시 이사이즈를 통해 제약조건을 자동 생성하여 적용
+- label이나 button의 경우 내부 text를 통해 크기정보를 알 수 있서 뷰처럼 넓이나 높를 지정하지 않아도 된다.(위치값만으로 지정가능하지만, 크기 지정도 가능.)
+- 이미지뷰의 경우 이미지가 없으면 크기도 설정해야한다.
+ 하지만 이미지 뷰에 이미지 들어있으면 크기설정 안해도 가능하다.
 
+**CHCR**(Content Hugginging Content Compression Resistance)
+- Content Hugging: 더 이상 늘어나지 못하도록 최대 크기에 제한
+- Content Compression Resistance: 더 이상 줄어들지 못하도록 최소 크기 제한.
+- 각각 제약 조건은 1~1000사이의 우선 순위 갖는다.
+- 상충되는 제약조건이 적용되어 있다면 우선순위가 높은것으로 적용.
+- 여러개 설정해두고 한두개 비활성화도 가능.
 
+```swift
+//set
+ view.setContentHuggingPriority(.defaultHigh, for: .harizontal)
+ view.setContentCompressionResistancePriority(.required, for: .vertical)
+//get
+ view.contentHuggingPriority(for: .horizontal)
+ view.contentCompressionResistacePriority(for: .vertical)
+```
 
+- setNeedLayout(): 루프가 돌 때  특정시점에서 레이아웃 실행시 사용, true 면 실행, false면실행안함. (시스템이 할떄까지 기다림.)
+- layoutifNeeded() -> 레이아웃 필요 true -> layou 지금 당장 수행. (안기다리고 당장 수행.)
 
+## UIStackView
+- 행이나 열로 이루어진 뷰의 집합을 쉽게 배치할 수 있도록 제공되는 컨테이너 뷰
+- 여러개의 뷰에 대한 오토레이아웃 제약조건을 각각 다루기보다 하나의 뷰로 합쳐서 관리.
+- Axis: 가로? 세로?
 
+- addArrangeSubview: addSubview도 되있음. (단, 제거시 addSubview까지 제거되지는 않음.)
+- insertArrangedSubview: at:
+- removeArrangedSubview:
+- arrangeSubviews
 
 ## UITableView
 plain TableView
