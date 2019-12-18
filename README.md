@@ -2014,3 +2014,38 @@ extension TableViewSection: UITableViewDataSource {
    tableView.refreshControl = refreshControl
 ```
 
+## TableView
+
+- dataSource
+- UITableViewDataSource: UITableView 사용시 필수 프로토콜, 테이블 뷰에 데이터 전달.
+- UITableViewDataSourcePrefetching:
+
+**Configuring Table View**
+- TableView 만들 때 초기 호출되는 메소드들
+- initWithFrame:style: 생성자
+- Set data source and delegate: 데이터소스와 델리게이트 프로토콜 구현
+- numberOfSectionInTableView: 섹션 몇개 나타낼것인가?
+- tableView:numberOfRowsInSection:table: 색션마다 몇개의 행을 나타낼것인가?
+```swift
+func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+ 	//섹션별 row갯수(행의 개수)
+ }
+```
+- cellForRowAtIndexPath: 몇번째 섹션과 로우에 있는 셀 어떻게 그릴것인가 나타냄.
+```swift
+ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	//UITableViewCell 커스터마이징
+ }
+```
+- 델리게이트 메소드의 경우 필수는 아니지만 본격적으로 사용시 거의 필수처럼 사용하다싶이 한다.
+- 데이터소스: 데이터 제공하기위한
+- 델리게이트: 사용자의 터치등행동에 대한 처리 구현해주는 프로토콜
+
+Cell -> item 담는 컨테이너
+- 하나의 뷰
+- cotentView위에 추가적인 작업하고 싶을 때 나타낸다.
+- 기본제공: textLabel, detailTextLabel(subTitle), imageView, accessryView
+- 반복되는 셀을 매번 생성, 해제, 재할당 부담 덜기위해 사용
+	1. dequeueReusableCellWithIdentifier:forIndexPath:
+	2. dequeueReusableCellWithIdentifier:
+
