@@ -2049,3 +2049,100 @@ Cell -> item 담는 컨테이너
 	1. dequeueReusableCellWithIdentifier:forIndexPath:
 	2. dequeueReusableCellWithIdentifier:
 
+**Cell**
+- cellStyle 4가지
+	1. default
+	2. subtitle
+	3. value1
+	4. value2
+- 셀 컨텐츠 크기에 맞춰 셀크기 바꾸기
+```swift
+ tableView.rowHeight = UITableView.automaticDimension
+```
+- 셀 크기의 대략적인 사이즈 보여주고 사이즈 잡을때
+```swift
+ tableView.estimatedRowHeight = UITableView.automaticDimension
+```
+- 커스텀 셀 사용
+1. 한번 cell로 고정된 값 타입캐스팅
+```swift
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+ if indexPath.row.isMultiple(of: 2){
+	//등록시 커스텀 cell쓰기 위해서 등록, CustomView타입 하지만 반환 타입 UITableViewCell
+	cell = tableView.dequeueReusableCell(withIdentifier: "Custom", for: indexPath)
+	//또 타입캐스팅 해서 접근
+	(cell as! CustomCell).myLabel.text = "ABCD"
+ }
+ cell.textLabel?.text = "(\indexPath.row * 1000)"
+ return cell
+```
+ ->단, 한번 cell로 고정된 값 타입캐스팅 후에도 추후 값 사용시 타입캐스팅 또 해야됨.
+2. 타입 캐스팅후 값사용시 더이상 타입개스팅 안하는경우
+```swift
+ guard let cell = tableView.dequeueReusableCell(withIdentifier: "Custom", for: indexPath) as? CustomCell else { return UITableViewCell() }
+```
+```swift
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+ if indexPath.row.isMultiple(of: 2){
+	let cell = tableView.dequeueReusableCell(withIdentifier: "Custom", for: indexPath) as! CustomCell
+	cell.myLabel.text = "ASDF"
+	return cell
+ } else {
+	let cell = tableView.dequeueReusableCell(withIdentifier: "Default", for: indexPath)
+	return cell
+ }
+}
+```
+
+- CustomCell layout
+	1. 오토레이아웃
+	```swift
+	override func updateConstraints() {
+		//오토 레이아웃은 updateConstraints에서 사용
+	}
+	```
+	2. frame으로 레이아웃
+	```swift
+	override func layoutSubviews() {
+	 super.layoutSubviews()
+	 
+	 myLabel.frame = CGRect(x: frame.width - 120, y: 15, width: 100, height: -30)
+	}
+	```
+
+- 오토레이아웃의 경우 init에서 잡아도 된다. 하지만 frame의 경우 layout subView에서 잡아야한다.(오토레이아웃은 만드는 즉시 생성되는게 아니기 때문)
+- cellForRowAt: 데이터마 잡아준다. 어떤 스타일 쓸것인지 등 설정만 해줌. frame과 같은 UI잡아주 단계는 아님.
+- cell 삭제, 추가
+```swift
+ func tableView(_ tableView: UITalbeView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+	switch editingStyle {
+	 case .none: print("none")
+	 case .delete:
+		print("delete", indexPath)
+		//순서중요!! 데이터 먼저 지워줘야함!!
+		//data 지워주는 행위.
+		data.remove(at: data.firstIndex(of: data[indexPath.row])!)
+		//ui상에서 제거
+		tableView.deleteRows(at: [indexPath], with: .automatic)
+	 case .insert:
+		print("insert", indexPath)
+		data.insert((1...50).rangeElement()!, at: indexPath.row)
+		tableView.insertRows(at: [indexPath], with: .right)
+	 default: print("default")
+	}
+ }
+```
+	
+- cell UIContextAction:
+	1. 끝까지 당기면 뜨는거(delete같은거 왼,오 다기면 생기는.)
+	```swift
+	  return UISwipeActionsConfiguration(action: [addAction, deleteAction])
+	```
+	2. 당겯 뜨지 않게.
+	```swift
+	 let configuration = UISwipeActionConfiguration(action: [addAction, deleteAction])
+	configuration.performsFirstActionWithFullSwipe = false
+	return configuration
+	```
+	3. iOS 11 부터는 editActionForRowAt 사용하지 않음. 그냥 trailingSwipeActionConfigurateForAt에서 사용.
+
