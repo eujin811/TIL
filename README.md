@@ -2133,7 +2133,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
  }
 ```
 	
-- cell UIContextAction:
+- trailingSwipeActionConfigurationForRowAt: UITableViewDelegate에서 사용셀 옆에 잡아당기면 나오는 꼬다리.
 	1. 끝까지 당기면 뜨는거(delete같은거 왼,오 다기면 생기는.)
 	```swift
 	  return UISwipeActionsConfiguration(action: [addAction, deleteAction])
@@ -2145,6 +2145,12 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 	return configuration
 	```
 	3. iOS 11 부터는 editActionForRowAt 사용하지 않음. 그냥 trailingSwipeActionConfigurateForAt에서 사용.
+
+- editingStyle: cell별로 사용할 스타일들 지정함. 
+	> delete일때는 데이터 랑 테이블뷰에서 지워주는 행동들 셋팅
+	> insert에서는 데이터랑 테이블뷰에서 추가해주는 행동들 셋팅
+- editingStyleForRowAt: cell edit할때 어떤 스타일 쓸껀지 지정
+- canEditRowAt: 어떤 셀등에서 edit 허용할지
 
 ## ViewLifeCycle
 1. init
