@@ -2146,3 +2146,15 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 	```
 	3. iOS 11 부터는 editActionForRowAt 사용하지 않음. 그냥 trailingSwipeActionConfigurateForAt에서 사용.
 
+## ViewLifeCycle
+1. init
+2. loadView: 뷰를 만드는 역할로 직접 호출하면 안되는 메소드. 뷰 만드는 역
+3. viewDidLoad: 뷰가 로드되었을 때, 뷰의 컨트롤러가 메모리에 로드되고 난 후 호출. 뷰로딩 완료시 시스템에 의해 자동으로 호출된다.
+4. viewWillAppear: 뷰가 나타날것 같을 때. 뷰가 나타나기 직전. 다른뷰에서 갔다 돌아왔을때 해주고싶은것들 처리함.
+5. viewDidAppear: 뷰가 나타났을 때. 뷰가 나타났을 때 컨트롤러에게 알리는 역할. 화면에 적용될 애니메이션 그려줌. 뷰가 화면에 나타난 직후에 실행.
+6. viewWillDisappear: 뷰가 사라질것 같을 때. 뷰가 삭제되려 할 때 뷰 컨르로러에게 통지한다.
+7. viewDidDisappear: 뷰가 사라졌을 때.뷰 컨트롤러가 뷰가제거되었음 알리
+8. viewDidUnload: 
+
+
+
