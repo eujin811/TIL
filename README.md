@@ -2163,4 +2163,156 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 8. viewDidUnload: 
 
 
+## NavigationController
+- stack 형태로 쌓인다.
+- navigationBar
+- 스토리보드 객체 가져오는 방법
+	1. 화살표가 연결되어 있는 viewController
+	```swift
+	 let initailVC = storyboard.instantiateViewController()
+	``` 
+	
+	2.  
+	```swift
+	 let secondVC = storyboard.instantiateViewController(identifier: "SecondViewController") as! SecondViewController
+	 show(secondVC, sender: nil)
+	```
+	```swift
+	 let secondVC = storyboard.instantiateViewController(withIdentifier: "SecondViewController") as! SecondViewController
 
+	 navigationController?.pushViewController(secondVC, animated: true)
+	```
+- 코드로 짤때.
+  ```swift
+	let secondVC = SecondViewController()
+	//present 아니어도 화면 이동 가능
+	show(secondVC, sender: nil)
+  ```
+- 이전 화면으로 이동.
+  ```swift
+	navigationController?.popViwController(animated: true)
+  ```
+  ```swift
+	navigationController?.popToRootViewController(animated: true)
+  ```
+
+- 코드로 NavigationController 구현
+  ```swift
+  //SeneDelegate
+	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+	   guard let windowScene = (scene as? UIWindowScene) else { return }
+
+	   let window = UIWindow(windowScene: windowScene)
+
+	   let vc = ViewController()
+	   let navigationController = UINavigationController(rootViewController: vc)
+	   window.rootViewController = navigationController
+	   window.backgroundColor = .systemPink
+	   window.makeKeyAndVisible()
+	   self.window = window
+  }
+  ```
+- 네비게이션 바 title설
+  ```swift
+  //SeneDelegate
+	title = "FirstVC"
+  ```
+  ```swift
+  //SeneDelegate
+	navigationBar.title = "FirstVC"
+  ```
+- 뒤로가기 버튼 1개
+ ```swift
+	override func viewDidLoad() {
+	  super.viewDidLoad()
+	  
+	  //navigationBar Title 설정
+	  navigationController?.navigationBar.prefersLargeTitle = true
+
+	  title = "FirstVC"
+	  view.backgroundColor = .yellow
+	  let barButtonItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(pushViewController(_:)))
+	
+	  navigationItem.rightBarButtonItem = barButtonItem
+	}
+ ```
+- 뒤로가기 버튼 2개
+  ```swift
+	override func viewDidLoad() {
+	  super.viewDidLoad()
+	
+	 //navigationBar Title 설정
+	   navigationController?.navigationBar.prefersLargeTitles = true
+	   title = "FirstVC"
+	   view.backgroundColor = .yellow
+
+	   let barButtoItem = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(pushViewController(_:)))
+
+	   let barButtonItem2 = UIBarButtonItem(title: "Next2", style: .plain, target: self, action: #selector(pushViewController(_:))
+	   navigationItem.rightButtonItems = [barButtonItem, barButtonItem2]
+
+	}
+  ```
+
+## TabBarController
+- 하나 이상의 버튼을 이용해 서로 다른 작업이나 뷰 모델 등 선택해 제어하기 위한 바
+- UITabBarController 와 결합해 많이 사용
+- 앱의 모드를 변환하기 위한 목적
+- TapBar에는 최대 5개의 TabBarItem 표현가능 5개 초과시 More아이템으로 대체 (5개 넘길떄 사용하는 경우 거의 없음)
+- 최초에 item을 한번이라도 눌러야 view가 load됨.
+- item당 하나의 view 갖는다. item을 눌러야 view 나타남.
+- 처음에는 눌리지 않은 view는 로드가 안되지만 한번 눌렸으면 계속 로드되어있음.
+- 예시
+```swift
+//SceneDelegate
+//코드로 TabBar
+  func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+	guard let windowScene = (scene as? UIWindowScene) else { return }
+
+	let firstVC = ViewController()
+	let secondVC = SecondViewController()
+	let thirdVC = THirdViewController()
+
+	firstVC.tabBarItem = UITabBarItem(title: "First", image: UIImage(systemName: "person.circle"),tag: 0)
+	secondVC.tabBarItem = UITabBarItem(title: "Second", image: UIImage(systemName: "folder.fill"), tag: 1)
+	thirdVC.tgabBarItem = UITabBarItem(title: "Third", image: UIImage(systemName: "paperplane"), tag: 2)
+	
+	let tabBarController = UITabBarController()
+	tabBarController.viewControllers = [firstVC, secondVc, thirdVC]
+	let window = UIWindow(windowScene: windowScene)
+	window.rootViewController = tabBarController
+	window.backgroundColor = .systemBackground
+	window.makeKeyAndVisible()
+	self.window = window
+  }
+```
+- tabBar + Navigation
+```swift
+// SceneDelegate
+//wiiConnectTo 
+
+ guard let windowScene = (scene as? UIWindowScene) else { return }
+ 
+ let firstVC = ViewController()
+ let secondVC = SecondViewController()
+ let thirdVC = ThirdViewController()
+
+ //navigationController
+ let naviController = UINavigationController(rootView: firstVC)
+ firstVC.title = "FirstVC"
+
+ //firstVC 대신 naviController 사용
+ naviController.tabBarItem = UITabBarItem(title: "First", image: UIImage(systemName: "person.circle"), tag: 0)
+ secondVC.tabBarItem = UITabBarItem(title: "Second", image: UIImage(systemName: "folder.fill"), tag: 1)
+ thirdVC.tabBarItem = UITabBarItem(title: "Third", image: UIImage(systemName: "paperplane"), tag: 2)
+
+ let tabBarController = UITabBarController()
+ tabBarController.viewControllers = [naviController, secondVC, thirdVC]
+
+ let window = UIWindow(windowScene: windowScene)
+ window.rootViewController = tabBarController
+ window.backgroundColor = .systemBackground
+ window.makeKeyAndVisible()
+ self.window = window
+ }
+```
