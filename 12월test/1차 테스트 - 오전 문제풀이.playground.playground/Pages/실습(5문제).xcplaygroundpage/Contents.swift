@@ -98,7 +98,7 @@ func printUniqueValues(from arr: [String]) -> [String] {
   var recordArr: [String] = []
   var result: [String] = []
   
-  for str in strArr {
+  for str in arr {
     if !result.contains(str) && !recordArr.contains(str) {
       result.append(str)
     } else if let index = result.firstIndex(of: str) {

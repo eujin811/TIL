@@ -2319,3 +2319,5 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 - 코드에서 적용한것 storyboard에서 보고싶을때.
 @IBDesignable           //customView에서 수정한 것들 스토리보드 상에서 적용되어 보여진다.
+@IBInspectable:
+
