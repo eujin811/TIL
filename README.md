@@ -2333,3 +2333,161 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 - defer 블록을 읽기 전에 함수의 실행이 종료될 경우 defer블록은 실행되지 않는다.
 - 하나의 함수나 메소드 내에서 defer블록을 여러번 사용시 가장 마지막에 작성된 defer블록 부터 역순으로 실행된다.
 - 중첩 사용가능, 가장 바깥쪽 부터 안쪽으로 들어가며 실행.
+
+
+## 일급 객체로서의 함수
+- 일급 함수의 특성
+	1. 객체가 런타임에도 생성이 가능하다.
+	2. 인자값으로 객체를 전달할 수 있어야 한다. (함수의 인자값으로 함수를 사용할 수 있음.)
+	3. 반환값으로 객체를 사용할 수 있어야 한다. (함수의 반환 타입으로 사용할 수 있음.)
+	4. 변수나 데이터 구조 안에 저장할 수 있어야 한다.
+	5. 할당에 사용된 이름과 관계없이 고유한 구별이 가능해야 한다.
+
+함수의 인자값으로 함수 사용 가능(일급함수)
+- 다른 함수의 인자값으로 함수를 전달 할 수 있다.
+1. 브로커: 함수의 정의 구문만으로 어떤 연산이 실행될지 짐작이 어렵다. 실질적 연산은 인자값으로 받는 함수에 달려 있음
+	> 함수를 인자로 사용시 실행 전까지 어떤 구문이 수행될지 컴파일러가 미리 알 수 없다.
+	> 동적으로 정의되는 함수를 만들 수 잇다. (매직코드 작성 가능!!)
+```swift
+ func incr(param: Int) -> Int {
+	return param + 1
+ } 
+ 
+ func broker(base: Int, function fn: (Int) -> Int) -> Int {
+	return fn(base)
+ }
+
+ broker(base: 5, function: incr)
+```
+2. callback함수
+	> 함수가 성공, 또는 실패시 처리 과정을 외부에서 제어 가능
+	> 함수의 내부 코드를 수정하지 않고도 외부에서 함수 내부의 실행 과정에 간섭 가능
+	
+```swift
+func successThrough() {
+	print("연산 처리가 성공했습니다.")
+ }
+
+func failThrought() {
+	print("처리 과정중 오류 발생!")
+ }
+
+func divide(base: Int, success sCallBack: () -> Void, fail fCallBack: () -> Void) -> Int {
+	guard base != 0 else {
+	  fCallBack()
+	  return 0
+	}
+	defer {		//메소드에서 코드의 흐름과 상관 없이 가장 마지막에 실행되는 블록
+	 sCallBack()	//성공 함수 실행
+	}
+	return 100 / base
+  }
+	
+ divide(base: 30, success: successThrough, fail: failThrought)
+```
+- 값을 변환하는 return 구문과 성공함수를 실행하는 과정 사이에 발생하는 미묘한 타이밍 차이를 해결하기 위해 defer구문 사용.
+- 함수 외부에서 함수 내부에 실행 구문 추가 가능시 함수의 재활용이 가능하다.
+
+함수의 반환 타입으로 사용할 수 있음. (일급함수)
+1.
+```swift
+func desc() -> String {
+	return "desc() 함수 실행"
+ }
+
+func pass() -> () -> String {
+	return desc
+ }
+
+ let p = pass()
+ p()
+
+```
+
+2.
+```swift
+ func plus(a: Int, b: Int) -> Int {
+	return a + b
+ }
+ 
+ func minus(a: Int, b: Int) -> Int {
+	return a - b
+ }
+
+ func divide(a: Int, b:  Int) -> Int {
+	guard b != 0 else { return 0 }
+	return a / b
+ }
+ 
+ func calc(_ operand: String) -> (Int, Int) -> Int {
+   switch operand {
+	case "+"
+	   return plus(a:b:)
+	case "-"
+	   return minus(a:b:)
+	case "/":
+	   return divide(a:b:)
+	default:
+	   return plus(a:b:)
+	}
+ }
+  let c = calc("+")
+  c(3,4)
+
+  calc("-")(4,5)
+```
+
+
+함수를 변수나 데이터 구조 안에 저장할 수 있어야 한다. (일급함수)
+- 결과 값을 대입하는 것이 아닌 함수 자체를 대입하는 것.
+- 함수 자체를 변수에 할당하면서, 변수도 함수처럼 인자 값 받아 실행 가능, 값 반환 가능
+- 함수의 호출 형식이 확장됨을 의미
+ ```swift
+ let fn2 = foo
+ fn2(5)
+ ```
+
+```swift
+func boo(age: Int, nameL String) -> String {
+	return "\(name)의 나이는 \(age)세 입니다."
+ }
+
+let s: (Int, String) -> String = boo
+let ss: (Int, String) -> String = boo(age:name:)	//정확한 함수 식별자
+```
+- 인자 레이블까지 포함된 전체 이름을 함수의 식별자라고 한다.
+- 단, boo 만으로도 함수 대입이 가ㅣ능한 이유는 매개변수를 제외한 함수의 이름이 boo인 모든 함수를 대변해서 이다. 때문에 이런식의 사용은 조금 더 범용적으로 사용 가능하지만 이로인해 문제를 일으킬 수 있다.
+1.
+```swift
+func type1(age: Int) -> String {
+	return "\(age)"
+ }
+
+func type1(age: Int, name: String) -> String {
+	return "\(name)의 나이는\(age)입니다."
+ }
+
+//  let t = type1 //X
+
+let t1:(Int, String) -> String = type1  // o
+let t2 = boo(age:name:)			// o
+
+```
+2.
+```swift
+func foo(age: Int, name: String) -> String {
+	return "\(name)의 나이는 \(age)세 입니다."
+ }
+
+func foo(height: Int, nick: String) -> String {
+	return "\(nick)의 키는  \(height)입니다."
+ }
+
+// let fn: (Int, String) -> String = foo	//컴파일 오류 발생
+let fn01: (Int, String) -> String foo(age:name:)
+let fn02 = foo(height:nick:)
+
+```
+- 오버로딩 함수 존재 때문에 함수의 식별자를 이용하는 것이 좋다.
+- 함수의 식별자 사용시 어노테이션 하지 않고 사용해도 된다.
+- 함수를 변수나 상수에 대입하는 과정에서는 함수가 실행되지 않음. 함수 할당된 객체 호출시 함수 실행
