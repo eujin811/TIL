@@ -2491,3 +2491,159 @@ let fn02 = foo(height:nick:)
 - 오버로딩 함수 존재 때문에 함수의 식별자를 이용하는 것이 좋다.
 - 함수의 식별자 사용시 어노테이션 하지 않고 사용해도 된다.
 - 함수를 변수나 상수에 대입하는 과정에서는 함수가 실행되지 않음. 함수 할당된 객체 호출시 함수 실행
+
+## Highter - order Function(고차함수)
+- 하나 이상의 함수를 인자로 취하는 함수
+- 함수를 결과로 반환하는 함수
+- 고차함수가 되기 위해서는 함수가 First - class Citizen(1급 객체)이어야 한다.
+- 변수명이 없어도 되는 장점!!!!!!!
+- 종류
+1. forEach 
+	-  컬렉션의 각 요소에 동일 연산 적용함. 
+	- 반환값 x
+	- forEach는 for문과 다르게 리턴이 되더라도 계속 실행된다.
+	- 함수를 반복해서 실행 시키는 것. (forEach는 함수 for문은 반복문)
+2. Map
+	-  컬렉션의 각 요소에 동일 연산을 적용하여, 변형된 새 컬렉션 반환, 
+	- 컬렉션 타입 반환
+	- 연산 적용
+3. filter
+	-  컬렉션의 각 요소를 평가하여 조건을 만족하는 요소만을 새로운 컬렉션으로 반환	
+	- 컬렉션 타입 반환
+	- 조건을 만족하는 요소만 골라서 반환
+4. reduce
+	- 컬렉션의 각 요소들을 결합하여 단 하나의 타입을 지닌 값으로 반환
+	- Int, String 타입 반환
+	
+	```swift
+	(1...100).reduce(initialResult: Result, nextPartialResult: (Result, Int) throws -> Result)
+	```
+	- Result Type : 결과로 얻고자 하는 값의 타입	
+	- initialResult : 초기값
+	- nextPartialResult : (이전 요소까지의 결과 값, 컬렉션이 지닌 현재 요소
+)
+5. compactMap
+	- 컬렉션의 각 요소에 동일 연산을 적용하여 변형된 새 컬렉션 반환
+	- 컬렉션 타입 반환
+	- map과 비슷하지만 값이 옵셔널이 제거된 상태
+6. flatMap
+	- 중첩된 컬렉션을 하나의 컬렉션으로 병합
+	- 컬렉션 타입 반환
+	- 다중 배열은 바깥부터 풀린다.
+
+
+forEach
+```swift
+let immutableArray = [1,2,3,4]
+
+// 1
+immutableArray.forEach { num in
+  print(num, terminator: " "
+ }
+print()
+
+// 2
+immutableArray.forEach {
+  print($0, terminator: " "
+ }
+
+// 3
+func printParam(_ num: Int) {
+  print(num, terminator: " ")
+ }
+
+immutableArray.forEach(printParam(_:))
+print()
+
+
+```
+
+map
+```swift
+let names = ["Chris", "Alex", "Bob", "Barry"]
+names.map{ $0 + "'s name"}.forEach { print($0) }
+
+// Chir's name
+// Alex's name
+// Bob's name
+// Barry's name
+
+```
+
+filter
+```swift
+// 모든값 출력
+names.filter { _ in true }
+
+// 어떠한 값도 출력되지 않는다.
+names.filter { _ in false } 
+```
+1. filter로 특정 문자 찾기
+```swift
+let names = ["Chris", "Alex", "Bob", "Barry"]
+
+names.filter { $0.contains("B")}
+print(names.filter {$0.contains("B")})
+
+```
+2. filter로 특정 단어 찾기
+```swift
+var names2 = ["Alex", "Alex", "Alex"]
+let countAlexNames2 = names2.filter{ $0 == "Alex"}.count
+print(countAlexNames2)		//3
+```
+
+reduce
+```swift
+(1...100).reduce(initialResult: Result, nextPartialResult: (Result, Int) throws -> Result)
+```
+1. reduce 1부터 100까지의 합
+```swift
+let sum1to100 = (1...100).reduce(0) { (sum: Int, next: Int) in
+ return sum + next
+ }
+
+print(sum1to100)
+// 0+1 = 1
+// 1+2 = 3
+// 3+3 = 6
+// 6+5 = 10 
+
+```
+```swift
+// 2
+print((1...100).reduce(0) { $0 + $1})
+
+// 3
+print((1...100).reduce(0,+))
+```
+2. reduce 배열 더하기
+```swift
+["123,"456"].reduce(100) {
+ $0 + Int($1)!		// 100 + 123, 223 + 456 = 679
+ }
+```
+
+compactMap
+```swift
+let numbers = [-2, -1, 0, 1, 2]
+let positivieNumbers = numbers.compactMap { $0 >= 0 ? $0:nil }
+print(positiveNumbers)
+// flatMap -> [0,1,2]
+// map -> [nil, nil, Optional(0), Optional(1), Optional(2)]
+```
+
+flatMap
+```swift
+let nestedArr2: [[[Int]]] = [[[1,2],[3,4],[5,6]],[[7,8],[9,10]]]
+let flattenNumbers1 = nestedArr2.flatMap { $0 }
+print(flattenNumbers1)
+// [[1,2],[3,4],[5,6],[7,8],[9,10]]
+
+
+let flattenNumbers2 = flattenNumbers1.flatMap { $0 }
+print(flattenNumbers)
+//[1,2,3,4,5,6,7,8,9,10]
+```
+
+
