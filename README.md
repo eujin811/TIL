@@ -2513,10 +2513,12 @@ let fn02 = foo(height:nick:)
 	- 컬렉션 타입 반환
 	- 조건을 만족하는 요소만 골라서 반환
 	- 처리한거 새로 추출
+	- 추출의 느낌
 4. reduce
 	- 컬렉션의 각 요소들을 결합하여 단 하나의 타입을 지닌 값으로 반환
 	- Int, String 타입 반환
 	- 처리해서 하나의 값으로 만들어냄.
+	- 조합
 	```swift
 	(1...100).reduce(initialResult: Result, nextPartialResult: (Result, Int) throws -> Result)
 	```
@@ -2528,11 +2530,12 @@ let fn02 = foo(height:nick:)
 	- 컬렉션의 각 요소에 동일 연산을 적용하여 변형된 새 컬렉션 반환
 	- 컬렉션 타입 반환
 	- map과 비슷하지만 값이 옵셔널이 제거된 상태
+	- 배열등에서 무언가 없애고 싶을 때
 6. flatMap
 	- 중첩된 컬렉션을 하나의 컬렉션으로 병합
 	- 컬렉션 타입 반환
 	- 다중 배열은 바깥부터 풀린다.
-
+	- 컬렉션 병합, 컬렉션 병합하면서 추가 등등
 
 forEach
 ```swift
