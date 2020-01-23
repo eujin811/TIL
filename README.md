@@ -2507,14 +2507,16 @@ let fn02 = foo(height:nick:)
 	-  컬렉션의 각 요소에 동일 연산을 적용하여, 변형된 새 컬렉션 반환, 
 	- 컬렉션 타입 반환
 	- 연산 적용
+	- 연산한거 새로 추출
 3. filter
 	-  컬렉션의 각 요소를 평가하여 조건을 만족하는 요소만을 새로운 컬렉션으로 반환	
 	- 컬렉션 타입 반환
 	- 조건을 만족하는 요소만 골라서 반환
+	- 처리한거 새로 추출
 4. reduce
 	- 컬렉션의 각 요소들을 결합하여 단 하나의 타입을 지닌 값으로 반환
 	- Int, String 타입 반환
-	
+	- 처리해서 하나의 값으로 만들어냄.
 	```swift
 	(1...100).reduce(initialResult: Result, nextPartialResult: (Result, Int) throws -> Result)
 	```
