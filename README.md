@@ -2650,5 +2650,56 @@ let flattenNumbers2 = flattenNumbers1.flatMap { $0 }
 print(flattenNumbers)
 //[1,2,3,4,5,6,7,8,9,10]
 ```
+## UIColleciontView
+- 정렬된 자료들을 사용자가 원하는 형식에 맞게 유연하게 표현할 수 있는 객체
+- 세로, 가로 가능
+- collectionView layout: 뷰 어떻게 다루는가, 레이아웃에 대한 것
+- Delegate, Data source: item관련
+- Cell, supplementary view (헤더, 푸터), Decoration views
+- Supplementary
+	- 높이 0이면 생성 안됨
+- Decoration views
+	- 컬렉션 뷰의 배경을 꾸미는데 사용
+	- 선택사항
+	- layout.scrollDirection = .horizontal
+- 세로 방향: 왼쪽부터 오른쪽으로 채워짐
+- 가로 방향: 위에서부터 아래로 채워진 후 오른쪽으로 채워짐.
+- FlowLayout -> vertical / horizontal
+- Cell spacing
+	- cell과 cell 사이의 영역
+- Line Spacing
+	- 스크롤 되는 방향의 줄 사이 간격.
+	- minimumLineSpacing : 최소 line사이 간격
+	- actualLineSpacing: 각각 달라질 수 있음.
+- itemSize: 셀의 아이템 사이즈 조절
+- sectionInset: 섹션안의 여백 얼마나 줄것인가?
+- Header / Footer Size
+	- 기본값 0
+	- 스크롤 방향으로 높이가 0 초과 되야 한다.
+	- 0 초과 시 무조건 구현해야 작동된다.
+- SelectedBackgroundView: tab 눌렀을 때 나타나는 뷰.
+- 스토리 보드 사용시 dataSource를 스토리보드에서 미리 연결해 두어야 한다.
+
+- UICollectionViewDataSource
+	- numberOfItemInSection : section 당 item 몇개?
+	- cellForItemAt : 각 item에 대한 것들.
+- UICollectionViewDelegateFlowLayout
+collectionView -> willDisplay cell
+	- 셀이 추가되기 전에 호출
+	- 셀 자체의 출현 시기를 관찰 가능
+	- 셀추가 탐지
+collectionView sizeForItemAt
+	- item의 크기 속성 값을 이용해 크기 조절
+	- 셀의 내용에 따라 크기를 동적으로 조절 가능.
 
 
+caeIterable : enum의 타입을 배열 타입으로 모두 가져옴.
+```swift
+enum Location: String, CaseIterable {
+ ...
+}
+```
+
+view.frame.offsetBy(dx: 0, dy: 250) : view의 frame을 y의 250만큼 내린거 돌려줌.
+
+.init(hue: 채도, saturation: 채도, brghtness: 명도, alpha: 투명도)
