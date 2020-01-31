@@ -2701,5 +2701,86 @@ enum Location: String, CaseIterable {
 ```
 
 view.frame.offsetBy(dx: 0, dy: 250) : view의 frame을 y의 250만큼 내린거 돌려줌.
+ 
 
 .init(hue: 채도, saturation: 채도, brghtness: 명도, alpha: 투명도)
+
+
+## Error
+- **단순 도메인 오류** (Simple Domain Error)
+	- 명백하게 실패하도록 되어 있는 연산 또는 추측에 의한 실행 등으로 발생
+	- 오류에 대한 자세한 설명이 필요하지 않으며 대개 쉽게 또 즉시 에러를 처리할 수 있음.
+	- ex) int 형이 아닌 String형 에서 int 파싱. 빈배열에서 어떤 요소를 꺼내는 동작
+
+- **복구 가능한 오류** (Recoverable)
+	- 복잡한 연산을 수행하는 도중 실패가 발생할 수 있지만 사전에 미리 오류를 합리적을 예측할 수 있는 작업(파일을 읽고 쓰는 작업, 네트워크 연결을 통해 데이터 읽기 등)
+	- iOS에서는 NSError 또는 Error를 이용해 처리
+	- 일반적으로 이런 오류의 무시는 좋지 않으며 위험할 수도 있으므로 오류를 처리하는 코드 작성 권장
+	- 오류 내용을 유저에게 알려주거나, 다시 해당 오류를 처리하는 코드를 수행하여 처리하는 것이 일반적
+
+- **범용적, 보편적 오류**(Universal Error)
+	- 시스템이나 어떤 다른 요인에 의한 오류
+	- 이론적으로 복구가 가능하지만, 어느 지점에서 오류가 발생하는 지 예상하기 어려움
+
+- Logic Failure
+	- Logic 에 대한 오류는 프로그래머의 실수로 발생하는 것으로 프로그램적으로 컨트롤할 수 없는 오류에 해당
+	- 시스템에서 메시지를 남기고 abort()를 호출하거나 Exception 발생
+
+
+**throws**
+- 오류 가능성 내
+- throws function > non throws function
+	- throws function은 non thorws function 포함가능
+	- Non throws function은 throws function 불포함
+
+**DO - catch**
+
+```swift
+ do {
+   try {}
+ } catch pattern1 {
+	...
+ } catch pattern2 {
+	...
+}
+```
+
+try?
+- do ~ catch 구문 없이 오류 처리 가능
+- 정상 수행 시 Optional 값 반환, 오류 발생 시 nil 반환
+
+try!
+- do ~ catch 구문 없이 throws 메서드 처리 가능하지만 오류 발생 시 앱 Crash
+- 절대 실패하지 않는다는 확신 있을 경우에만 try! 사용
+- 예시
+	- 앱 번들에 함께 제공되는 이미지 로드 등
+
+defer
+- 현재 코드 블럭이 종료되기 직전에 반드시 실행되어야 하는 코드 등록
+- 해당 범위가 종료될 때 까지 실행을 연기하며 소스 코드에 기록된 순서의 역순으로 동작
+- 중복 시 나중에 등록된 것이 먼저 실행된다.
+- 중복 시 아래서 부터 위로
+
+Error protocol
+- public protocol Error {}
+- NSError
+```swift
+open class NSError: NSObject, NSCopying, NSSecureCoding { }
+```
+```swift
+Extension NSError: Error { }
+```
+
+NSError
+- NSError() - 기본 생성자 (x), Domain cannot be nil
+```swift
+NSError(domain: String, code: Int, userInfo: [String: Any]?)
+```
+
+NSLocalizedString
+- 여러 나라에서 배포할 때.
+- 대표적 문장이나 단어 적어두면 별도의 파일을 두고 특정 문자나 문장 변환 수행
+
+Result
+- Swift 5.0 에서 추가
+
