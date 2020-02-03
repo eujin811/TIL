@@ -2791,7 +2791,7 @@ Result
 O(1) < O(log n) < O(n) < O(n log n) < O(n^3) < nO(1) < 2O(n)
 	- log 기본값 10 (log 10 = 1)
 
-Linked List
+Linked List (=Linear list)
 - 배열처럼 미리 특정 공간을 확보하고 쓰는 것이 아닌 필요할때 마다 추가해서 쓰기 때문에 연속되었다고 보장
 - single Linked List
 	- 하나의 포인터 멤버로 다른 노드 데이터 가르키는 것
