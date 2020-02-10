@@ -2970,3 +2970,30 @@ while device.isGeneratingDeviceOrientationNotifications {
    }
  }
 ```
+
+## Battery
+```swift
+public enum UIDeviceBatteryState: Int {
+   case unknown		//모를 때
+   case unplugged	//충전 중 아닐 때
+   case charging	//충전 중 일 때
+   case full		//꽉 차있을 때
+ }
+```
+- 배터리 모니터링
+ (기기 확인하는 작읍들은 추가 작업이 필요해서 배터리나 cpu소모가 많아진다. 필요할 때ㅐ 만 사용해야 한다.)
+```swift
+ isBatteryMonitoringEnabled
+```
+
+```swift
+sender.isSelected.toggle()
+device.isBatteryMonitoringEnabled.toggle()
+
+if device.isBatteryMonitoringEnabled {
+   notiCenter.addObserver(self, selector: #selector(didChangeBatteryState(_:)), name: UIDevice.batteryStateDidChangeNotification, object: nil)
+ } else {
+   notiCenter.removeObserver(self, name:UIDevice.batteryStateDidChangeNotification, object: nil)
+ }
+```
+
