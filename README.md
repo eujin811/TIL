@@ -2885,3 +2885,88 @@ inout
  somFunction(input: &somArr) 
  print(somArr)
 ```
+
+## #if, #else 
+- 개발 시 디버깅 목적의 환경변수, 어떤 환경일 떄
+```swift
+#if DEBUG	..
+  // 시뮬레이터에서 실행하는 것, 개발단계에서 하는 것.
+  print("")
+#else
+  //
+#endif
+```
+
+## Proximity State
+- 디바이스를 이용한 근접 센서 (노티부분, 전화받을 때)
+```swift
+ @IBAction private func praximityMonitoring(_ sender: UIButton) {
+    print("------------ [Proximity Sensor] ----------")
+    // 근접 센서, 전화받을 때 등.
+    sender.isSelected.toggle()
+    print("ProximityMonitoring", device.isProximityMonitoringEnabled)
+
+   if device.isProximityMonitoringEnabled {
+	notiCenter.addObserver(
+	  self,
+	  selector: #selector(didChangeProximityState(_:)),
+	  name: UIDevice.proximityStateDidChangeNotification,
+	  object: nil
+	)
+   }
+ }
+
+ @objc func didChangeProximityState(_ noti: Notification) {
+   print(UIDevice.current.proximityState)
+   label.text = "\(UIDevice.current.proximityState)"
+ }
+
+```
+## 화면 전환
+
+- 화면전환 막음
+```swift
+  device.endGeneratingDeviceOrientationNotification()
+  notiCenter.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+  label.text = "\(device.isGeneratingDeviceOrientationNotifications)"
+```
+
+- 화면 방향전환 막은거 풀음
+   (count의 중첩형태 3번 실행시 count 3쌓임. (true, false 아님))
+```swift
+  device.beginGeneratingDeviceOrientationNotifications()
+```
+```swift
+while device.isGeneratingDeviceOrientationNotifications {
+    print("isGeneratingDeviceOrinationNoti: ", device.isGeneratingDeviceOrientationNotifications)
+ }
+```
+
+## 키보드 상태
+- 키보드 나타날 때 없어질 때
+```swift
+ NotificationCenter.default.addObserver(self, seletor: #selector(keyboardWillShowNitification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+@objc func keyboardWillShowNitification(_ noti: Notification) {
+  guard let userInfo = noti.userInfo,
+    let frame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+    let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval
+    else { return }
+
+  UIView.animate(withDuration: duration, animations: {
+	// Content
+  })
+}
+```
+```swift
+ @objc func keyboardWillShowNitification(_ noti: Notification) {
+   guard let userInfo = noti.userInfo,
+     let frame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+     let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval
+     else { return }
+
+   if frame.origin.y >= UIScreen.main.bounds.height {
+     // keyboard의 y 높이가 스크린보다 크거나 같으면 내려와 있는 상태
+   }
+ }
+```
