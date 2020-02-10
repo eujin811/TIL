@@ -2930,7 +2930,40 @@ print(device.isGeneratingDeviceOrientationNotifications)
 label.text = "\(device.isGEneratingDeviceOrientationNotification)"
 
 Notification.defer.addObserver(self, selector: #selector(orientationDidChange(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
+
+@objc func orientationDidChange(_ noti: Notification) {
+  if let device = noti.object as? UIDevice {
+	print("Device Orientation", device.orientation) //기기가 움직이는 방향
+  }
+ }
 ```
+- 화면전환 iOS 13버전과 그이하 나눌때 (씬델리게이트 있고 없고)
+```swift
+if #available(iOS 13, *) {  
+    let scene = UIApplication.shared.connectedScene.first
+    let orientation = (scene as! UIWindowScene).interfaceOrientation
+    print("InterfaceOrientation Orientation: ", orientation)	//컨텐츠가 표시되는 방
+	//orientation.isLandscape
+	//orientation.isLandscape
+ } else { // 씬델리게이트 없을 때
+    let orientation = UIApplication.shared.statusBarOrientation
+    print("StatusBar orientation :", orientation)
+    print(orientation.isPortrait)	//세로 모드인가?
+    print(orientation.isLandscape)	//가로 모드인가??
+ }
+```
+
+- Device Orientation -> 기기가 움직이는 방향
+- Interface Orientation -> 컨텐츠가 표시되는 방향
+- StatusBar Orientation ->
+
+Device Orientation: portrait, InterfaceOrientation: portrait, StatusBar Orientation: portrait
+Device Orientation: landscapeRight, InterfaceOrientation: landscapeLeft, StatusBar Orientation: landscapeLeft
+Device Orientation: landscapeLeft, InterfaceOrientation: landscapeRight, StatusBar Orientation: landscapeRight
+Device Orientation: Upside Down, InterfaceOrientation: prtrait , StatusBar Orientation: Upside Down
+
+- Device Orientation <- Device Info에서 끄거나 킬수 있음 가로모드 세로모드 고정
+- Upside Down의 경우 노치가 없는 기기에서만 지원한다.
 
 - 화면 방향전환 막은거 풀음
    (count의 중첩형태 3번 실행시 count 3쌓임. (true, false 아님))
