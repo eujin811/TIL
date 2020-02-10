@@ -2924,22 +2924,29 @@ inout
 ```
 ## 화면 전환
 
-- 화면전환 막음
+- 화면전환
 ```swift
-  device.endGeneratingDeviceOrientationNotification()
-  notiCenter.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
-  label.text = "\(device.isGeneratingDeviceOrientationNotifications)"
+print(device.isGeneratingDeviceOrientationNotifications)
+label.text = "\(device.isGEneratingDeviceOrientationNotification)"
+
+Notification.defer.addObserver(self, selector: #selector(orientationDidChange(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
 ```
 
 - 화면 방향전환 막은거 풀음
    (count의 중첩형태 3번 실행시 count 3쌓임. (true, false 아님))
 ```swift
+// 방향전환 막은거 풀음
   device.beginGeneratingDeviceOrientationNotifications()
 ```
+- 화면 방향전환 막고 싶을 때.
+   
 ```swift
-while device.isGeneratingDeviceOrientationNotifications {
+while device.isGeneratingDeviceOrientationNotifications {  //count의 중첩 막기위해
+    device.endGeneratingDeviceOrientationNotifications()
     print("isGeneratingDeviceOrinationNoti: ", device.isGeneratingDeviceOrientationNotifications)
  }
+notiCenter.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+label.text = "\(device.isGeneratingDeviceOrientationNotifications)"
 ```
 
 ## 키보드 상태
