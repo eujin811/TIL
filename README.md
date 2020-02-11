@@ -2897,7 +2897,15 @@ inout
 #endif
 ```
 
-## Proximity State
+## UIDevice
+- 디바이스 이름/ 모델 / 화면 방향
+- OS 이름 / 버전
+- 인터페이스 형식(phone, pad, tv등)
+- 배터리 정보
+- 근접 센서 정보
+- 멀티태스킹 지원 여부
+
+Proximity State
 - 디바이스를 이용한 근접 센서 (노티부분, 전화받을 때)
 ```swift
  @IBAction private func praximityMonitoring(_ sender: UIButton) {
@@ -2922,8 +2930,8 @@ inout
  }
 
 ```
-## 화면 전환
 
+화면 전환
 - 화면전환
 ```swift
 print(device.isGeneratingDeviceOrientationNotifications)
@@ -2982,7 +2990,8 @@ notiCenter.removeObserver(self, name: UIDevice.orientationDidChangeNotification,
 label.text = "\(device.isGeneratingDeviceOrientationNotifications)"
 ```
 
-## 키보드 상태
+## Notification 
+키보드 상태
 - 키보드 나타날 때 없어질 때
 ```swift
  NotificationCenter.default.addObserver(self, seletor: #selector(keyboardWillShowNitification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -3036,4 +3045,176 @@ if device.isBatteryMonitoringEnabled {
    notiCenter.removeObserver(self, name:UIDevice.batteryStateDidChangeNotification, object: nil)
  }
 ```
+
+## Network
+
+- **URI** (Uniform Resource Identifier)
+	- URL과 URN을 포괄
+	- ASCII charcter set
+	- 인터넷의 자원을 유일하게 식별하기 위한 통합 자원 식별자
+	- 절대적 경로와 상대적 경로를 모두 포함하는 URL과 URN의 SuperSet
+
+- **URL** (Uniform Resource Locator)
+	- 주민등록상의 주소와 같은 역할 (이사가면 같은주소에 다른 사람 들어오듯)
+	- 어떤 자원의 위치에 대한 절대경로 값을 지닌 문자열
+	- 특정 주소 또는 파일 리소스에 접근하기 위한 주소값으로 흔히 HTTP로 시작하는 웹주소로 인식하는 경우
+	- 컴퓨터 네트워크상의 자원을 모두 나타낼 수 잇음
+	- **Https**: 포트번호 443
+	- **tfp**: 포트번호 21
+
+- **URN** (Uniform Resource Name)
+	- 주민등록증의 주민등록번호 같은 역할 (같은 등록번호에 다른 컨텐츠 들어올 수 없음)
+	- 위치에 독립적이고 지속되는 자원을 가르키기 위한 유일한 식별자
+	- 기술규격, 표준
+	- IETF에서 표준 규격을 업데이트
+	- **국제 표준 도서번호**: Urn:isbn: ~~~~	
+	- **RFC 문서번호**: Urn:itf:rfc:~~~
+	- **UUID** : Urn:uuid:~~~
+- **IRI** (International Resouce Identifier)
+	- Fully Supports international characters (mostly UTF-8)
+	- IRI > URI
+	- URI의 상위 개념으로 확장된 개념
+	- URI에서 사용할 수 없는 문자를 이용해 비슷해 보이는 문자를 이용한 악의적인 공격 있을 수 있음
+
+
+**Byte Ordering**
+- 시스템이 내부적으로 데이터를 저장하고 표현하는 순서
+- CPU 벤더에 따라 바이트 단위로 데이터를 받아들이고 메모리에 저장하는 순서가 다름
+- **Big Endian** (= Network Ordering)
+	- IBM, Motorola, Sun Sparc, RISC, PowerPC 계열의 CPU
+	- 네트워크상에서 전달할떄는 Big Endian형태로 전달된다. (Little Endian형태일 경우 변환되서 전달됨)
+	- 데이터를 상위 바이트부터 낮은 메모리 주소에 저장하는 형태
+	- 낮은주소 -> 높은주소
+- **Little Endian** (= Host Ordering)
+	- Intel X86, X64, AMD 계열의 CPU
+	- iPhone도 여기에 해당
+	- 데이터를 하위 바이트부터 낮은 메모리 주소에 저장하는 형태
+	- 낮은주소 -> 높은주
+- **Resolution**
+	1 Endian통일 (Network Byte Order)
+	- 모든 시스템이 저장하는 방식을 통일시키기 어려워 모든 프로그램이 네트워크 전송 시, 약속된 공통의 Endian을 사용하고 수신 측에서 변환
+	- 네트워크 바이트 오더 표준: Big Endian
+	2 Byte 단위 전송
+	- Endian 문제는 Byte단위로 저장할 때 순서의 차이에 의해 발생하므로, 애초에 1Byte단위로 데이터를 보내며 바이트 순서에 구애받지 않고 통신 가능
+
+**Internet Protocol Suite
+- 인터넷 프로토콜 스위트(Protocol Suite)는 인터넷 네트워크에 쓰이는 프로토콜 모음
+- TCP / IP 가 가장 많이 사용되기에 TCP / IP 프로토콜 스위트 또는 프로토콜 스택이라고도 함
+- HTTP, FTP, Telnet 등이 TCP/IP기반
+- TCP(Transmission Control Protocol)
+	- 패캣 전송 여부와 순서 보장의 특징
+- IP(Internet Protocol)
+	- 비신뢰성(패킷 전송 보장하지 않음)과 비연결성의 특징 (IPv4, IPv6)
+
+TCP / IP Protocol Suite
+- 4개의 계층 구조로 구성 (Link계층을 Physical과 구분할 경우 5단계)
+- **Application** (응용)계층
+	- 4계층
+	- HTTP, FTP, SMTP, POP, Telnet등
+	- 데이터를 어떤 서비스를 활용해 주고 받을 것 인지
+	- OSI 계층모델에서 Application, Presentation, Session이 이에 해당
+	- 데이터 종류: 메시지
+- **Transport** (전송)계
+	- 3계층
+	- TCP, UDP, SCTP등
+	- 데이터 송수신 방식 결정
+	- TCP: 연결지향형 서비스, 메시지 전달 보장 및 순서 보장
+	- UDP: 비연결형 서비스, 메시지 전달 여부나 순서 보장이 되지 않는 대신 TCP보다 빠른 속도
+	- OSI 계층 모델에서 TranPort가 이에 속함
+	- 데이터 종류: 세그먼트
+- **Network**계층
+	- 2계층
+	- IP, ARP등
+	- 데이터가 어떤 라우터들을 거쳐 목적지로 전달될지에 대한 전달 경로를 정의
+	- IP 프로토콜은 비연결지향적이며, 신뢰할 수 없는 특성을 가지므로 신뢰성 확보를 위해 TCP가 필요
+	- OSI계층 모델에서 Network가 이에 속함
+	- 데이터 종류: 데이터 그램
+
+- **Link** 계층
+	- 1계층
+	- 이더넷, 토큰링, PPP, Wi - Fi등
+	- 실제 데이터 패킷 전송 책임
+	- OSI 계층모델에서 Data Link가 이에 속함
+	- 데이터 종류: 프레임
+- **Physical** (물리)계층
+	- OSI 계층 모델에서 Physical이 이에 속함
+	- 데이터 종류: 비트
+
+OSI 계층 모델
+- Application ( 7 계층)
+- Presentation ( 6 계층 )
+- Session ( 5 계층 )
+- Transport ( 4 계층 )
+- Network ( 3 계층 )
+- Data Link ( 2 계층 )
+- Physical ( 1 계층 )
+- 상위 계층의 프로토콜이 제대로 동작하기 위해서는 하위의 모든 계층에 문제가 없어야함. (숫자 높을수록 상위 계층)
+- 7,6,5 계층 -> 사용자 지원 계층
+- 4 계층 -> 전송층
+- 3,2,1 -> 네트워크 지원계층
+
+**HTTP (Hyper Text Transfer Protocol)**
+TCP/UDP Common Ports
+	- 21 FTP
+	- 22 SSH
+	- 23 TELNET
+	- 25 SMTP
+	- 53 DNS
+	- 80 HTTP
+	- 110 POP3
+	- 115 SFTP
+	- 1433 MSSQL
+	- 3306 MySQL
+List of Port
+- 국제 인터넷 주소 관리기구 (ICANN)에서 포트 번호를 세구간으로 구분
+	- 잘 알려진 포트 (Well - Known Port)
+		- 0~1023번
+		- ICANN에 의해 통제되는 포트
+	- 등록된 포트 (Registered Port)
+		- 1024 ~ 49141번
+		- 중복 방지를 위해 ICANN에 등록되어 있으나 미통제
+	- 동적포트 (Dynamic/Private Port)
+		- 49152~65535번
+		- 어떤 프로세스에서도 사용 가능
+- 사용자가 서버에 HTTP Requet(요청), 서버에서 사용자에게 HTTP Response(응답)
+- **HTTP Request**
+	- Request Line
+	- Method: Get, Post, Delete등
+	- URI: 일반적으로 URL주소 형태
+	- HTTP버전 (현재 대부분 1.1 또는 2.0)   // 점점 2.0으로 변하는 중
+- **HTTP Response**
+	- Status Line
+	- Response Status Code
+	- 1xx: 정보성
+	- 2xx: 성공
+	- 3xx: 전환
+	- 4xx: 클라이언트 에러
+	- 5xx: 서버에러
+
+**REST API (Representational State Transfer) **
+- 자원을 정의하고 자원에 대한 주소를 지정하는 방법 등을 의미하는 네트워크 아키텍쳐 원리의 모음
+- 웹 창시자 중 한명인 Roy Fieling이 기존 아키텍쳐의 문제점 보안 위해 웹 장접 최대한 활용할 수 있는 네트워크 기반의 아키텍쳐로 설계, 2000년 논문에서 발표
+- **RESTFul** : REST원리를 잘 따르는 시스템에 대해 하는 표현
+- Rest구성 요소
+	- 메서드: 자원에 대한 행위 정의 (GET, POST등), HTTP의 여러 메서드 중 CRUD에 해당하는 4가지 메서드만 사용
+	- 리소스: 자원을 정의 (URI)
+	- 메시지: 자원에 대한 행위의 내용을 정의, 일반적으로 JSON을 이용한 데이터
+- POST
+	- Create
+	- URI 와 관련된 자원 생성/작업수행
+	- 다른 메서드들과 달리 URI에 특정 자원을 지정하는 ID가 없음
+	- 로그인 과정등에서 사용
+- GET
+	- Read
+	- 읽어온다.
+	- 지정 URI에 대해 자원을 조회하고 가져옴
+- PUT / PATCH
+	- Update
+	- 자원 수정하는 역할
+	- 지정 URI 해당하는 자원 수정
+	- PUT: 전체 내용 수정
+	- PATCH: 일부항목 수정\
+- DELETE
+	- Delete
+	- 지정 URI에 해당하는 자원 삭제
 
