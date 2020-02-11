@@ -3097,7 +3097,7 @@ if device.isBatteryMonitoringEnabled {
 	2 Byte 단위 전송
 	- Endian 문제는 Byte단위로 저장할 때 순서의 차이에 의해 발생하므로, 애초에 1Byte단위로 데이터를 보내며 바이트 순서에 구애받지 않고 통신 가능
 
-**Internet Protocol Suite
+**Internet Protocol Suite**
 - 인터넷 프로토콜 스위트(Protocol Suite)는 인터넷 네트워크에 쓰이는 프로토콜 모음
 - TCP / IP 가 가장 많이 사용되기에 TCP / IP 프로토콜 스위트 또는 프로토콜 스택이라고도 함
 - HTTP, FTP, Telnet 등이 TCP/IP기반
@@ -3106,7 +3106,8 @@ if device.isBatteryMonitoringEnabled {
 - IP(Internet Protocol)
 	- 비신뢰성(패킷 전송 보장하지 않음)과 비연결성의 특징 (IPv4, IPv6)
 
-TCP / IP Protocol Suite
+**TCP / IP Protocol Suite**
+
 - 4개의 계층 구조로 구성 (Link계층을 Physical과 구분할 경우 5단계)
 - **Application** (응용)계층
 	- 4계층
@@ -3154,7 +3155,9 @@ OSI 계층 모델
 - 3,2,1 -> 네트워크 지원계층
 
 **HTTP (Hyper Text Transfer Protocol)**
+
 TCP/UDP Common Ports
+
 	- 21 FTP
 	- 22 SSH
 	- 23 TELNET
@@ -3191,7 +3194,7 @@ List of Port
 	- 4xx: 클라이언트 에러
 	- 5xx: 서버에러
 
-**REST API (Representational State Transfer) **
+**REST API (Representational State Transfer)**
 - 자원을 정의하고 자원에 대한 주소를 지정하는 방법 등을 의미하는 네트워크 아키텍쳐 원리의 모음
 - 웹 창시자 중 한명인 Roy Fieling이 기존 아키텍쳐의 문제점 보안 위해 웹 장접 최대한 활용할 수 있는 네트워크 기반의 아키텍쳐로 설계, 2000년 논문에서 발표
 - **RESTFul** : REST원리를 잘 따르는 시스템에 대해 하는 표현
