@@ -3141,7 +3141,7 @@ if device.isBatteryMonitoringEnabled {
 	- OSI 계층 모델에서 Physical이 이에 속함
 	- 데이터 종류: 비트
 
-OSI 계층 모델
+*OSI 계층 모델*
 - Application ( 7 계층)
 - Presentation ( 6 계층 )
 - Session ( 5 계층 )
@@ -3156,19 +3156,20 @@ OSI 계층 모델
 
 **HTTP (Hyper Text Transfer Protocol)**
 
-TCP/UDP Common Ports
+*TCP/UDP Common Ports*
+	
+- 21 FTP
+- 22 SSH
+- 23 TELNET
+- 25 SMTP
+- 53 DNS
+- 80 HTTP
+- 110 POP3
+- 115 SFTP
+- 1433 MSSQL
+- 3306 MySQL
 
-	- 21 FTP
-	- 22 SSH
-	- 23 TELNET
-	- 25 SMTP
-	- 53 DNS
-	- 80 HTTP
-	- 110 POP3
-	- 115 SFTP
-	- 1433 MSSQL
-	- 3306 MySQL
-List of Port
+*List of Port*
 - 국제 인터넷 주소 관리기구 (ICANN)에서 포트 번호를 세구간으로 구분
 	- 잘 알려진 포트 (Well - Known Port)
 		- 0~1023번
