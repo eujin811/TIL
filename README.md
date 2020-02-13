@@ -3222,3 +3222,31 @@ if device.isBatteryMonitoringEnabled {
 	- Delete
 	- 지정 URI에 해당하는 자원 삭제
 
+## GCD (Grand Central Dispatch)
+
+- GCD 이전에는 멀티 스레딩을 위해 Thread와 OperationQueue등의 클래스를 사용, Thread는 복잡하고 Crtical Section등을 이용한 Lock을 관리하기 까다로웠고, OperationQueue는 GCD에 비해 부겁고 Boilerplate코드들이 많이 필요하다
+
+- Block: 작업단위
+- **DispatchQuue**가 Block들을 관리
+- GCD는 각 어플리케이션에서 생성된 DispatchQueue를 읽는 멀티코어 실행 엔진을 가지고 있으며, 이것이 Queue에 등록된 각 작업을 꺼내 스레드에 할당, 개발자는 내부 동작을 자세히 알 필요 없이 Queue에 작업을 넘기기만 하면 된다.
+- Thread를 직접 생성하고 관리하는 것에 비해 관리 용이성과 이식성, 성능 증가
+- 애플 공식문서에서는 Thread클래스 대신 GCD사용을 권장한다.
+
+- GCD장점
+	- 앱의 메모리 공간에 스레드 스택을 저장하기 위한 메모리 페널티 감소
+	- 스레드를 생성하고 구성하는 데 필요한 코드들 제거
+	- 스레드 작업을 관리하고 스케줄링하는 데 필요한 코드 제거
+	- 코드를 간소화한다.
+
+- Dispatch Framework
+	- 멀티코어 하드웨어에서 다중 작업을 동시에 수행할 수 있도록 관리하기 위한 프레임워크 시스템에서 관리하는 Dispatch Queues에 작업을 전달하여 수행한다.
+	
+- DispatchQueue
+	- GCD는 앱이 블록 객체 형태로 작업을 전송할 수 있는 FIFO 대기열(Queue)를 제공하고 관리한다.
+	- Queue에 전달된 작업은 시스템이 전적으로 관리하는 스레드 풀(a pool of threads)에서 실행됨
+	- 작업이 실행될 스레드는 보장되지 않는다.
+	- DispatchQueue는 2개의 타입(Serial/Concurrent)로 구분되며 둘 모두 FIFO순서로 처리
+	- 앱을 실행하면 시스템이 자동으로 메인스레드 위에서 동작하는 Main큐(Serial Queue)를 만들어 작업을 수행하고, 그 외에 추가적으로 여러 개의 Global큐(Concurrent Queue)를 만들어서 큐를 관리한다. 
+	- 각 작업은 동기(sync) 방식과 비동기(async)방식으로 실행 가능하지만 Main큐 에서는 async만 사용가능
+
+
