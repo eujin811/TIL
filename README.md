@@ -3249,4 +3249,63 @@ if device.isBatteryMonitoringEnabled {
 	- 앱을 실행하면 시스템이 자동으로 메인스레드 위에서 동작하는 Main큐(Serial Queue)를 만들어 작업을 수행하고, 그 외에 추가적으로 여러 개의 Global큐(Concurrent Queue)를 만들어서 큐를 관리한다. 
 	- 각 작업은 동기(sync) 방식과 비동기(async)방식으로 실행 가능하지만 Main큐 에서는 async만 사용가능
 
+- Synchronous
+	- sync 메서드를 이용해 동기적으로 실행되면, 작업이 완료될 때까지 대기한 뒤 메서드에서 return 호출 해당 스레드의 다른 작업들을 모두 일시 정지
+- Asynchronous
+	- async 메서드를 이용해 비동기적으로 실행되면, 즉시 메서드에서 return을 호추하고 작업을 수행한다.
 
+- System이 제공하는 Queue는 Main과 Global이 있으며 앱 실행 시 생성된다.
+- UI와 관련된 작업은 모두 main큐를 통해서 수행하며 Serial Queue에 해당한다.
+- MainQueue를 sync메서드로 동작시키면 Dead Lock 상태에 빠짐
+```swfit
+ DispatchQueue.main.asnc { }
+```
+- Global
+	- UI 를 제외한 작업에서 Concurrent Queue에 해당
+	- sync 와 async 메서드 모두 사용가능
+	- QoS 클래스를 지정하여 우선 순위 설정 가능
+```swift
+DispatchQueue.global().async { }
+DispatchQueue.global(qos: .utility).sync { }
+```
+
+- Custom DispatchQueue
+	- Non Main Thread에서 작업 수행
+	- Serial / Concurrent Queue 및 QoS등의 여러 옵션을 지정하여 생성가능
+- QoS (Quality of Service)
+	- 시스템은 QoS 정보를 통해 스케쥴링, CPU 및 I/O 처리량, 타이머 대기 시간 등의 우선 순위를 조정
+	- 총 6개의 QoS 클래스가 있으며 4개의 주요 유형과 다른 2 개의 특수 유형으로 구분 가능
+
+- Primary QoS classes
+	- 우선순위가 높을수록 더 빨리 수행되고 더 많은 전력을 소모.
+	- 수행 작업에 적절한 QoS클래스를 지정해주어야 더 반응성이 좋아지며, 효율적인 에너지 사용이 가능
+	- **User Interactive**
+		- 즉각 반응해야 하는 작업으로 반응성 및 성능에 중점
+		- main thread에서 동작하는 인터페이스 새로고침, 애니메이션 작업 등 즉각 수행되는 유저와의 상호작용 작업에 할당
+	- **User Initiated**
+		- 몇 초 이내의 짧은 시간 내 수행해야 하는 작업으로 반응성 및 성능에 중점
+		- 문서를 열거나, 버튼을 클랙해 액션을 수행하는 것 처럼 빠른 결과를 요구하는 유저와의 상호작영 작업에 할당
+	- **Utility**
+		- 수초에서 수분에 걸쳐 수행되는 작업으로 반응성, 성능, 에너지 효율성 간에 균형을 유지하는데 중점
+		- 데이터를 읽어들이거나 다운로드 하는 등 작업을 완료하는데 어느 정도 시간이 걸릴 수 있으며 보통 진행 표시줄로 표현
+	- **Background**
+		- 수분에서 수시간에 걸쳐 수행되는 작업으로 에너지 효율성에 중점 NSOperation 클래스 사용 시 기본 값
+		- background에서 동작하며 색인 생성, 동기화, 백업 같이 사용자가 볼 수 없는 작업에 할당
+		- 저전력 모드에서는 네트워킹을 포함하여 백그라운드 작업은 일시중
+
+- Special QoS Classes
+	- 일반적으로, 별도로 사용할 일 없는 특수 유형의 QoS
+	- Default
+		- QoS를 별도로 지정하지 안흐면 기본값으로 사용 -> User Initiatd와 Utility의 중간 레벨
+		- GCD global queue의 기본 동작 형태
+	- Unspecified
+		- QoS 정보가 없으므로 시스템이 QoS 를 추론해야 한다는 것을 의미
+- DispatchQueue.Attributes
+	- .concurrent  -concurrent Queue로 생성. (옵션 미 지정시 Serial Queue)기본값
+	- .initiallInactive -Inactive상태로 생성. 작업 수행 시점에 activate() 메서드를 호출해야 동작한다.
+
+
+
+
+- sync: 동기
+- async: 비동기
