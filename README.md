@@ -3309,3 +3309,63 @@ DispatchQueue.global(qos: .utility).sync { }
 
 - sync: 동기
 - async: 비동기
+
+## JSON
+
+- name:value 형태의 쌍을 이루는 콜렉션 타입(Dictionary)
+- XML에 비해 기능이 적고 구조가 단순하여 파싱이 쉽고 빠르며 적은 용량으로 저장 가능하다.
+- 사람 뿐만 아니라 기계가 분석하고 생성하는 것도 용이
+- contents type --> application/json
+- 기본 인코딩 UTF-8
+
+- **JSONSSerialization**
+	- json데이터로 변형 혹은 json 형태의 데이터 사용할 수 있도록 한다.
+
+- **Creating Json Data**
+	- class func isValidJSONObject(_:) -> Bool
+	- class func writeJSONObject(_:to:options:error:) -> Int
+	- class func data(withJSONObject:options:) throws -> Data
+
+- **.isValidJsonObject**
+	- 프로퍼티가 JSON형태로 변형이 가능한지 확인
+	```swift
+	  guard JSONSerialization.isValidJSONObject(jsonObject) else { return }
+	```
+
+- **.writeJSONObject**
+	- 특정 파일을 json형태로 변환해서 저장 + 저장한것의 크기 반환
+
+	```swift
+	  let jsonObject = ["hello": "world", "foo":"bar", "iOS":"Swift"]
+	  guard JSONSerialization.isValidJSONObject(jsonObject) else { return }
+
+	  let jsonFilePath = "myJsonFile.json"
+	  let outputJSON = OutputStream(toFileAtPath: jsonFilePath, append: false)!
+	  outputJSON.open()
+
+	  let wirttenBytes = JSONSerialization.writeJSONObject(
+		jsonObject,
+		to: ouputJSON,
+	//	options: []
+	//	options: [.sortedKeys]	//유니코드 순서로 키가 정렬되기를 원할 때
+	// 	options: [.prettyPrinted],	//보기 좋은 형태로 데이터 저장
+		options: [.prettyPrinted, .sortedKeys],
+		error: nil
+	  }	
+	```
+
+- String -> Data 형태로 변환
+```swift
+ ~~.data(using: .utf8)!
+```
+
+- **JSONSerialization.data**
+	- 딕셔너리 형태를 데이터형태로 변환
+- **JSONSerialization.jsonObject(with:)
+	- 데이터를 json형태로 변환
+	- 지정한 json데이터에서 foundation 형태변환
+	- json에서 값을 가져올 때 대부분 data형태로 넘어온다.
+
+- **.hasBytesAvailable**
+	- json형태가 맞는지 확인
+
