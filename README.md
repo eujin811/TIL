@@ -3369,3 +3369,11 @@ DispatchQueue.global(qos: .utility).sync { }
 - **.hasBytesAvailable**
 	- json형태가 맞는지 확인
 
+
+## SnapKit
+- makeConstraints
+	- 최초 제약 설정
+- updateConstraints 
+	- 이미 설정한 특정 값을 다른 것으로 바꿀 때
+- remakeConstraints 
+	- 기존 연결을 모두 제거하고 완전히 새로 설정
