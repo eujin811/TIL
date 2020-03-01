@@ -2728,6 +2728,11 @@ view.frame.offsetBy(dx: 0, dy: 250) : view의 frame을 y의 250만큼 내린거 
 
 
 **throws**
+- 던진다.
+	- 예외 사항을 호출 부분에 떠넘겨 호출 부분에서 처리할 수 있도록 한다.
+	- 예외를 처리해주는 곳으로 전달해줌.
+- 예외처리 시 사용된다.
+- 어떤 예외가 발생할 수 있는지 예측가능.
 - 오류 가능성 내
 - throws function > non throws function
 	- throws function은 non thorws function 포함가능
@@ -3377,3 +3382,5 @@ DispatchQueue.global(qos: .utility).sync { }
 	- 이미 설정한 특정 값을 다른 것으로 바꿀 때
 - remakeConstraints 
 	- 기존 연결을 모두 제거하고 완전히 새로 설정
+
+
