@@ -3383,4 +3383,8 @@ DispatchQueue.global(qos: .utility).sync { }
 - remakeConstraints 
 	- 기존 연결을 모두 제거하고 완전히 새로 설정
 
-
+## SwiftUI
+- class가 아닌 struct 사용
+- UIViewController가 아닌 ContentView 사용
+- 상속 안되므로 protocol 사용
+- 
