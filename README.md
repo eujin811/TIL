@@ -3384,7 +3384,34 @@ DispatchQueue.global(qos: .utility).sync { }
 	- 기존 연결을 모두 제거하고 완전히 새로 설정
 
 ## SwiftUI
+
 - class가 아닌 struct 사용
 - UIViewController가 아닌 ContentView 사용
 - 상속 안되므로 protocol 사용
-- 
+- UI
+	- som View
+		- 어떤 상태가 들어올지 모를 때 사용. (Text, view등등이 사용가능)
+	  ```swift
+	    var name: som View
+	  ``` 
+	- 정렬
+		- **VStack { }**: 세로 방향으로 뷰를 추가
+		- **HStack { }**: 가로 방향으로 뷰를 추가
+		- **ZStack { }** : 게층이 쌓임
+	- **Resizable** 
+		- 이미지 크기변동
+		- **.resizable(resizingMode** : .title) : 바둑판형식
+		- **.resizable(capInsets: .ini(top: 0, leading: 50, bottom: 0, trailing: 0))** : 선택영역(숫자 입력부분)크기 만큼 이미지 고정시키고 나머지 부분 늘어난다.
+
+	- **Spacer()**
+		- 남는 공간을 차지
+		- ZStack 사용시 별도의 뷰가 된다.
+	
+	- 테이뷰 -> List
+	  ```swift
+	    List {
+		Text("1")
+		Text("2")	
+	    }
+	  ```
+
