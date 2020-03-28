@@ -32,10 +32,10 @@ branch 생성 -> 수정 -> add -> commit -> merge -> branch file delete -> push
   -> 생성된 곳으로 HEAD이동 -> 상대방의 최근 변경사항 떙겨온다. (git flow init -> git pull origin develop) -> 기능개발 (git flow featur start {issue-name} -> 변경사항 수정) -> add -> commit 
   ->git flow feature finish {issue-name} -> push -> 나의 github repo에서 pull request (상대방 git으로 이동된다.) / compare, base 모두 develop으로 변경후 수정된 이슈에 대해 코멘트 후 create
 
- ----
+----
 
 ## Swift
- 
+
 타입을 지정하지 않아도 컴파일시 타입추론 가능. (추론시간 때문에 컴파일 시간이 길어질 수 있다.)
 
 **Typealias**
@@ -117,7 +117,7 @@ type(of: firstIndex)
 - 현재 함수를 종료한다 (void형에서도 사용가능!)
 
 
-	
+​	
 **Tuples**
 
 - let three(Int,String,Bool) = (1, "hi", True)
@@ -338,7 +338,7 @@ type(of: firstIndex)
 - 문법 간소화
 - 자연생성: 실제 사용 경우에만 만들어진다. 컴파일시 바로x
 - 주변 컨텍스트의 값을 캡쳐하여 작업 수행 가능.
- 
+
 
 - 두 가지로 이루어진 객체, 하나는 내부 함수이며 또 다른 하나는 내부 함수가 만들어진 주변 환경
 - 외부 함수 내에서 내부 함수를 반환하고, 내부 함수의 지역 변수나 상수를 참조할때 도 만들어진다.
@@ -426,7 +426,7 @@ type(of: firstIndex)
 	
 	 performClosure { $0.count }
 	```
-	
+
  - **Inline Closure**
 	-함수의 인수(Argument)로 들어가는 클로저	
 	-변수나 함수처럼 중간 매개체 없이 사용되는 클로저	
@@ -649,6 +649,7 @@ obs.height		//61.5
 - 다른 모듈의 코드 또는 다른 소스 파일 등으로부터 접근을 제한하는 것
 - 세부 구현 내용을 숨기고 접근할 수 있는 인터페이스 지정 가능
 - Module: import를 통해 다른 모듈로부터 불러들일 수 있는 하나의 코드 배포 단위
+	
 	> Library / Framework / Application
 - 접근제한자 5가지
  > open: 외부에서 접근가능, subClass 상속받아 내용 수정가능
@@ -710,7 +711,7 @@ obs.height		//61.5
 		super.title = newValue
 	  }
 	}
-	``` 
+	```
 	- 자기자신의 프로퍼티 먼저 초기화한후 상속받은 프로퍼티 초기화 해야한다.
 - **오버로딩(Overloading)**
 	- 동일한 이름의 메서드가 매개 변수의 이름, 타입, 개수 등의 차이에 따라 다르게 동작
@@ -728,7 +729,7 @@ obs.height		//61.5
 -----------------------
 
 **Life Cycle**
- 
+
 - **Not running**: 실행되지 않은 상태
 - **Inactive**: 실행중이지만 이벤트를 받고있지 않은 상태 / 앱 실행중 미리 알림 또는 일정 얼럿이 화면에 덮여서 앱 실질적 이벤트를 못하는 상태
 - **Active**: 실제 사용중인 상태
@@ -1092,7 +1093,8 @@ style: .destructive -> 빨간 text 경고성 느끼는 상황에서 사용
 - 객체에 닫음으로써 실제로 사용할 수 있게된다. 단지 꺼내오는 행위일 뿐.
 - 실질적인 그릇을 만들어내기 위한 일종의 틀.
 - 클래스는 원형, 인스턴스 그 원형을 바탕으로 실제로 값을 담을 그릇
-    
+  
+
 구조체
 - 정수형, 실수형, 문자열, 배열, 딕셔너리 등 기본 자료형은 모두 구조체를 사용해 정의
 - 서로 연관된 몇 개의 기본 데이터 타입들을 캡슐화하여 묶을 때
@@ -1506,7 +1508,7 @@ class MySingleton{
   var x = 0
   private init() {}
  } 
-``` 
+```
 
 - 최초 생성만 인스턴스로 사용되고 그 뒤로는 기존에 만들어진 애한테 계속접근
 
@@ -1712,11 +1714,14 @@ teacher?.student = student		//strong: student count 2
 
 ```
 
-``swift
+```swift
 teacher = nil 	//약한 참조 student count 1
 student =  nil	// " 	student count 0
 ```
+
+
 ## AutoLayout
+
 - 뷰에 주어진 제약조건에 따라 뷰의 크기와 위치를 동적으로 계산해 배치하는 것.
 - 외부 또는 내부의 변환에 동적으로 반응하여 유저 인터페이스 구성
 - 한번 설정하면 전부다 autoLayout으로 설정해야한다.
@@ -1724,6 +1729,7 @@ student =  nil	// " 	student count 0
 - safeArea: 노치랑 하단바 부분 제외한 영역
 
 **Frame으로 위치 잡을 떄**
+​
 ```swift
 viewDidLoad() -> print(safeAreaInsets) 0,0,0,0
 ```
@@ -1791,7 +1797,7 @@ imageView.layer.cornerRadius = ImageView.frame.width / 2
 **window창 자체를 바꾸는 법**
 - 화면 전환시 present가 아닌 window 자체를 바꿔버림.
 present(vc,animated:true)  (x)
-Window = Second	//윈도우 자체를 바꾸면 바꾸기 전화면 메모리에서 없앰.
+	Window = Second	//윈도우 자체를 바꾸면 바꾸기 전화면 메모리에서 없앰.
 
 **씬델리게이트에서 윈도우 바꾸는 법**
 ```swift
@@ -2132,7 +2138,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 	}
  }
 ```
-	
+
 - trailingSwipeActionConfigurationForRowAt: UITableViewDelegate에서 사용셀 옆에 잡아당기면 나오는 꼬다리.
 	1. 끝까지 당기면 뜨는거(delete같은거 왼,오 다기면 생기는.)
 	```swift
@@ -2170,7 +2176,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 	1. 화살표가 연결되어 있는 viewController
 	```swift
 	 let initailVC = storyboard.instantiateViewController()
-	``` 
+	```
 	
 	2.  
 	```swift
@@ -2701,7 +2707,7 @@ enum Location: String, CaseIterable {
 ```
 
 view.frame.offsetBy(dx: 0, dy: 250) : view의 frame을 y의 250만큼 내린거 돌려줌.
- 
+
 
 .init(hue: 채도, saturation: 채도, brghtness: 명도, alpha: 투명도)
 
@@ -2985,7 +2991,7 @@ Device Orientation: Upside Down, InterfaceOrientation: prtrait , StatusBar Orien
   device.beginGeneratingDeviceOrientationNotifications()
 ```
 - 화면 방향전환 막고 싶을 때.
-   
+  
 ```swift
 while device.isGeneratingDeviceOrientationNotifications {  //count의 중첩 막기위해
     device.endGeneratingDeviceOrientationNotifications()
@@ -3324,8 +3330,9 @@ DispatchQueue.global(qos: .utility).sync { }
 - 기본 인코딩 UTF-8
 
 - **JSONSSerialization**
-	- json데이터로 변형 혹은 json 형태의 데이터 사용할 수 있도록 한다.
-
+	
+- json데이터로 변형 혹은 json 형태의 데이터 사용할 수 있도록 한다.
+	
 - **Creating Json Data**
 	- class func isValidJSONObject(_:) -> Bool
 	- class func writeJSONObject(_:to:options:error:) -> Int
@@ -3393,7 +3400,7 @@ DispatchQueue.global(qos: .utility).sync { }
 		- 어떤 상태가 들어올지 모를 때 사용. (Text, view등등이 사용가능)
 	  ```swift
 	    var name: som View
-	  ``` 
+	  ```
 	- 정렬
 		- **VStack { }**: 세로 방향으로 뷰를 추가
 		- **HStack { }**: 가로 방향으로 뷰를 추가
