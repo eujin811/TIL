@@ -3397,6 +3397,28 @@ DispatchQueue.global(qos: .utility).sync { }
 - useProtocolCachePolicy
 	- 각 프로토콜별 정책에 따름	
 
+**URLComponents**
+- URL 추출 및 수정 가능
+	```swift
+	 var components = URLComponents()
+	
+	components.host = "www.test.com"
+	components.path = "/index.html"
+	components.scheme = "http"
+	components.user = "username"
+	components.password = "password"
+	components.port = 80
+	components.query = "key1=value
+	components.framgment = "myFragment"
+
+	print(components)
+	
+	//http://username:password@www.example.com:80/index.html?key1=value1#yFragment
+	```
+
+
+
+
 ## JSON
 
 - name:value 형태의 쌍을 이루는 콜렉션 타입(Dictionary)
