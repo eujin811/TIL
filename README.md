@@ -3428,7 +3428,8 @@ DispatchQueue.global(qos: .utility).sync { }
 - 기본 인코딩 UTF-8
 
 - **JSONSSerialization**
-	
+- Data는 5가지 인코딩 지원 형식중 하나를 사용. (기본: UTF-8)
+	- UTF-8, UTF-16LE, UTF-16BE, UTF-32LE, UTF-32BE	
 - json데이터로 변형 혹은 json 형태의 데이터 사용할 수 있도록 한다.
 	
 - **Creating Json Data**
