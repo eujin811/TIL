@@ -3491,6 +3491,137 @@ DispatchQueue.global(qos: .utility).sync { }
 	  let decoded = try JSONSerialization.jsonObject(with: encoded) 
 	```
 
+## Codable
+- Encoder + Decoder
+
+**Encoder**
+- 자신을 외부 표현식으로 변환(모델을 json형태의 데이터로)
+- Encoding: 부호화
+
+**Decoder**
+- 외부 표현식을 자신이 쓰는 형태로 변환 (json형태의 데이터를 내가 원하는 모델로)
+- 필요한 것 만 읽어올 수 있다.
+- Decoding: 복호화
+	- Encoding된 대상을 원래의 형태로 되돌리는 일
+
+**CodingKey**
+- 인코딩과 디코딩을 위한 키로 사용하기 위해 쓰이는 프로토콜
+- 불러오는 key이름과 실제 사용할 key 이름 다를 때 사용
+
+  ```swift
+	letlet jsonData = """
+	{	
+  		"user_name": "JinJin",
+  		"user_email": "jin@ex.com",
+  		"gender": "female",
+  		"age": 5
+	}
+	""".data(using: .utf8)!
+
+	struct User: Decodable {
+		let name: String
+		let email: String
+		let gender: String
+		let age: Int
+
+		private enum CodingKeys: String, CodingKey {
+			case name = "user_name"
+			case email = "user_email"
+			case gender
+			case age
+		}
+	}
+  ```
+
+**Nested Codable**
+- 안쪽에 들어있는 것을 하나의 타입으로 보고 바로 사용 가능하도록 한다.
+  ```swift
+	{	
+  	 "message": "success",
+  	 "number": 3,
+  	 "people": [										// people의 value를 하나의 타입으로 본다.
+    		{ "craft": "ISS", "name": "Anton Shkaplerov" },
+    		{ "craft": "ISS", "name": "Scott Tingle" },
+    		{ "craft": "ISS", "name": "Norishige Kanai" },
+  	 ]	
+	}
+
+	struct Astranauts: Decodable {
+		let message: String
+		let number: Int
+		let people: [Person]	
+	}
+	struct Person: Decodable {
+		let name: String		//필요한 것만 읽어올 수 있다.
+	}
+  ```
+
+- 키 안쪽의 key-value타입의 key를 바로 사용하고 싶을 때
+  ```swift
+	let jsonData = """
+	[	
+	{
+  		"latitude": 30.0,
+  		"longitude": 40.0,
+  		"additionalInfo": {
+    			"elevation": 50.0,
+  		}
+	},
+	{
+  		"latitude": 60.0,
+  		"longitude": 120.0,
+  		"additionalInfo": {
+    			"elevation": 20.0
+  		}
+	}
+	]
+	""".data(using: .utf8)!
+
+	struct Coordinate {
+		var latitude: Double
+		var longitude: Double
+		var elevation: Double
+	
+		enum CodingKeys: String, CodingKey {
+			case latitude
+			case logitude
+			case additionalInfo
+		}
+		enum AdditionalInfoKeys: String, CodingKey {
+			case elevation
+		}
+	}
+
+	extension Coordinate: Decodable {
+		init(from decoder: Decoder) throws {
+			let values = try decoder.container(keyedBy: CodingKeys.self)
+			latitude = try values.decode(Double.self, forKey: .latitude)
+			longitude = try values.decode(Double.self, forKey: .longitude)
+			let additionalInfo = try values.nestedContainer(keyedBy: AdditionalInfoKeys.self, forKey: .additionalInfo)
+
+			elevation = try additionalInfo.decode(Double.self, forKey: .elevation)
+		}
+	}
+
+	extension Coordinate: Encodable {
+		func encode(to encoder: Encoder) throws {
+			var container = encoder.container(keyedBy: CodingKeys.self)
+			try container.encode(latitude, forKey: .latitude)
+			try container.encode(longitude, forKey: .longitude)
+
+			var additionalInfo = container.nestedContainer(keyedBy: AdditionalInfoKeys.self, forKey: .additionalInfo)
+			try additionalInfo.encode(elevation, forKey: .elevation)
+		}
+	}
+
+	do {
+		let coordinates = try JSONDecoder().decode([Coordinate].self, from: jsonData)
+		coordinates.forEach { print($0) }
+	} catch {
+		print(error.localizedDescription)
+	}
+  ```
+
 
 
 ## SnapKit
