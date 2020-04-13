@@ -3427,7 +3427,7 @@ DispatchQueue.global(qos: .utility).sync { }
 - contents type --> application/json
 - 기본 인코딩 UTF-8
 
-- **JSONSSerialization**
+## JSONSSerialization
 - Data는 5가지 인코딩 지원 형식중 하나를 사용. (기본: UTF-8)
 	- UTF-8, UTF-16LE, UTF-16BE, UTF-32LE, UTF-32BE	
 - json데이터로 변형 혹은 json 형태의 데이터 사용할 수 있도록 한다.
@@ -3471,14 +3471,26 @@ DispatchQueue.global(qos: .utility).sync { }
 ```
 
 - **JSONSerialization.data**
-	- 딕셔너리 형태를 데이터형태로 변환
-- **JSONSerialization.jsonObject(with:)
-	- 데이터를 json형태로 변환
-	- 지정한 json데이터에서 foundation 형태변환
-	- json에서 값을 가져올 때 대부분 data형태로 넘어온다.
+	- JSON 데이터형태로 변환
+	```swift
+	  let jsonObject: [String: Any] = [
+		"someNumber": 1,
+		"someString": "Hello",
+		"someArray": [1,2,3],
+		"someDict": [ "someBool": true ]
+	    ] 
 
-- **.hasBytesAvailable**
-	- json형태가 맞는지 확인
+	
+	  let encoded = try JSONSerialization.data(withJSONObject: jsonObject) 
+	```
+
+- **JSONSerialization.jsonObject(with:)
+	- JSONData를 swift에서 사용할 수 있는 형식으로 변환
+	- json에서 값을 가져올 때 대부분 data형태로 넘어온다.
+	```swift
+	  let decoded = try JSONSerialization.jsonObject(with: encoded) 
+	```
+
 
 
 ## SnapKit
