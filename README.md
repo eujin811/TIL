@@ -3268,9 +3268,11 @@ if device.isBatteryMonitoringEnabled {
 - System이 제공하는 Queue는 Main과 Global이 있으며 앱 실행 시 생성된다.
 - UI와 관련된 작업은 모두 main큐를 통해서 수행하며 Serial Queue에 해당한다.
 - MainQueue를 sync메서드로 동작시키면 Dead Lock 상태에 빠짐
-```swfit
- DispatchQueue.main.async { }
-```
+  ```swfit
+   DispatchQueue.main.async { }
+  ```
+
+
 - Global
 	- UI 를 제외한 작업에서 Concurrent Queue에 해당
 	- sync 와 async 메서드 모두 사용가능
