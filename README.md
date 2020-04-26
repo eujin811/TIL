@@ -3277,10 +3277,10 @@ if device.isBatteryMonitoringEnabled {
 	- UI 를 제외한 작업에서 Concurrent Queue에 해당
 	- sync 와 async 메서드 모두 사용가능
 	- QoS 클래스를 지정하여 우선 순위 설정 가능
-```swift
-DispatchQueue.global().async { }
-DispatchQueue.global(qos: .utility).sync { }
-```
+	 ```swift
+	  DispatchQueue.global().async { }
+	  DispatchQueue.global(qos: .utility).sync { }
+	 ```
 
 - Custom DispatchQueue
 	- Non Main Thread에서 작업 수행
