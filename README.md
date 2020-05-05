@@ -3682,4 +3682,28 @@ v 13.0 부터 가능
 	5. 패스코드라는 용어를 사용하지 말 것.  (iOS 기기 연락과 Apple Pay 인증에 사용)
 
 
+## ScrollView
+**scrollViewDidScroll
+- 델리게이트는 스크롤뷰에게 콘텐츠 오프셋의 변경사항을 얻는다.
+- 콘텐츠 뷰의 영향을 받는 부분을 그리기 위해 사용된다.
+  ```swift
+    Optional func scrollViewDidScrol(_ scrollView: UIScrollView)
+  ```	
 
+**scrollViewWillBeginDragging(UIScrollView)
+- 스크롤을 시작하려고 할 때
+
+**scrollViewWillEndDragging(UIScrollView, withVelocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
+- 사용자가 스크롤을 완료한 후
+
+**scrollViewDidEndDragging**
+- 스크롤 종료 시
+
+**scrollViewShouldScrollToTop**
+- delegate가 스크롤뷰를 맨위로 올릴지 말지.
+
+**scrollviewWillBeginDecelerating**
+- scrollview가 스크롤 이동속도가 줄어듬을 알린다.
+
+**scrollViewDidEndDecelerating**
+- scrollView가 스크롤 이동속도 감소가 끝났음을 델리게이트에게 알림
