@@ -2,26 +2,27 @@
 
 ## Contents
 - [Swift](https://github.com/eujin811/TIL#swift)
-	- [기초문법]
-	- [Closer]
-	- [Property]
-	- [OOP 4대 특성]
+	- [기초문법](https://github.com/eujin811/TIL#%EA%B8%B0%EC%B4%88%EB%AC%B8%EB%B2%95)
+	- [Closer](https://github.com/eujin811/TIL#closure)
+	- [Class & Struct](https://github.com/eujin811/TIL#class--struct)
+	- [Property](https://github.com/eujin811/TIL#property)
+	- [OOP 4대 특성](https://github.com/eujin811/TIL#oop-4%EB%8C%80-%ED%8A%B9%EC%84%B1)
 	- [iOS App구조]
-	- [Life Cycle]
+	- [Life Cycle](https://github.com/eujin811/TIL#life-cycle)
 	- [View](https://github.com/eujin811/TIL#view)
 	- [ViewController](https://github.com/eujin811/TIL#viewcontroller)
 	- [Card-Style Modal Pressentation](https://github.com/eujin811/TIL#card-style-modal-presentation)
 	- [AlertController](https://github.com/eujin811/TIL#alertcontroller)
 	- [구조체 & 클래스 & Enum](https://github.com/eujin811/TIL#%EA%B5%AC%EC%A1%B0%EC%B2%B4structure-vs-%ED%81%B4%EB%9E%98%EC%8A%A4class-vs-%EC%97%B4%EA%B1%B0%ED%98%95enum)
 	- [타입캐스팅](https://github.com/eujin811/TIL#%ED%83%80%EC%9E%85%EC%BA%90%EC%8A%A4%ED%8C%85)
-	- [생성자] 
+	- [생성자](https://github.com/eujin811/TIL#initializer-%EC%83%9D%EC%84%B1%EC%9E%90) 
 	- [Singleton](https://github.com/eujin811/TIL#singleton)
 	- [UserDefaults](https://github.com/eujin811/TIL#userdefaults)
 	- [Struct](https://github.com/eujin811/TIL#struct)
 	- [ARC](https://github.com/eujin811/TIL#arc)
 	- [AutoLayout](https://github.com/eujin811/TIL#autolayout)
-	- [Window 교체]
-	- [intrisic Content Size]
+	- [Window 교체](https://github.com/eujin811/TIL#window-%EA%B5%90%EC%B2%B4)
+	- [intrisic Content Size](https://github.com/eujin811/TIL#intrisic-content-size%EA%B3%A0%EC%9C%A0-%EC%BB%A8%ED%85%90%EC%B8%A0-%EC%82%AC%EC%9D%B4%EC%A6%88)
 	- [UIStackView](https://github.com/eujin811/TIL#uistackview)
 	- [UITableView](https://github.com/eujin811/TIL#uitableview)
 	- [ViewLifeCycle](https://github.com/eujin811/TIL#viewlifecycle)
@@ -746,7 +747,7 @@ obs.height		//61.5
 
 
 
-# iOS App 구
+# iOS App 구조
 ## Life Cycle
 
 - **Not running**: 실행되지 않은 상태
