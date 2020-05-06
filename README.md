@@ -7,7 +7,7 @@
 	- [Class & Struct](https://github.com/eujin811/TIL#class--struct)
 	- [Property](https://github.com/eujin811/TIL#property)
 	- [OOP 4대 특성](https://github.com/eujin811/TIL#oop-4%EB%8C%80-%ED%8A%B9%EC%84%B1)
-	- [iOS App구조]
+	- [iOS App구조](https://github.com/eujin811/TIL#ios-app-%EA%B5%AC%EC%A1%B0)
 	- [Life Cycle](https://github.com/eujin811/TIL#life-cycle)
 	- [View](https://github.com/eujin811/TIL#view)
 	- [ViewController](https://github.com/eujin811/TIL#viewcontroller)
