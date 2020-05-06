@@ -1,40 +1,57 @@
 # TIL
 
-## Git
+## Contents
+- [Swift](https://github.com/eujin811/TIL#swift)
+	- [기초문법]
+	- [Closer]
+	- [Property]
+	- [OOP 4대 특성]
+	- [iOS App구조]
+	- [Life Cycle]
+	- [View](https://github.com/eujin811/TIL#view)
+	- [ViewController](https://github.com/eujin811/TIL#viewcontroller)
+	- [Card-Style Modal Pressentation](https://github.com/eujin811/TIL#card-style-modal-presentation)
+	- [AlertController](https://github.com/eujin811/TIL#alertcontroller)
+	- [구조체 & 클래스 & Enum](https://github.com/eujin811/TIL#%EA%B5%AC%EC%A1%B0%EC%B2%B4structure-vs-%ED%81%B4%EB%9E%98%EC%8A%A4class-vs-%EC%97%B4%EA%B1%B0%ED%98%95enum)
+	- [타입캐스팅](https://github.com/eujin811/TIL#%ED%83%80%EC%9E%85%EC%BA%90%EC%8A%A4%ED%8C%85)
+	- [생성자] 
+	- [Singleton](https://github.com/eujin811/TIL#singleton)
+	- [UserDefaults](https://github.com/eujin811/TIL#userdefaults)
+	- [Struct](https://github.com/eujin811/TIL#struct)
+	- [ARC](https://github.com/eujin811/TIL#arc)
+	- [AutoLayout](https://github.com/eujin811/TIL#autolayout)
+	- [Window 교체]
+	- [intrisic Content Size]
+	- [UIStackView](https://github.com/eujin811/TIL#uistackview)
+	- [UITableView](https://github.com/eujin811/TIL#uitableview)
+	- [ViewLifeCycle](https://github.com/eujin811/TIL#viewlifecycle)
+	- [NavigationController](https://github.com/eujin811/TIL#navigationcontroller)
+	- [TabBarController](https://github.com/eujin811/TIL#tabbarcontroller)
+	- [defer](https://github.com/eujin811/TIL#defer%EB%B8%94%EB%A1%9D)
+	- [일급 객체로서의 함수](https://github.com/eujin811/TIL#%EC%9D%BC%EA%B8%89-%EA%B0%9D%EC%B2%B4%EB%A1%9C%EC%84%9C%EC%9D%98-%ED%95%A8%EC%88%98)
+	- [Highter-order Function 고차함수](https://github.com/eujin811/TIL#highter---order-function%EA%B3%A0%EC%B0%A8%ED%95%A8%EC%88%98)
+	- [UICollectionView](https://github.com/eujin811/TIL#uicollecionview)
+	- [Error](https://github.com/eujin811/TIL#error)
+	- [DataStructure](https://github.com/eujin811/TIL#datastructure)
+	- [UIDevice](https://github.com/eujin811/TIL#uidevice)
+	- [Notification](https://github.com/eujin811/TIL#notification)
+	- [Battery](https://github.com/eujin811/TIL#battery)
+	- [Network](https://github.com/eujin811/TIL#network)
+	- [GCD](https://github.com/eujin811/TIL#gcd-grand-central-dispatch)
+	- [URL Loading](https://github.com/eujin811/TIL#url-loading)
+	- [JSONSerialization](https://github.com/eujin811/TIL#jsonsserialization)
+	- [Codable](https://github.com/eujin811/TIL#codable)
+	- [SnapKit](https://github.com/eujin811/TIL#snapkit)
+	- [SwiftUI](https://github.com/eujin811/TIL#swiftui)
+	- [OAuth Login](https://github.com/eujin811/TIL#oauth-login)
+	- [ScrollView](https://github.com/eujin811/TIL#scrollview)
 
-**branch**
-
- - 분기점을 생성하고 독립적으로 코드를 변경할 수 있도록 도와주는 모델
- - 코드 수정전branch에서 수정후 merge하는것이 좋다.
- - master와 똑같은 파일을 갖는다.
- - git branch {name} 
-	*branch명 생성시 하게될 행위에대한 명칭이 좋음
-	  ex) edit-README.md
- - branch 삭제
-	git branch -D {name}
-
-**merge**
-
-- 브랜치와 마스터의 병합
-- git merge {name} 		// merge시에 따로 commit 필요없음.
-
-**diff**
-
-- 현재 branch와 선택한 branch와의 차이를 볼 수 있다.
-
-코드 수정시 추천 순서
-branch 생성 -> 수정 -> add -> commit -> merge -> branch file delete -> push
 
 
-**다른사람의 git 코드 수정**
+# Swift
 
-상대 github 방문후 issue comment와 fork -> 내 repo에 있는 fork된 프로젝트 clone 
-  -> 생성된 곳으로 HEAD이동 -> 상대방의 최근 변경사항 떙겨온다. (git flow init -> git pull origin develop) -> 기능개발 (git flow featur start {issue-name} -> 변경사항 수정) -> add -> commit 
-  ->git flow feature finish {issue-name} -> push -> 나의 github repo에서 pull request (상대방 git으로 이동된다.) / compare, base 모두 develop으로 변경후 수정된 이슈에 대해 코멘트 후 create
 
-----
-
-## Swift
+## 기초문법
 
 타입을 지정하지 않아도 컴파일시 타입추론 가능. (추론시간 때문에 컴파일 시간이 길어질 수 있다.)
 
@@ -54,7 +71,7 @@ type(of: firstIndex)
 
 **.isMultiple(of:2):** 몫을 구할때 사용 %
 
-**함수**
+** 함수**
 -가변인자 사용가능(단, 가변인자 사용 뒤에는 argument생략 불가 -> 레이블의 끝을 알 수 없기 때문)
  func nameFunc(num1:Int..., inputNum num2: Int)
 -중첩이 가능하다.
@@ -296,7 +313,7 @@ type(of: firstIndex)
 	```
 
 
-**Closure**
+## Closure
 - 코드에서 사용하거나 전달할 수 있는 독립적 기능 갖는 블럭
 - 일회용 함수, 한번만 사용할 구문들의 집합 (단, 형식은 함수로)
 - 익명함수 : 한번만 사용하고 버려져서 이름을 작성할 필요가 없다.
@@ -465,6 +482,9 @@ type(of: firstIndex)
 		 	print("연산성공")
 		 }) { () print("연산 실패")}
 	```
+
+## Class & Struct
+
 **Class**
 - 타입 캐스팅: 실행 시 컴파일러가 클래 인스턴스의 타입을 미리 파악하고 검사할 수 있다.
 - 소멸화 구문: 인스턴스가 소멸되기 직전에 처리해야 할 구문을 미리 등록해 놓을 수 있다.
@@ -478,7 +498,8 @@ type(of: firstIndex)
 	> 3. 캡슐화된 데이터를 전달하거나 할당하는 과정에서 참조 방식보다는 값이 복사되는 것이 합리적일 때.
 	> 4. 캡슐화된 원본 데이터를 보존해야할 때
 
-**Property**
+## Property
+
 - 클래스 내부에서 정의된 변수나 상수
 
 **저장 프로퍼티 (Stored Property)**
@@ -642,8 +663,6 @@ obs.height		//61.5
 - oop: 객체지향 프로그램
 - pop(Protocol Orented Programming): 프로토콜 지향프로그래밍 
 
-**생성자**
-- Init()
 
 **Access Control**
 - 다른 모듈의 코드 또는 다른 소스 파일 등으로부터 접근을 제한하는 것
@@ -671,6 +690,7 @@ obs.height		//61.5
  //둘다
  internal private(set) var {name}: { }
 ```
+
 
 **OOP 4대 특성**
 ----------------------
@@ -725,10 +745,9 @@ obs.height		//61.5
 **Final**: class 앞에 붙이면 더이상 상속 안되는 마지막 클래스, 상수 변수 앞에다 하면 상속 안되는 프로퍼티
 
 
-## iOS App구조
------------------------
 
-**Life Cycle**
+# iOS App 구
+## Life Cycle
 
 - **Not running**: 실행되지 않은 상태
 - **Inactive**: 실행중이지만 이벤트를 받고있지 않은 상태 / 앱 실행중 미리 알림 또는 일정 얼럿이 화면에 덮여서 앱 실질적 이벤트를 못하는 상태
@@ -1290,7 +1309,7 @@ type(of: someArr)
 //downcastedRect = shapeRect		//오류남, 정적타입 달라서
 ```
 
-**Initializer 생성자**
+## Initializer 생성자
 - 최종 생성자는 Designated
 - Designated 에서는 Designated 사용불가
 - 초기화 이전 프로퍼티 사용 불가
@@ -1559,7 +1578,7 @@ y: view.center.y
 - 여러 단계에 걸쳐 옵셔널 사용중.
 -옵셔널 타입이 중첩되더라도 여러겹 쌓이지 않는다.
 
-## Structures
+## Struct
 - deinit, 참조카운트등은 사용하지 않는다.
 - 구조체는 생성되고 사라질때 deinit 메소드만 제공되지 않을 뿐.
 - 값에 의한 참조 상수에 인스턴스 할당시 요소의 값 변경 불가.
@@ -1794,6 +1813,8 @@ imageView.layer.cornerRadius = ImageView.frame.width / 2
 
 ```
 
+## Window 교체
+
 **window창 자체를 바꾸는 법**
 - 화면 전환시 present가 아닌 window 자체를 바꿔버림.
 present(vc,animated:true)  (x)
@@ -1827,7 +1848,7 @@ let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
 최초응답자 : UIWindow에서 이벤트가 발생했을 때 우선적으로 응답할 객체를 가리키는 포인터. 대부분의 뷰들은 최초 응답자가 되길 거부한다. 선택된 텍스트 필드나 텍스트 뷰에서 포커스 뺏기기 싫어서.
 
-## Intrisic Content Szie(고유 컨텐츠 사이즈)
+## Intrisic Content Size(고유 컨텐츠 사이즈)
 - 컨텐츠를 잘라내거나 줄이지 않고도 온전히 표현할 수 있는 최소한의 공간
 - 레이아웃 작업 시 이사이즈를 통해 제약조건을 자동 생성하여 적용
 - label이나 button의 경우 내부 text를 통해 크기정보를 알 수 있서 뷰처럼 넓이나 높를 지정하지 않아도 된다.(위치값만으로 지정가능하지만, 크기 지정도 가능.)
@@ -2656,7 +2677,7 @@ let flattenNumbers2 = flattenNumbers1.flatMap { $0 }
 print(flattenNumbers)
 //[1,2,3,4,5,6,7,8,9,10]
 ```
-## UIColleciontView
+## UICollecionView
 - 정렬된 자료들을 사용자가 원하는 형식에 맞게 유연하게 표현할 수 있는 객체
 - 세로, 가로 가능
 - collectionView layout: 뷰 어떻게 다루는가, 레이아웃에 대한 것
