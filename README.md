@@ -1,4 +1,5 @@
-# TIL
+# TIL (Today I Learned)
+Swift, Xcode, iOS 관련
 
 ## Contents
 - [Swift](https://github.com/eujin811/TIL#swift)
