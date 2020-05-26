@@ -7,6 +7,7 @@ Swift, Xcode, iOS 관련
 	- [Closer](https://github.com/eujin811/TIL#closure)
 	- [Class & Struct](https://github.com/eujin811/TIL#class--struct)
 	- [Property](https://github.com/eujin811/TIL#property)
+	- [OOP & POP]()
 	- [OOP 4대 특성](https://github.com/eujin811/TIL#oop-4%EB%8C%80-%ED%8A%B9%EC%84%B1)
 	- [View](https://github.com/eujin811/TIL#view)
 	- [ViewController](https://github.com/eujin811/TIL#viewcontroller)
@@ -669,9 +670,10 @@ obs.height		//61.5
  print("\(square1.width) \(TypeProperty.unit)")
 ```
 
-**Swift는 OOP를 바탕으로한 POP**
+## OOP & POP
 - oop: 객체지향 프로그램
 - pop(Protocol Orented Programming): 프로토콜 지향프로그래밍 
+	- 프로토콜 중심 프로그래밍
 	- pop의 경우 필요한 부분만 프로토콜로 분리해서 만들 수 있고 다중 프로토콜을 구현할 수 있다. 또한 프로토콜 규칙을 class, struct, enum에 적용할 수 있기 때문에 oop보다 유연하다. 스위프트의 경우 대부분 구조체로 기본 타입이 구현되어 있어 상속되지 않는 구조체로 주로 클래스로 기본 타입이 구성된 다른 언어보다 참조 추적비용이 덜 발생한다. 
 
 **Access Control**
