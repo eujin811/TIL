@@ -7,7 +7,7 @@ Swift, Xcode, iOS 관련
 	- [Closer](https://github.com/eujin811/TIL#closure)
 	- [Class & Struct](https://github.com/eujin811/TIL#class--struct)
 	- [Property](https://github.com/eujin811/TIL#property)
-	- [OOP & POP]()
+	- [OOP & POP](https://github.com/eujin811/TIL#oop--pop)
 	- [OOP 4대 특성](https://github.com/eujin811/TIL#oop-4%EB%8C%80-%ED%8A%B9%EC%84%B1)
 	- [View](https://github.com/eujin811/TIL#view)
 	- [ViewController](https://github.com/eujin811/TIL#viewcontroller)
