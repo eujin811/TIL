@@ -59,6 +59,12 @@ Swift, Xcode, iOS 관련
 	- [OAuth Login](https://github.com/eujin811/TIL#oauth-login)
 	- [Window 교체](https://github.com/eujin811/TIL#window-%EA%B5%90%EC%B2%B4)
 
+
+- RxSwift
+	- [Rx 배우기 전 간단 개념]()
+	- [Observable & Observer]() 
+
+
 # Swift
 
 
@@ -3740,3 +3746,12 @@ v 13.0 부터 가능
 
 **scrollViewDidEndDecelerating**
 - scrollView가 스크롤 이동속도 감소가 끝났음을 델리게이트에게 알림
+
+
+# RxSwift
+
+## Rx 배우기 전 간단 개념
+
+## Observable & Observer
+
+
