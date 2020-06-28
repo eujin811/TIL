@@ -53,12 +53,12 @@ Swift, Xcode, iOS 관련
 	- [JSONSerialization](https://github.com/eujin811/TIL#jsonsserialization)
 	- [Codable](https://github.com/eujin811/TIL#codable)
 	- [OAuth Login](https://github.com/eujin811/TIL#oauth-login)	
-	- [위치]()
-		- [Core Location Framework]()
-		- [Request Authorization]()
-		- [CLAuthorizationStatus]()
-		- [Determining the Availability]()
-		- [Getting the User's Location Data]()
+	- [위치](https://github.com/eujin811/TIL#%EC%9C%84%EC%B9%98)
+		- [Core Location Framework](https://github.com/eujin811/TIL#core-location-framework)
+		- [Request Authorization](https://github.com/eujin811/TIL#request-authorization)
+		- [CLAuthorizationStatus](https://github.com/eujin811/TIL#clauthorization-status)
+		- [Determining the Availability](https://github.com/eujin811/TIL#determining-the-availability)
+		- [Getting the User's Location Data](https://github.com/eujin811/TIL#getting-the-users-location-data)
 		
 - XCode
 	- [OAuth Login](https://github.com/eujin811/TIL#oauth-login)
