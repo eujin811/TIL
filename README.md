@@ -53,8 +53,13 @@ Swift, Xcode, iOS 관련
 	- [JSONSerialization](https://github.com/eujin811/TIL#jsonsserialization)
 	- [Codable](https://github.com/eujin811/TIL#codable)
 	- [OAuth Login](https://github.com/eujin811/TIL#oauth-login)	
-
-
+	- [위치]()
+		- [Core Location Framework]()
+		- [Request Authorization]()
+		- [CLAuthorizationStatus]()
+		- [Determining the Availability]()
+		- [Getting the User's Location Data]()
+		
 - XCode
 	- [OAuth Login](https://github.com/eujin811/TIL#oauth-login)
 	- [Window 교체](https://github.com/eujin811/TIL#window-%EA%B5%90%EC%B2%B4)
@@ -3746,6 +3751,93 @@ v 13.0 부터 가능
 
 **scrollViewDidEndDecelerating**
 - scrollView가 스크롤 이동속도 감소가 끝났음을 델리게이트에게 알림
+
+
+# 위치
+
+## Core Location Framework
+- 기기의 지리적 위치와 방향을 얻기 위한 프레임워크
+	- 기기의 지리적 위치, 고도, 방향 또는 iBacon 주변의 상대적 위치를 결정하는 서비스 제공
+	- 장치가 움직이는 속도와 헤딩도 포함된다.
+	- 사용자가 지정 위치 데이터를 캐시하거나 두 지리적 좌표 사이의 거리를 계산하려면 위치 개체를 직접 생성해야한다.
+	- CLLocation 객체를 있는 그대로 사용해야 한다. (subclass X)
+	- 모든 사용 가능한 온보드 하드웨어를 이용해 데이터 수집
+		- Wi-Fi, GPS, Bluetooth, Mangnetometer(자력계, 자기장), Barometer(기압계), Cellular Hardware등
+	- CLLocationManager를 이용해 대부분의 서비스를 시작하고 연결된 Delegate를 통해 응답 수신
+	- 위치 정보를 얻기 위해 반드시 유저로부터 권한을 얻어야 한다.
+	- 위치 업데이트/지역 모니터링/iBeacon/장치 방향/ 좌표 변환 등의 역할 수행
+
+iBeacon
+- 애플 실내외 측위 시스템
+- 전파 거리 측정기
+- 감지거리 -> 일반 비컨은 약 50미터 정도. 전지 수명 2~3개월 최대 1년
+- 영역감시(Region monitoring)을 이용해 최대 20개의 영역에 대해(비콘의 식별자 송신 신호를 수신하는) 백그라운드 동작을 할 수 있으며, 서로 다른 델리게이트를 이용해 등록된 앱(이용자)가 영역에 출입하는 순간을 확인한다. 백그라운드 상태, 스마트폰이 잠겨진 상태에서도 수행된다. 닫힌 앱이 한 영역에 대하여 진입에 반응할 수 있도록, iOS의 기능 중 하나인 작은 윈도우 화면을 출력하는 것을 허용한다.
+
+## Request Authorization
+- 로컬 및 원격 알림이 사용자의 장치로 전달될 때 사용자와 상호 장요하기 위한 권한 요청
+- 위치 권한
+- when-in-use authorization
+   ```swift
+	let locationManager = CLLocationManager()
+	locationManager.requestWhenInUseAuthorization()
+   ```
+	- 앱이 Foreground에서 동작 중일 때만 위치 서비스 사용
+	- 앱을 자동으로 재실행하는 서비스는 사용 불가
+	- 반드시 Always를 써야 하는 경우가 아니면 이 방식을 권장. 동시에 한 가지 방식으로만 설정 가능
+	- Info.plist - Usage Description
+		- NSLocationWhenUseUsageDescription 키 등록
+
+- Always authorization
+   ```swift
+	let locationManager = CLLocationManager()
+	locationManager.requestAlwaysAuthorization()
+   ```
+	- Foreground 나 Background 모두에서 필요할 때 위치 서비스 사용
+	- 앱이 실행 중이지 않을 때 위치 기반 이벤트가 발생하면 시스템이 앱을 실행하고 이벤트 전달
+	- Info.plist - Usage Description
+		- iOS 11 이상: NSLocationAlwaysAndWhenInUserUsageDescription 키 등록
+		- iOS 10 이하: NSLocationAlwaysUsageDescription 키 등록
+
+|   | when-in-use | Always |
+|-----|------|-----|
+| 기본 위치 서비스 | Y | Y |
+| 상당한 위치 변화 서비스 | N | Y |
+| 방문 | N | Y |
+| 지역 모니터링(Region monitoring) | N | Y | 
+| iBeacon ranging | Y | Y |
+| Heading service | Y | Y |
+| Geocoding service | Y | Y |
+
+## CLAuthorization Status
+- 위치 서비스를 사용할 수 있는 앱의 권한을 나타내는 상수
+
+## Determining the Availability
+- 위치 서비스를 사용할 수 없는 상황
+	- 기기에 이 기능을 지원하는 데 필요한 하드웨어가 없음
+	- 사용자가 시스템 설정에 위치 서비스 기능을 끔
+	- 사용자가 앱의 위치 서비스에 대한 접근을 거부
+	- 기기가 비행기 모드로 설정되었을 때
+	- 백그라운드 갱신 기능을 사용할 수 없고 필요한 기능을 우선 순위가 높은 다른 서비스가 이미 사용중일 때
+	
+- 가용성체크
+	- func locationServicesEnabled( ) -> Bool
+	- func headingAvailable( ) -> Bool
+	- func significationLocationChangeMonitoringAvailable( ) -> Bool
+	- func isMonitoringAvailable(for regionClass: Swift.AnyClass) -> Bool
+	- func isRangingAvailable( ) -> Bool 
+ 
+## Getting the User's Location Data
+- Standard location service(When-in-use or Always authorization)
+	- 사용자 위치를 실시간으로 파악하기 위한 범용 솔루션
+	- 다른 서비스에 비해 더 많은 전력을 쓰지만 가장 정확하고 즉각적인 정보 제공
+- Singificant-change location service(Always authorization)
+	- 전력 소모를 줄이기 위한 것으로 업데이트가 자주 필요하지 않고 GPS 정밀도가 낮아도 되는 경우 사용
+	- 사용자 위치를 대폭 변경한 경우에만 업데이트 제공
+	- 사용자가 걷고 있을 때 주변의 관심 장소(POI)에 대한 추천 정보를 제안해주는 등의 서비스 제공 가능
+- Visits location service(Always authorization)
+	- 가장 효율적으로 전력을 사용하지만 다른 서비스에 비해 업데이트 횟수가 적은 방법
+	- 유저가 한 장소에 머물러 시간을 보내다가 이동할 때 업데이트 알림 발생(위치 및 시간 정보)
+	- 사용자의 행동 패턴을 파악하고 그 지식을 앱의 다른 부분에 적용하기 위한 서비스로 활용
 
 
 # RxSwift
