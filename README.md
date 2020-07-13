@@ -3756,7 +3756,7 @@ v 13.0 부터 가능
 # 위치
 
 ## Core Location Framework
-- 기기의 지리적 위치와 방향을 얻기 위한 프레임워크
+- 기기의 지리적 위치와고도, 방향 또는 iBeacon 주변의 상대 위치를 결정하는 서비스를 제공을 위한 프레임워크
 	- 기기의 지리적 위치, 고도, 방향 또는 iBacon 주변의 상대적 위치를 결정하는 서비스 제공
 	- 장치가 움직이는 속도와 헤딩도 포함된다.
 	- 사용자가 지정 위치 데이터를 캐시하거나 두 지리적 좌표 사이의 거리를 계산하려면 위치 개체를 직접 생성해야한다.
@@ -3774,6 +3774,7 @@ iBeacon
 - 영역감시(Region monitoring)을 이용해 최대 20개의 영역에 대해(비콘의 식별자 송신 신호를 수신하는) 백그라운드 동작을 할 수 있으며, 서로 다른 델리게이트를 이용해 등록된 앱(이용자)가 영역에 출입하는 순간을 확인한다. 백그라운드 상태, 스마트폰이 잠겨진 상태에서도 수행된다. 닫힌 앱이 한 영역에 대하여 진입에 반응할 수 있도록, iOS의 기능 중 하나인 작은 윈도우 화면을 출력하는 것을 허용한다.
 
 ## Request Authorization
+- 앱이 Foreground에서 동작 중일 때만 위치 서비스 사용 / 앱 자동 재실행시 서비스 사용 불가
 - 로컬 및 원격 알림이 사용자의 장치로 전달될 때 사용자와 상호 장요하기 위한 권한 요청
 - 위치 권한
 - when-in-use authorization
@@ -3785,7 +3786,7 @@ iBeacon
 	- 앱을 자동으로 재실행하는 서비스는 사용 불가
 	- 반드시 Always를 써야 하는 경우가 아니면 이 방식을 권장. 동시에 한 가지 방식으로만 설정 가능
 	- Info.plist - Usage Description
-		- NSLocationWhenUseUsageDescription 키 등록
+		- NSLocationWhenUseUsageDescription 
 
 - Always authorization
    ```swift
