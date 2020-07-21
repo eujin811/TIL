@@ -65,10 +65,9 @@ Swift, Xcode, iOS 관련
 	- [Window 교체](https://github.com/eujin811/TIL#window-%EA%B5%90%EC%B2%B4)
 
 
-//<!-- RxSwift -->
-//<!--	- [Rx 배우기 전 간단 개념](https://github.com/eujin811/TIL#rx-%EB%B0%B0%EC%9A%B0%EA%B8%B0-%EC%A0%84-%EA%B0%84%EB%8B%A8-%EA%B0%9C%EB%85%90) -->
-//<!--	- [Observable & Observer](https://github.com/eujin811/TIL#observable--observer) -->
-
+- SwiftUI & Combin
+	- [SwiftUI](https://github.com/eujin811/TIL#SwiftUI)
+	- [Combin](https://github.com/eujin811/TIL#Combin)
 
 # Swift
 
@@ -3678,37 +3677,6 @@ if device.isBatteryMonitoringEnabled {
 - remakeConstraints 
 	- 기존 연결을 모두 제거하고 완전히 새로 설정
 
-## SwiftUI
-
-- class가 아닌 struct 사용
-- UIViewController가 아닌 ContentView 사용
-- 상속 안되므로 protocol 사용
-- UI
-	- som View
-		- 어떤 상태가 들어올지 모를 때 사용. (Text, view등등이 사용가능)
-	  ```swift
-	    var name: som View
-	  ```
-	- 정렬
-		- **VStack { }**: 세로 방향으로 뷰를 추가
-		- **HStack { }**: 가로 방향으로 뷰를 추가
-		- **ZStack { }** : 게층이 쌓임
-	- **Resizable** 
-		- 이미지 크기변동
-		- **.resizable(resizingMode** : .title) : 바둑판형식
-		- **.resizable(capInsets: .ini(top: 0, leading: 50, bottom: 0, trailing: 0))** : 선택영역(숫자 입력부분)크기 만큼 이미지 고정시키고 나머지 부분 늘어난다.
-
-	- **Spacer()**
-		- 남는 공간을 차지
-		- ZStack 사용시 별도의 뷰가 된다.
-	
-	- 테이뷰 -> List
-	  ```swift
-	    List {
-		Text("1")
-		Text("2")	
-	    }
-	  ```
 
 ## OAuth Login
 
@@ -3841,10 +3809,198 @@ iBeacon
 	- 사용자의 행동 패턴을 파악하고 그 지식을 앱의 다른 부분에 적용하기 위한 서비스로 활용
 
 
-# RxSwift
+# SwiftUI & Combin
 
-## Rx 배우기 전 간단 개념
+# SwiftUI
+- class가 아닌 struct를 사용한다.
+	- 상속이 안되므로 protocol사용
+- UIViewController가 아닌 ContentView를 사용한다.
+- Canvas 사용해 실시간으로 view 확인 가능 (Resum)
+- some
+	- 어떤 상태가 들어올지 모를 때 사용한다.
+## UIHostingController
+- SwiftUI를 인자로 받아 ViewController를 만들어준다.
+   ```swift
+	// in SceneDelegate rootView
+	window.rootViewController = UIHostingController(root view: contentView)
+   ```
 
-## Observable & Observer
+## View (SwiftUI)
+- 반드시 body 변수가 있어야 하며 최상위 view의 역할을 한다.
+- 최대 10개의 child View를 가질 수 있고 10개 초과 시 Group 혹은 Stack 컨테이너를 이용해 묶어주어야한다.
+	- Group
+	   ```swift
+		Group {
+		   Text("Hi")
+		   Text("Hi")
+		   ...
+		}
+	   ```
 
+## NavigationView (SwiftUI)
+- UINavigationController역할
+- Title
+	- Form 블록 끝에 NavigationBarTitle 추가해서 String 인자로 전달 (꼭 Form블록 뒤에!)
+   ```swift
+	var body: some View {
+	   NavigationView {
+		Form {
+		   ...
+		}.navigationBarTitle("Hi")
+	   }
+	}
+   ```
+
+## Button (SwiftUI)
+   ```swift
+	Button("")	{
+		// 버튼 클릭 시 발생하는 callback
+	}
+   ```
+   ```swift
+	@State var touchedCount = 0
+	var body: some View {
+	   Form {
+		Text("Button Click \(touchedCount))
+		Button("Button") {
+		   self.touchedCount += 1
+		}
+	   }
+	}
+   ```
+
+## TextField
+   ```swift
+	TextField(_ title: , text: )
+   ```
+   ```swift
+	TextField(_ title: , text: , onEditingChanged: , onCommit: )
+   ```
+- title : TextField의 hidden text 역할
+- text : TextField에서 입력받은 값(text 변화할 때 마다 업데이트)
+- onEditingChanged: TextField가 현재 편집중인지 여부를 받아 행하는 함수
+- onCommit : TextField가 완성된 후 (단순 선택 해제시 작동x)
+- lifeCycle
+	- 작성했을 때
+		-> onEditingChange true -> (작성완료) -> onCommit -> onEditingChange false
+	- 작성안하고 클릭 후 해제 시
+		-> onEditingChange true -> onEditingChange false
+- 예시
+   ```swift
+	@State var name = ""
+	
+	var body: some View {
+	   Form {
+		TextField("이름을 입력해주세요.", text: $name)
+		Text("이름: \(name)")
+	   }
+	}
+   ```
+   ```swift
+	@State var changeText = ""
+	@State var changeColor: Color = .white
+	
+	var body: some View {
+	   Form {
+		TextField("수행중입니다."
+			   text: $changeText
+			   onEditingChnaged: {
+				if $0 == true { print("작성중") }
+				else { print("작성 완료") }
+			   },
+			   onCommit: {
+				self.changeColor = .gray	// 작성완료 시 뷰 회색으로
+				self.onCommitText = "onComit"
+				print("onCommit")
+			   })
+		Text("text: \(changeText)")
+	   }.colorMultiply(changeColor)		// view Color 변화
+	}
+	// text 입력 시 : 작성중 -> onCommit -> 작성완료
+	// 입력없이 선택 해제 시 : 작성중 -> 작성완료
+   ```
+
+- 키보드 타입
+	- .default: 기본
+	- .numberPad: 숫자만
+	- .emailAddress: 이메일 형식
+	- 기타등등
+	- 예시
+	   ```swift
+		TextField("나이을 입력해주세요.", text: $age).keyboardType(.numberPad)
+	   ```
+
+## Picker
+- default, SegmentPickerStyle, WheelPickerStyle, DateWheelPickerStyle,PopUpButtonPickerStyle, RadioGroupPickerStyle
+- **default**
+   ```swift
+	Picker(_ title: , selection: , content: )
+   ```
+	- titlel: picker 표기할 이름
+	- selection: picker에서 선택한 값을 담을 변수 할당
+	- content: picker 내부구성
+   ```swift
+	Section(header: Text("생년월일")) {
+	   Picker("출생년도", selection: $birth) {
+		ForEach(1910..<2020) {
+		   Text("\(String($0))")
+		}
+	   }
+	}
+   ```
+- **SegmentPicker**
+   ```swift
+	Picker(_ title: , selection: , content: ).pickerStyle(SegmentedPickerStyle())
+   ```
+	- selection: SegmentPicker에서 선택한 것의 index 
+		- 시작 숫자에 따라 위치 달라진다. 0 일경우 1번째 선택되서 시작되고, index 넘는 숫자 입력시 선택되지 않고 제공된다.
+   ```swift
+	//@State var genderFlag = 0
+	//let gender = ["F", "M", "Third gender"]
+
+	Section(header: Text("성별")) {		// 섹션 나눌때 사용하는 없어도 된다.
+	   Picker("성별", selection: $genderFlag) {
+		ForEach(0..<gender.count) {
+		   Text("\(self.gender[$0])")
+		}
+	   }.pickerStyle(SegmentedPickerStyle())
+	}
+	
+   ```
+- **Wheel Picker** (iOS에서만 사용)
+   ```swift
+	Picker(selection: , label: , content: ).pickerStyle(WheelPickerStyle())
+   ```	
+	- selection: 선택한 index
+	- label: 어떤건지 표기
+	- Content: picker 내부구성
+	- 예시
+	   ```swift
+		// @State var nationFlag = 0
+		// let nation = ["Korea", "USA", "China", "other"]
+
+		Picker(selection: $nationFlag, label: Text("선택")) {
+		   ForEach(0..<nation.count) {
+			Text(self.nation[$0])
+		   }
+		}.pickerStyle(WheelPickerStyle())
+	   ```
+- **Date Picker**
+   ```swift
+	DatePicker(selection: , in: , displayComponent: , label: )
+   ```
+	- selection: 선택한 값
+	- in: 범위
+	- displayedComponents: 내부 요소 타입
+	- 예시
+	   ```swift
+		// @State var birthDay = Date()
+
+		DatePicker(selection: $birthDay, in: ...Date(), displayedComponents: .date) {
+		   Text("BirthDay")
+		}
+	   ```
+
+
+# Combin
 
