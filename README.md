@@ -67,6 +67,12 @@ Swift, Xcode, iOS 관련
 
 - SwiftUI & Combin
 	- [SwiftUI](https://github.com/eujin811/TIL#SwiftUI)
+		- [UIHostingController](https://github.com/eujin811/TIL#uihostingcontroller)
+		- [View](https://github.com/eujin811/TIL#view-swiftui)
+		- [NavigationView](https://github.com/eujin811/TIL#navigationview-swiftui)
+		- [Button](https://github.com/eujin811/TIL#button-swiftui)
+		- [TextField](https://github.com/eujin811/TIL#textfield)
+		- [Picker](https://github.com/eujin811/TIL#picker)
 	- [Combin](https://github.com/eujin811/TIL#Combin)
 
 # Swift
@@ -3816,7 +3822,9 @@ iBeacon
 	- 상속이 안되므로 protocol사용
 - UIViewController가 아닌 ContentView를 사용한다.
 - Canvas 사용해 실시간으로 view 확인 가능 (Resum)
-- some
+- ContentView_Preview
+	- 실제 앱에 적용되지 않지만 Xcode의 Canvas 기능을 위한 Preview Layout
+- **some**
 	- 어떤 상태가 들어올지 모를 때 사용한다.
 ## UIHostingController
 - SwiftUI를 인자로 받아 ViewController를 만들어준다.
@@ -3869,7 +3877,7 @@ iBeacon
 	}
    ```
 
-## TextField
+## TextField (SwiftUI)
    ```swift
 	TextField(_ title: , text: )
    ```
@@ -3930,7 +3938,7 @@ iBeacon
 		TextField("나이을 입력해주세요.", text: $age).keyboardType(.numberPad)
 	   ```
 
-## Picker
+## Picker (SwiftUI)
 - default, SegmentPickerStyle, WheelPickerStyle, DateWheelPickerStyle,PopUpButtonPickerStyle, RadioGroupPickerStyle
 - **default**
    ```swift
@@ -3999,6 +4007,24 @@ iBeacon
 		DatePicker(selection: $birthDay, in: ...Date(), displayedComponents: .date) {
 		   Text("BirthDay")
 		}
+	   ```
+
+- **RadioGroupPickerStyle**
+	- MacOS에서만
+	   ```swift
+		Picker(selection: Binding<Bool>.constant(true), label: EmptyView()) {
+		   Text("Production").tag(0)
+		   Text("Sandbox").tag(1)
+		}.pickerStyle(RadioB)
+	   ```
+- **PopUpButtonPicker**
+	- MacOS에서 만
+	   ```swift
+		Picker("Numbers", selection: $selectorIndex) {
+		   ForEach(0..<numbers.count) { index in
+			Text(self.numbers[index].tag(index)
+		   }
+		}.pickerStyle(PopUpButtonPickerStyle())
 	   ```
 
 
