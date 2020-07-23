@@ -4,6 +4,7 @@ Swift, Xcode, iOS 관련
 ## Contents
 - [Swift](https://github.com/eujin811/TIL#swift)
 	- [기초문법](https://github.com/eujin811/TIL#%EA%B8%B0%EC%B4%88%EB%AC%B8%EB%B2%95)
+	- [Dictionary]()
 	- [Closer](https://github.com/eujin811/TIL#closure)
 	- [Class & Struct](https://github.com/eujin811/TIL#class--struct)
 	- [Property](https://github.com/eujin811/TIL#property)
@@ -83,7 +84,7 @@ Swift, Xcode, iOS 관련
 		- [GeiometryReader](https://github.com/eujin811/TIL#geiometryreader)
 		- [Path](https://github.com/eujin811/TIL#path)
 		- [Gradient](https://github.com/eujin811/TIL#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
-		- [Animation]()		
+		- [Animation](https://github.com/eujin811/TIL#animation-swiftui)
 
 	- [Combin](https://github.com/eujin811/TIL#Combin)
 		- [@EnvironmentObject](https://github.com/eujin811/TIL#evironmentobject)
@@ -351,6 +352,36 @@ type(of: firstIndex)
 	 }
 	```
 
+## Dictionary
+
+- grouping
+	- Dictionary(gouping: , by: )
+		- grouping에서 by를 키값으로 갖는 데이터를 value로
+   ```swift
+	struct Person: CustomStringConvertible {
+	   enum Gender {
+		case male, female, unknwon
+	   }
+	
+	   let name: String
+	   var gender: Gender
+
+	   var description: String { return name }
+ 
+	}
+
+	let youjin = Person(name: "youjin", gender: .female)
+	let hana = Person(name: "hana", gender: .female)
+	let jisu = Person(name: "jisu", gender: .unknwon)
+	let eric = Person(name: "eric", gender: .male)
+
+	let friends = [yagom, hana, jisu, eric]
+	let friendsByGender = Dictionary(grouping: friends, by: { $0.gender })
+
+	print(friendsByGender[.female])
+
+	//Optional([yojin, hana])
+   ```
 
 ## Closure
 - 코드에서 사용하거나 전달할 수 있는 독립적 기능 갖는 블럭
