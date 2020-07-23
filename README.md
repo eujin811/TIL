@@ -78,7 +78,7 @@ Swift, Xcode, iOS 관련
 		- [TextField](https://github.com/eujin811/TIL#textfield-swiftui)
 		- [Picker](https://github.com/eujin811/TIL#picker-swiftui)
 		- [MapView](https://github.com/eujin811/TIL#mapview)
-		- [ListView SwiftUI의 TableView](https://github.com/eujin811/TIL#listview-swiftui-tableview)
+		- [ListView -> SwiftUI의 TableView](https://github.com/eujin811/TIL#listview-swiftui-tableview)
 		- [Stack](https://github.com/eujin811/TIL#stack)
 		
 
@@ -4140,8 +4140,77 @@ iBeacon
    ```swift
 	HStack(alignment: .leading) { ... }
    ```
+## GeiometryReader
+- 콘텐츠 자체 크기를 정의한 함수로 공간을 조정할 때 사용하는 컨테이너 뷰
+   ```swift
+	GeometryReader { geometry in
+	   path { path in
+		let width = min(geometry.size.width, geometry.size.height)
+		let height = width * 0.7
+		let spacing = width * 0.3
+		...
+	   }
+	}
+   ```
 
+## Path
+- 그리기
+- .move
+	- 지정된 경로에서 하위경로로 시작점
+	- 그려질 위치
+- .addLine
+	- 명시된 지점에 선 추가
+	- 선그리기
+- .addQuadCurve
+	- 경로에 지정된 끝점과 제어점 갖는 부분 곡선 추가
+	- 곡선으로 변형
 
+   ```swift
+	GeometryReader {
+	   Path { path in
+		path.move(to: CGPoint(x: width, y: height))
+	   }
+	}
+   ```
+
+## Gradient(그라데이션)  SwiftUI
+- LinerGradient
+   ```swift
+	.fill(LinearGradient(gradient: <Gradient>, startPoint: <UnitPoint>, endPoint: <UnitPoint>)
+   ```
+- gradient : 넣을 색
+- startPoint : 시작점
+- endPoint : 끝나는 지점
+   ```swift
+	static let gradientStart = Color(red: 239.0 / 255, green: 120.0 / 255, blue: 221.0 / 255)
+	static let gradientEnd = Color(red: 239.0 / 255, green: 172.0 / 255, blue: 120.0 / 255)
+
+	Path {... }.fill(LinearGradient(
+		gradient: .init(colors: [Self.gradientsStart, Self.gradientEnd]),
+		startPoint: .init(x: 0.5, y: 0)
+		endPoint: .init(x: 0.5, y: 0.6))
+   ```
+
+## Animation
+- animation(_ : )
+- 기본
+   ```swift
+	Image("..").scaleEffect(flag ? 1.5 : 1 ).animation(.sprint)
+   ```
+- withAnimation
+	- 애니메이션 셋팅해주는 함수
+	   ```swift
+		withAnimation {
+		   //뭐할지
+		}
+	   ```
+	   ```swift
+		withAnimation(duration: 4)) { ... }
+	   ```
+- 슬라이딩
+   ```swift
+	miniView().transtion(.slide)
+   ```
 # Combin
 - 선언형 프레임워크, 함수형 프로그래밍, 비동기를 기반으로 한 리액티브
 	- Reactive Programming (반응형 프로그래밍)
