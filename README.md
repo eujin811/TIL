@@ -80,7 +80,10 @@ Swift, Xcode, iOS 관련
 		- [MapView](https://github.com/eujin811/TIL#mapview)
 		- [ListView -> SwiftUI의 TableView](https://github.com/eujin811/TIL#listview-swiftui-tableview)
 		- [Stack](https://github.com/eujin811/TIL#stack)
-		
+		- [GeiometryReader](https://github.com/eujin811/TIL#geiometryreader)
+		- [Path](https://github.com/eujin811/TIL#path)
+		- [Gradient](https://github.com/eujin811/TIL#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
+		- [Animation]()		
 
 	- [Combin](https://github.com/eujin811/TIL#Combin)
 		- [@EnvironmentObject](https://github.com/eujin811/TIL#evironmentobject)
@@ -4191,7 +4194,7 @@ iBeacon
 		endPoint: .init(x: 0.5, y: 0.6))
    ```
 
-## Animation
+## Animation (SwiftUI)
 - animation(_ : )
 - 기본
    ```swift
