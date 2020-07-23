@@ -69,12 +69,21 @@ Swift, Xcode, iOS 관련
 	- [SwiftUI](https://github.com/eujin811/TIL#SwiftUI)
 		- [UIHostingController](https://github.com/eujin811/TIL#uihostingcontroller)
 		- [View](https://github.com/eujin811/TIL#view-swiftui)
+		- [Preview](https://github.com/eujin811/TIL#prieview)
+		- [Text](https://github.com/eujin811/TIL#text-swiftui)
+		- [Image](https://github.com/eujin811/TIL#image)
+		- [Layout](https://github.com/eujin811/TIL#text-swiftui)
 		- [NavigationView](https://github.com/eujin811/TIL#navigationview-swiftui)
 		- [Button](https://github.com/eujin811/TIL#button-swiftui)
 		- [TextField](https://github.com/eujin811/TIL#textfield-swiftui)
 		- [Picker](https://github.com/eujin811/TIL#picker-swiftui)
-	- [Combin](https://github.com/eujin811/TIL#Combin)
+		- [MapView](https://github.com/eujin811/TIL#mapview)
+		- [ListView SwiftUI의 TableView](https://github.com/eujin811/TIL#listview-swiftui-tableview)
+		- [Stack](https://github.com/eujin811/TIL#stack)
+		
 
+	- [Combin](https://github.com/eujin811/TIL#Combin)
+		- [@EnvironmentObject](https://github.com/eujin811/TIL#evironmentobject)
 # Swift
 
 
@@ -3821,9 +3830,8 @@ iBeacon
 - class가 아닌 struct를 사용한다.
 	- 상속이 안되므로 protocol사용
 - UIViewController가 아닌 ContentView를 사용한다.
-- Canvas 사용해 실시간으로 view 확인 가능 (Resum)
-- ContentView_Preview
-	- 실제 앱에 적용되지 않지만 Xcode의 Canvas 기능을 위한 Preview Layout
+- Canvas 사용해 실시간으로 제작하는 view의 UI 확인 가능 (Resum)
+
 - **some**
 	- 어떤 상태가 들어올지 모를 때 사용한다.
 ## UIHostingController
@@ -4182,6 +4190,7 @@ iBeacon
 	- 해당 인스턴스를 컨텐츠 뷰에서 사용 가능하며 모든 뷰에서 가져오거나 표시 가능하다.
 	   ```swift
 		//SceneDelegate
+
 		var userData = UserData()
 
 		window.rootViewController = UIHostingController(rootView: ContentView().environmentObject(userData))
@@ -4189,6 +4198,8 @@ iBeacon
 	- Preview에도 적용해야 미리보기가 가능하다.
 		- canvas에 에러 (Landmarks.app may have crashed. Check ~/Library/Logs/DiagnosticReports for any crash logs from your application.)
 	   ```swift
+		// Preview
+
 		ContentView().environmentObject(Data())
 	   ```
 
