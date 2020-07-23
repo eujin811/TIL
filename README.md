@@ -71,8 +71,8 @@ Swift, Xcode, iOS 관련
 		- [View](https://github.com/eujin811/TIL#view-swiftui)
 		- [NavigationView](https://github.com/eujin811/TIL#navigationview-swiftui)
 		- [Button](https://github.com/eujin811/TIL#button-swiftui)
-		- [TextField](https://github.com/eujin811/TIL#textfield)
-		- [Picker](https://github.com/eujin811/TIL#picker)
+		- [TextField](https://github.com/eujin811/TIL#textfield-swiftui)
+		- [Picker](https://github.com/eujin811/TIL#picker-swiftui)
 	- [Combin](https://github.com/eujin811/TIL#Combin)
 
 # Swift
@@ -3844,6 +3844,51 @@ iBeacon
 		   ...
 		}
 	   ```
+## Prieview
+- 실제 앱에서 적용되지 않지만 canvas에서 보여질 미리보기
+- 사이즈 조정
+   ```swift
+	view.previewLayout(.fixed(width: , height: ))
+   ```
+- cell 여러개 볼 때
+	- Group으로 묶으면 된다.
+   ```swift
+	Group {
+	   LandmarkRow(landmark: data1 )
+	   LandmarkRow(landmark: data2 )
+	}
+   ```
+- Device 변경
+   ```swift
+	ContentView().previewDevice(PreviewDevice(rawValue: "iPhone X"))
+   ```
+- Device 여러개
+   ```swift
+	ForEach(["iPhone SE", "iPhone XS Max"], id: \.self) {
+	   ContentView().previewDevice(PreviewDevice(rawValue: $0))
+	}
+   ```
+## Layout (SwiftUI)
+- edgesIgnoringSafeArea(...)
+	- safeLayout 적용하고 싶지 않을 때
+	- .top, .all, ...
+   ```swift
+	Image("...").edgesIgnoringSafeArea(.top)
+   ```
+  
+
+## Text (SwiftUI)
+   ```swift
+	Text("hi").font(.title).foregroundColor(.green)
+   ```
+
+## Image
+   ```swift
+	Image("imageName").clipShape(Circle())
+   ```
+- clipShape
+- overlay
+- shadow
 
 ## NavigationView (SwiftUI)
 - UINavigationController역할
@@ -3858,7 +3903,16 @@ iBeacon
 	   }
 	}
    ```
-
+- 화면이동
+   ```swift
+	NavigationView {
+	   List {
+		NavigationLink(destination: MovewView() {
+		   Row(data: data)
+		}
+	   }	
+	}
+   ```
 ## Button (SwiftUI)
    ```swift
 	Button("")	{
@@ -3939,7 +3993,13 @@ iBeacon
 	   ```
 
 ## Picker (SwiftUI)
-- default, SegmentPickerStyle, WheelPickerStyle, DateWheelPickerStyle,PopUpButtonPickerStyle, RadioGroupPickerStyle
+- default
+- SegmentPickerStyle
+- WheelPickerStyle
+- DateWheelPickerStyle
+- PopUpButtonPickerStyle
+- RadioGroupPickerStyle
+
 - **default**
    ```swift
 	Picker(_ title: , selection: , content: )
@@ -4027,6 +4087,109 @@ iBeacon
 		}.pickerStyle(PopUpButtonPickerStyle())
 	   ```
 
+## MapView
+- import MapKit
+- UIViewRepresentable
+	- view를 사용하지 않음.
+	- 필수함수
+		- makeUIView
+			- view 만들고 configure 생서자 등
+		- updateUiView
+	   ```swift
+		import MapKit
+
+		struct MapView: UIViewRepresentable{
+		   func makeUIView(context: Context) -> MKMapView {
+			MKMapView(frame: .zero)
+		   }
+		   func updateUIView(_ uiView: MKMapView, context: Context) {
+			let coordinate = CLLocationCoordinate2D(latitude: 34.011286, longitude: -116.166868)		// 좌표
+			let span = MKCoordinateSpan(latitudeDelta: 2.0, longitudeDelta: 2.0)			// 범위
+			let region = MKCoordinateRegion(center: coordinate, span: span)		// 지역
+			uiView.setRegion(region, animated: true)
+		   }
+		}
+	   ```
+## ListView (SwiftUI TableView)
+- basic
+   ```swift
+	List {
+	   Text("..")
+	   Text("..")
+	}
+   ```
+- Custom
+   ```swift
+	List(data, id: \.id) {
+		LandmarkRow($0)
+	}
+   ```
+
+
+## Stack
+- 
+- alignment : 내부정렬
+   ```swift
+	HStack(alignment: .leading) { ... }
+   ```
+
 
 # Combin
+- 선언형 프레임워크, 함수형 프로그래밍, 비동기를 기반으로 한 리액티브
+	- Reactive Programming (반응형 프로그래밍)
+		- 데이터의 흐름을 먼저 정의하고 데이터가 변경되었을 때 연관되는 함수나 수식이 업데이트 된다.
+		- 관찰(Observer)하고 있다가 데이터 변경 시 반응, 변한 이벤트를 가지고 관련된 업데이트로 로직이 수행된다.
+		- 필요한 이유
+			- callback -> 데이터를 다 받고 나서 UI 업데이트, 변경사항 발생 시 명시적으로 UI 한번 더 업데이트 해야한다.
+			- Reactive Programming -> 데이터 변경시 관찰자(observe)가 알아서 캐치해서처리한다.
+	- 시간의 흐름에 따라 발생하는 이벤트를 처리하기 위한 API
+- Combine 이루는 3가지
+	- Publisher
+		- 이벤트 발생
+		- Operator에 데이터 전달
+		- 데이터 전달 타입
+			- Output : 정상 수행 시 전달하는 타입
+			- Failure : 에러 발생 시 전달하는 타입
+	- Operator
+		- 이벤트 가공
+		- Publisher에 데이터 요청
+		- Subscriber에 데이터 전달
+		- 데이터 요청 타입
+			- input : 정상 수행 시 전달받는 타입
+			- Failure : 에러 발생 시 전달받는 타입
+		- 데이터 전달 타입 
+			
+	- Subscriber
+		- 이벤트 소비
+		- Operator에 데이터 요청
+	 
+- 파이프라인
+	- 데이터를 전달하는 과정
+	- 성공 타입과 실패 타입을 함계 명시해야 한다. (생성자와 소비자의 타입 다를시 에러 발생)
+	   ```swift
+		func recevie<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input
+
+	   ```
+
+## @EvironmentObject
+- 전체 앱의 모든 뷰에서 공유되는 데이터의 경우 SwiftUI에서 제공하는 방식
+- 필요한 곳 어디에서든 모델 데이터 변경을 공유
+- 데이터가 변경될 때 뷰가 자동적으로 업데이트를 유지하는 것을 보장한다.
+- 뷰에서 데이터를 만들고 encironment에 넣어서 여러 뷰에서 자동으로 사용 가능
+	- 하나의 뷰에서 데이터를 만들고 여러 뷰에 전달-> 전달 하지 않을 수 있게 된다.
+- 어떤 뷰에서 environment를 바꿀 때, 모든 뷰는 자동으로 갱신되어 동기상태를 유지한다.
+- 반드시 루트뷰에 제공되어야 한다.
+	- 해당 인스턴스를 컨텐츠 뷰에서 사용 가능하며 모든 뷰에서 가져오거나 표시 가능하다.
+	   ```swift
+		//SceneDelegate
+		var userData = UserData()
+
+		window.rootViewController = UIHostingController(rootView: ContentView().environmentObject(userData))
+	   ```
+	- Preview에도 적용해야 미리보기가 가능하다.
+		- canvas에 에러 (Landmarks.app may have crashed. Check ~/Library/Logs/DiagnosticReports for any crash logs from your application.)
+	   ```swift
+		ContentView().environmentObject(Data())
+	   ```
+
 
