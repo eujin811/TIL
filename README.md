@@ -85,9 +85,14 @@ Swift, Xcode, iOS 관련
 		- [Path](https://github.com/eujin811/TIL#path)
 		- [Gradient](https://github.com/eujin811/TIL#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
 		- [Animation](https://github.com/eujin811/TIL#animation-swiftui)
+		- [ScrollView]()
 
 	- [Combin](https://github.com/eujin811/TIL#Combin)
 		- [@EnvironmentObject](https://github.com/eujin811/TIL#evironmentobject)
+
+
+
+
 # Swift
 
 
@@ -3934,6 +3939,9 @@ iBeacon
 
 ## NavigationView (SwiftUI)
 - UINavigationController역할
+- .navigationBarTitle : 
+- .navigationBarItems(trailing: 정의해둔 UI)
+	- 네비게이션 상단에 아이템 추가
 - Title
 	- Form 블록 끝에 NavigationBarTitle 추가해서 String 인자로 전달 (꼭 Form블록 뒤에!)
    ```swift
@@ -4245,6 +4253,25 @@ iBeacon
    ```swift
 	miniView().transtion(.slide)
    ```
+
+## ScrollView (SwiftUI)
+- ScrollView(_ aces: , showIndicators: , content: )
+- aces: 스크롤 방향
+- showIndicators: 스크롤 바 보여줄것인지
+
+   ```swift
+	// items =  [“aa”, “bb”, “cc”, “dd”, “ee”, “ff”, “gg”, “hh”, “ii”, “jj”]
+	
+	ScrollView(.horizontal, howIndicators: flase) {
+	   HStack(alignment: .top, spacing: 0) {
+		ForEach(self.items) {
+		   Text($0)
+		}
+	   }
+	}
+   ```
+
+
 # Combin
 - 선언형 프레임워크, 함수형 프로그래밍, 비동기를 기반으로 한 리액티브
 	- Reactive Programming (반응형 프로그래밍)
