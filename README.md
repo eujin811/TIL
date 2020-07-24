@@ -85,9 +85,20 @@ Swift, Xcode, iOS 관련
 		- [Path](https://github.com/eujin811/TIL#path)
 		- [Gradient](https://github.com/eujin811/TIL#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
 		- [Animation](https://github.com/eujin811/TIL#animation-swiftui)
-		- [ScrollView]()
+		- [ScrollView](https://github.com/eujin811/TIL#scrollview-swiftui)
 
 	- [Combin](https://github.com/eujin811/TIL#Combin)
+		- [Publisher]()
+			- Future
+			- Just
+			- Deferred
+			- Empty
+			- Fail
+			- Record
+		- [Subscriber]()
+		- [Subject]()
+		- [Scheduler]()
+		- [Cancellable]()
 		- [@EnvironmentObject](https://github.com/eujin811/TIL#evironmentobject)
 
 
@@ -4281,6 +4292,7 @@ iBeacon
 			- callback -> 데이터를 다 받고 나서 UI 업데이트, 변경사항 발생 시 명시적으로 UI 한번 더 업데이트 해야한다.
 			- Reactive Programming -> 데이터 변경시 관찰자(observe)가 알아서 캐치해서처리한다.
 	- 시간의 흐름에 따라 발생하는 이벤트를 처리하기 위한 API
+- 프로토콜로 이루어져있다.
 - Combine 이루는 3가지
 	- Publisher
 		- 이벤트 발생
@@ -4300,7 +4312,13 @@ iBeacon
 	- Subscriber
 		- 이벤트 소비
 		- Operator에 데이터 요청
-	 
+- 프로토콜5가지
+	- **Publisher**
+	- **Subsribe**
+	- **Subject**
+	- **Scheduler**
+	- **Cancellable**
+
 - 파이프라인
 	- 데이터를 전달하는 과정
 	- 성공 타입과 실패 타입을 함계 명시해야 한다. (생성자와 소비자의 타입 다를시 에러 발생)
@@ -4308,6 +4326,53 @@ iBeacon
 		func recevie<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input
 
 	   ```
+## Publisher
+- 이벤트 발생
+- 시간의 흐름에 따 일련의 값을 전송(transmit)하는 **프로토콜**
+- 하나 이상의 Subscriber 인스턴스에게 element를 제공한다.
+- recevie(subscriber:) 메소드를 구현해 subscriber를 받아주게 한다.
+- 전달 데이터 타입
+	- output: subscriber에 전달할 값, 데이터
+	- Failure: 에러 종류
+- Publisher를 만들어주는 메소드 6가지
+	- Future
+	- Just
+	- Deferred
+	- Empty
+	- Fail
+	- Record
+
+- Just
+	- subscriber에게 output을 한번만 출력한 다음 완료하는 publisher
+	- subscriber에서 받는 메소드sink
+	- publisher의 값을 subscribe하는 방법 3가지
+        	- subscribe 메소드
+        	- sink : subscriber를 만들어주는 메소드 
+       	 	-  assign(to: ,on:)
+   ```swift
+	let publisher = Just("jinjin")
+
+	let subscriber = publisher.sink { print($0) }
+   ```	
+
+## Subscriber
+- 이벤트 가공
+- Pulisher로 부터 input을 받을 수 있는 타입을 선언하는 프로토콜
+- 변경사항을 설명하는 life cycle 이벤트를 받는다.
+- Sink
+	- Publisher에서 Just메소드로 만든 Publisher를 받는 Subscriber메소드
+	- subscriber를 만들고 subscriber를 리턴하기 전에 즉시 unlimited number of values를 요청한다.
+
+   ```swift
+	
+   ```
+
+## Subject
+
+## Scheduler
+
+## Cancellable
+
 
 ## @EvironmentObject
 - 전체 앱의 모든 뷰에서 공유되는 데이터의 경우 SwiftUI에서 제공하는 방식
