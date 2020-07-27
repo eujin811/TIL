@@ -40,7 +40,9 @@ Swift, Xcode, iOS 관련
 	- [SnapKit](https://github.com/eujin811/TIL#snapkit)
 	- [SwiftUI](https://github.com/eujin811/TIL#swiftui)
 	- [ScrollView](https://github.com/eujin811/TIL#scrollview)
-
+- [Omit Return SE-0255]()
+	  - 단일 표현식이 사용된 함수에 대해 클로저와 동일하게 리턴 키워드 생략 가능
+	
 - iOS
 	- [iOS App구조](https://github.com/eujin811/TIL#ios-app-%EA%B5%AC%EC%A1%B0)
 	- [Life Cycle](https://github.com/eujin811/TIL#life-cycle)
@@ -60,16 +62,22 @@ Swift, Xcode, iOS 관련
 		- [CLAuthorizationStatus](https://github.com/eujin811/TIL#clauthorization-status)
 		- [Determining the Availability](https://github.com/eujin811/TIL#determining-the-availability)
 		- [Getting the User's Location Data](https://github.com/eujin811/TIL#getting-the-users-location-data)
-		
+	
 - XCode
 	- [OAuth Login](https://github.com/eujin811/TIL#oauth-login)
+	
 	- [Window 교체](https://github.com/eujin811/TIL#window-%EA%B5%90%EC%B2%B4)
 
-
+	  
+	
 - SwiftUI & Combin
 	- [SwiftUI](https://github.com/eujin811/TIL#SwiftUI)
 		- [UIHostingController](https://github.com/eujin811/TIL#uihostingcontroller)
 		- [View](https://github.com/eujin811/TIL#view-swiftui)
+		- [공통 수식어]()
+		- [Modifier (수식어)]()
+		  - 수식어 유의사항
+		  - 수식어 적용순서 
 		- [Preview](https://github.com/eujin811/TIL#prieview)
 		- [Text](https://github.com/eujin811/TIL#text-swiftui)
 		- [Image](https://github.com/eujin811/TIL#image)
@@ -86,6 +94,8 @@ Swift, Xcode, iOS 관련
 		- [Gradient](https://github.com/eujin811/TIL#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
 		- [Animation](https://github.com/eujin811/TIL#animation-swiftui)
 		- [ScrollView](https://github.com/eujin811/TIL#scrollview-swiftui)
+		- 
+
 
 	- [Combin](https://github.com/eujin811/TIL#Combin)
 		- [Publisher]()
@@ -3358,6 +3368,7 @@ if device.isBatteryMonitoringEnabled {
 	- 코드를 간소화한다.
 
 - Dispatch Framework
+	
 	- 멀티코어 하드웨어에서 다중 작업을 동시에 수행할 수 있도록 관리하기 위한 프레임워크 시스템에서 관리하는 Dispatch Queues에 작업을 전달하여 수행한다.
 	
 - DispatchQueue
@@ -3369,10 +3380,12 @@ if device.isBatteryMonitoringEnabled {
 	- 각 작업은 동기(sync) 방식과 비동기(async)방식으로 실행 가능하지만 Main큐 에서는 async만 사용가능
 
 - Synchronous
+	
 	- sync 메서드를 이용해 동기적으로 실행되면, 작업이 완료될 때까지 대기한 뒤 메서드에서 return 호출 해당 스레드의 다른 작업들을 모두 일시 정지
 - Asynchronous
-	- async 메서드를 이용해 비동기적으로 실행되면, 즉시 메서드에서 return을 호추하고 작업을 수행한다.
-
+	
+- async 메서드를 이용해 비동기적으로 실행되면, 즉시 메서드에서 return을 호추하고 작업을 수행한다.
+	
 - System이 제공하는 Queue는 Main과 Global이 있으며 앱 실행 시 생성된다.
 - UI와 관련된 작업은 모두 main큐를 통해서 수행하며 Serial Queue에 해당한다.
 - MainQueue를 sync메서드로 동작시키면 Dead Lock 상태에 빠짐
@@ -3539,6 +3552,7 @@ if device.isBatteryMonitoringEnabled {
 
 ## JSONSSerialization
 - Data는 5가지 인코딩 지원 형식중 하나를 사용. (기본: UTF-8)
+	
 	- UTF-8, UTF-16LE, UTF-16BE, UTF-32LE, UTF-32BE	
 - json데이터로 변형 혹은 json 형태의 데이터 사용할 수 있도록 한다.
 	
@@ -3765,7 +3779,7 @@ v 13.0 부터 가능
 - 콘텐츠 뷰의 영향을 받는 부분을 그리기 위해 사용된다.
   ```swift
     Optional func scrollViewDidScrol(_ scrollView: UIScrollView)
-  ```	
+  ```
 
 **scrollViewWillBeginDragging(UIScrollView)
 - 스크롤을 시작하려고 할 때
@@ -3837,7 +3851,7 @@ iBeacon
 | 기본 위치 서비스 | Y | Y |
 | 상당한 위치 변화 서비스 | N | Y |
 | 방문 | N | Y |
-| 지역 모니터링(Region monitoring) | N | Y | 
+| 지역 모니터링(Region monitoring) | N | Y |
 | iBeacon ranging | Y | Y |
 | Heading service | Y | Y |
 | Geocoding service | Y | Y |
@@ -3859,7 +3873,7 @@ iBeacon
 	- func significationLocationChangeMonitoringAvailable( ) -> Bool
 	- func isMonitoringAvailable(for regionClass: Swift.AnyClass) -> Bool
 	- func isRangingAvailable( ) -> Bool 
- 
+
 ## Getting the User's Location Data
 - Standard location service(When-in-use or Always authorization)
 	- 사용자 위치를 실시간으로 파악하기 위한 범용 솔루션
@@ -3873,6 +3887,44 @@ iBeacon
 	- 유저가 한 장소에 머물러 시간을 보내다가 이동할 때 업데이트 알림 발생(위치 및 시간 정보)
 	- 사용자의 행동 패턴을 파악하고 그 지식을 앱의 다른 부분에 적용하기 위한 서비스로 활용
 
+## Omit Return(SE-0255)
+
+- Swift 5.1 버전에서 구현
+
+- 단일 표현식이 사용된 함수에 대해 클로저와 동일하게 리턴 키워드 생략 가능
+
+- 기존 클로저
+
+     ```swift
+  let sum = { $0 + $1 }
+     ```
+
+- Omit Return
+
+     ```swift
+  func sum(lhs: Int, rhs: Int) -> Int {
+    lhs + res
+  }
+     ```
+
+- 삼항연산자도 가능하다.
+
+  - Swift는 삼항연산자는 표현식(Expression)으로 if문은 구문(Statement)로 분류되어 가능
+
+     ```swift
+  // 삼항연산자
+  true ? Text("T"): Text("F")
+  
+  // if문
+  if true { 
+    return Text("T")
+  } else {
+    return Text("F")
+  }
+     ```
+
+  
+
 
 # SwiftUI & Combin
 
@@ -3881,14 +3933,189 @@ iBeacon
 	- 상속이 안되므로 protocol사용
 - UIViewController가 아닌 ContentView를 사용한다.
 - Canvas 사용해 실시간으로 제작하는 view의 UI 확인 가능 (Resum)
+- 제네릭을 적극적으로 사용중이다.
+- SwiftUI 4가지 원칙
+  - 선언형
+  - 자동화
+  - 조합
+  - 일관성
+    - 데이터와 동기화되어 일관성 있게 보인다.
+    - 데이터 변경 즉시 UI 자동으로 갱신됨 (UI 동기화를 수동으로 직접하지 않아도 된다.)
+- 기존 vs SwiftUI
+
+|          <span style="color:blue">기존</span>           |   <span style="color:blue">SwiftUI</span>   |
+| :-----------------------------------------------------: | :-----------------------------------------: |
+|                       **명령형**                        |                 **선언형**                  |
+|      -> 어떻게 진행할지 초점을 두고 단계별로 진행       | -> 무엇을 하고싶은지 최종적으로 나타날 모습 |
+| ex) 계란을 깨서 후라이팬에 기름을 두르고 중불에 익힌다. |           ex) 계란 후라이 주세요.           |
+|                   **UI (autoLayout)**                   |                                             |
+|                        직접 설정                        |           프레임워크가 처리해줌.            |
+
+
+
 
 - **some**
 	- 어떤 상태가 들어올지 모를 때 사용한다.
+- 뷰 구성
+
+| **UIKit**                      | **SwiftUI**              |
+| ------------------------------ | ------------------------ |
+| UILabel                        | Text                     |
+| UITextField                    | TextField                |
+| UITextField(isSecureTextEntry) | SecureField              |
+| UIButton                       | Button                   |
+| UIImageView                    | Image                    |
+| UISwitch                       | Toggle                   |
+| UISlider                       | Slider                   |
+| UIStepper                      | Stepper                  |
+| UIPickerView                   | Picker(WheelPickerStyle) |
+
+| UISegmentedControl   | Picker(SegmentedPickerStyle) |
+| -------------------- | ---------------------------- |
+| UIDatePicker         | DatePicker                   |
+| UITextView           | .                            |
+| UIStackView          | HStac, VStack, ZStack        |
+| UIScrollView         | ScrollView                   |
+| UITableView          | List                         |
+| UITableView(Grouped) | List(GroupedLsitStyle)       |
+| UICollectionView     | .                            |
+
+
+
+- Controller 구성
+
+| **UIKit**                      | **SwiftUI**    |
+| ------------------------------ | -------------- |
+| UIViewController               | View           |
+| UINavigationController         | NavigationView |
+| UITabBarController             | TabView        |
+| UISplitViewController          | NaviagtionView |
+| UITableViewController          | List           |
+| UICollectionViewController     | .              |
+| UIAlertControler(actionSheet)  | ActionSheet    |
+| UIAlertController(alert style) | Alert          |
+
+
+
+## Modifier(수식어)
+
+- 기존의 뷰에 새로운 동작이나 시각적 요소를 가미한 새로운 뷰를 생성한다.
+
+- 수식어는 이전의 뷰를 감싼 새로운 뷰를 만들어 내고, 그 다음 수식어는 다시 그 뷰를 감싸는 형태이다.
+
+- 수식어의 구조 예시
+
+  - .forgroundColor(.red)
+    - .font(.largeTitle)
+      - Text("Hello")
+  - Text를 만들고 font가 새로운 뷰를 만들어 감싸고 forgroundColor가 새로운 뷰를 만들어 감싼다.
+    - 뷰가 중첩되는 형태지만 SwiftUI의 자체적 렌더 시스템에서 데이터 구조를 효율적으로 축소시켜 관리하기 때문에 빠른 속도로 렌더링이 가능하다!
+
+       ```swift
+  Text("Hello").font(.largeTitle).forgroundColor(.red)
+  
+       ```
+
+- 수식어 적용 시 유의사항
+
+  - 수식어 사용 시 전용 수식어 우선 적용 후 공용 수식어를 적용해야 한다.
+  - 위반 시 문제
+    - 반환 타입 문제의 에러
+    - 수식어가 영향을 받지 않음
+  - **반환 타입 문제의 에러**
+    - 각 뷰의 적용 수식어를 우선 적용한 후 공용 수식어를 적용해야 한다. 수식어를 적용하는 시점에 따라 다르게 동작.
+      - 감싸는 뷰의 형태가 달라져 수식어가 적용되지 않고 에러를 일으킴
+
+     ```swift
+    Text("SwiftUI")
+        .font(.title)       // Text 반환
+        .bold()             // Text 반환
+        .padding()          // View 반환
+              
+    Text("SwiftUI")
+        .bold()             // Text 반환
+        .padding()          // View 반환
+        .font(.title)       // View 반환
+  
+  //            Text("SwiftUI")
+  //                .padding()          // View 반환
+  //                .bold()             // Text 반환, 컴파일 에러 (view 프로토콜에는 bold 수식어가 없어서.)
+  //                .font(.title)
+  //
+  //            Text("SwiftUI")
+  //                .padding()          // View 반환
+  //                .font(.title)       // View 반환
+  //                .bold()             // 컴파일에러.에러 (view 프로토콜에는 bold 수식어가 없어서.)
+     ```
+
+  
+
+  - **수식어가 영향을 받지 않을 때**
+    - 이전 뷰를 감싼 새로운 뷰 형태로 적용순서에 따라 결과가 달라질 수 있다.
+
+     ```swift
+   Text("ø˚¬©").font(.largeTitle).background(Color.yellow).padding()
+     ```
+
+  - 색 적용되고 padding 적용되서 text의 원래 크기 만큼에만 컬러적용
+
+    ![TextBackground1](/Users/youjinmac/Documents/dev/TIL/Assets/SwiftUI/TextBackground1.png)
+
+     ```swift
+  Text("ø˚¬©").font(.largeTitle).padding().background(Color.yellow)
+     ```
+
+  - padding 적용되고 색이 적용되서 padding 부분까지 컬러 적용
+
+  ![TextBackground2](/Users/youjinmac/Documents/dev/TIL/Assets/SwiftUI/TextBackground2.png)
+
+## 공통 수식어
+
+- 내부구조 반환 타입 some View
+
+     ```swift
+  public func font(_ font: Font?) -> some View {
+          <code>
+      }
+     ```
+
+- 각 뷰의 수식어는 이전뷰를 감싼 새로운 뷰 형태로 적용순서에 따라 결과가 달라질 수 있다.
+
+  - 수식어 구조 예시 참고
+
+- 각 뷰의 전용 수식어를 우선 적용한 후 공용 수식어를 적용해야 한다.
+
+  - 수식어가 적용되는 시점에 따라 서로 다르게 동작한다.
+
+- 공통수식어
+
+|      | 수식어    |
+| ---- | --------- |
+| 여백 | padding() |
+| 폰트 | Font      |
+
+
+
 ## UIHostingController
-- SwiftUI를 인자로 받아 ViewController를 만들어준다.
+
+- UIViewController를 상속받고 뷰 프로토콜을 준수하는 제네릭 매개 변수 Content를 전달받는 제네릭 클래스
+   
+- SwiftUI를 이용해 만들어진 뷰를 UIKit의 개발 환경에서 사용해야 할 때 사용한다.
+   
+- 구성
+   
+	   ```swift
+	// UIHostingController 
+   class UIHostingController<Content> : UIViewController where Content: View
+      ```
+   
+   
+   
+- 사용법: SwiftUI를 인자로 받아 ViewController를 만들어준다.
+
    ```swift
-	// in SceneDelegate rootView
-	window.rootViewController = UIHostingController(root view: contentView)
+   // in SceneDelegate rootView
+   window.rootViewController = UIHostingController(root view: contentView)
    ```
 
 ## View (SwiftUI)
@@ -3936,11 +4163,40 @@ iBeacon
   
 
 ## Text (SwiftUI)
+
+- UILabel과 같은 역할
+
    ```swift
 	Text("hi").font(.title).foregroundColor(.green)
    ```
 
+- 다양한 뷰 내부에 해당 UI를 구성할 때 텍스트를 사용하고 싶은 경우
+
+- Text 수식어 ( 내부 구조의 반환 타입 Text)
+
+     ```swift
+  public func bold() -> Text
+     ```
+
+  |                                | 수식어                                               |
+  | ------------------------------ | ---------------------------------------------------- |
+  | 폰트(font)                     | .font()                                              |
+  |                                | .font(.title),  font(.largeTitle)...                 |
+  | CustomFont                     | .font(.custom("",size: ))                            |
+  | 글자색                         | .foregroundColor                                     |
+  | 배경색                         | .background(Color.red)                               |
+  | 글씨체                         | .bold(),  .italic(), .underline(),  .strikethrough() |
+  | 라인 수 제한                   | .lineLimit(2)                                        |
+  | 다중행 문자열의 정렬 방식 설정 | .multilineTextAlignment(.trailing)                   |
+  | 텍스트 생력 불가               | .fixedSie()                                          |
+  | 자간조정                       | .kerning(10)                                         |
+  | 기준선                         | baselineOffset(10)                                   |
+  | 글씨 크기                      | font(.system(size: 16))                              |
+
+  
+
 ## Image
+
    ```swift
 	Image("imageName").clipShape(Circle())
    ```
@@ -3952,6 +4208,7 @@ iBeacon
 - UINavigationController역할
 - .navigationBarTitle : 
 - .navigationBarItems(trailing: 정의해둔 UI)
+	
 	- 네비게이션 상단에 아이템 추가
 - Title
 	- Form 블록 끝에 NavigationBarTitle 추가해서 String 인자로 전달 (꼭 Form블록 뒤에!)
@@ -4099,7 +4356,7 @@ iBeacon
 - **Wheel Picker** (iOS에서만 사용)
    ```swift
 	Picker(selection: , label: , content: ).pickerStyle(WheelPickerStyle())
-   ```	
+   ```
 	- selection: 선택한 index
 	- label: 어떤건지 표기
 	- Content: picker 내부구성
@@ -4308,7 +4565,7 @@ iBeacon
 			- input : 정상 수행 시 전달받는 타입
 			- Failure : 에러 발생 시 전달받는 타입
 		- 데이터 전달 타입 
-			
+		
 	- Subscriber
 		- 이벤트 소비
 		- Operator에 데이터 요청
@@ -4353,7 +4610,7 @@ iBeacon
 	let publisher = Just("jinjin")
 
 	let subscriber = publisher.sink { print($0) }
-   ```	
+   ```
 
 ## Subscriber
 - 이벤트 가공
@@ -4379,6 +4636,7 @@ iBeacon
 - 필요한 곳 어디에서든 모델 데이터 변경을 공유
 - 데이터가 변경될 때 뷰가 자동적으로 업데이트를 유지하는 것을 보장한다.
 - 뷰에서 데이터를 만들고 encironment에 넣어서 여러 뷰에서 자동으로 사용 가능
+	
 	- 하나의 뷰에서 데이터를 만들고 여러 뷰에 전달-> 전달 하지 않을 수 있게 된다.
 - 어떤 뷰에서 environment를 바꿀 때, 모든 뷰는 자동으로 갱신되어 동기상태를 유지한다.
 - 반드시 루트뷰에 제공되어야 한다.
