@@ -40,7 +40,7 @@ Swift, Xcode, iOS 관련
 	- [SnapKit](https://github.com/eujin811/TIL#snapkit)
 	- [SwiftUI](https://github.com/eujin811/TIL#swiftui)
 	- [ScrollView](https://github.com/eujin811/TIL#scrollview)
-- [Omit Return SE-0255]()
+	- [Omit Return SE-0255](https://github.com/eujin811/TIL/blob/master/README.md#omit-returnse-0255)
 	  - 단일 표현식이 사용된 함수에 대해 클로저와 동일하게 리턴 키워드 생략 가능
 	
 - iOS
@@ -74,8 +74,8 @@ Swift, Xcode, iOS 관련
 	- [SwiftUI](https://github.com/eujin811/TIL#SwiftUI)
 		- [UIHostingController](https://github.com/eujin811/TIL#uihostingcontroller)
 		- [View](https://github.com/eujin811/TIL#view-swiftui)
-		- [공통 수식어]()
-		- [Modifier (수식어)]()
+		- [공통 수식어](https://github.com/eujin811/TIL/blob/master/README.md#%EA%B3%B5%ED%86%B5-%EC%88%98%EC%8B%9D%EC%96%B4)
+		- [Modifier (수식어)](https://github.com/eujin811/TIL/blob/master/README.md#modifier%EC%88%98%EC%8B%9D%EC%96%B4)
 		  - 수식어 유의사항
 		  - 수식어 적용순서 
 		- [Preview](https://github.com/eujin811/TIL#prieview)
@@ -98,17 +98,17 @@ Swift, Xcode, iOS 관련
 
 
 	- [Combin](https://github.com/eujin811/TIL#Combin)
-		- [Publisher]()
+		- [Publisher](https://github.com/eujin811/TIL/blob/master/README.md#publisher)
 			- Future
 			- Just
 			- Deferred
 			- Empty
 			- Fail
 			- Record
-		- [Subscriber]()
-		- [Subject]()
-		- [Scheduler]()
-		- [Cancellable]()
+		- [Subscriber](https://github.com/eujin811/TIL/blob/master/README.md#subscriber)
+		- [Subject](https://github.com/eujin811/TIL/blob/master/README.md#subject)
+		- [Scheduler](https://github.com/eujin811/TIL/blob/master/README.md#scheduler)
+		- [Cancellable](https://github.com/eujin811/TIL/blob/master/README.md#cancellable)
 		- [@EnvironmentObject](https://github.com/eujin811/TIL#evironmentobject)
 
 
@@ -3896,15 +3896,15 @@ iBeacon
 - 기존 클로저
 
      ```swift
-  let sum = { $0 + $1 }
+  	let sum = { $0 + $1 }
      ```
 
 - Omit Return
 
      ```swift
-  func sum(lhs: Int, rhs: Int) -> Int {
-    lhs + res
-  }
+  	func sum(lhs: Int, rhs: Int) -> Int {
+	    lhs + res
+  	}
      ```
 
 - 삼항연산자도 가능하다.
@@ -3912,15 +3912,15 @@ iBeacon
   - Swift는 삼항연산자는 표현식(Expression)으로 if문은 구문(Statement)로 분류되어 가능
 
      ```swift
-  // 삼항연산자
-  true ? Text("T"): Text("F")
+  	// 삼항연산자
+  	true ? Text("T"): Text("F")
   
-  // if문
-  if true { 
-    return Text("T")
-  } else {
-    return Text("F")
-  }
+  	// if문
+  	if true { 
+	    return Text("T")
+	} else {
+	    return Text("F")
+  	}
      ```
 
   
@@ -4011,10 +4011,10 @@ iBeacon
   - Text를 만들고 font가 새로운 뷰를 만들어 감싸고 forgroundColor가 새로운 뷰를 만들어 감싼다.
     - 뷰가 중첩되는 형태지만 SwiftUI의 자체적 렌더 시스템에서 데이터 구조를 효율적으로 축소시켜 관리하기 때문에 빠른 속도로 렌더링이 가능하다!
 
-       ```swift
-  Text("Hello").font(.largeTitle).forgroundColor(.red)
+   ```swift
+  	Text("Hello").font(.largeTitle).forgroundColor(.red)
   
-       ```
+    ```
 
 - 수식어 적용 시 유의사항
 
@@ -4027,25 +4027,25 @@ iBeacon
       - 감싸는 뷰의 형태가 달라져 수식어가 적용되지 않고 에러를 일으킴
 
      ```swift
-    Text("SwiftUI")
-        .font(.title)       // Text 반환
-        .bold()             // Text 반환
-        .padding()          // View 반환
+    	Text("SwiftUI")
+           .font(.title)       // Text 반환
+           .bold()             // Text 반환
+           .padding()          // View 반환
               
-    Text("SwiftUI")
-        .bold()             // Text 반환
-        .padding()          // View 반환
-        .font(.title)       // View 반환
+    	Text("SwiftUI")
+           .bold()             // Text 반환
+           .padding()          // View 반환
+           .font(.title)       // View 반환
   
-  //            Text("SwiftUI")
-  //                .padding()          // View 반환
-  //                .bold()             // Text 반환, 컴파일 에러 (view 프로토콜에는 bold 수식어가 없어서.)
-  //                .font(.title)
-  //
-  //            Text("SwiftUI")
-  //                .padding()          // View 반환
-  //                .font(.title)       // View 반환
-  //                .bold()             // 컴파일에러.에러 (view 프로토콜에는 bold 수식어가 없어서.)
+  	//Text("SwiftUI")
+  	   //.padding()          // View 반환
+  	   //.bold()             // Text 반환, 컴파일 에러 (view 프로토콜에는 bold 수식어가 없어서.)
+  	   //.font(.title)
+  	   //
+  	//Text("SwiftUI")
+  	   //.padding()          // View 반환
+  	   //.font(.title)       // View 반환
+  	   //.bold()             // 컴파일에러.에러 (view 프로토콜에는 bold 수식어가 없어서.)
      ```
 
   
@@ -4054,27 +4054,25 @@ iBeacon
     - 이전 뷰를 감싼 새로운 뷰 형태로 적용순서에 따라 결과가 달라질 수 있다.
 
      ```swift
-   Text("ø˚¬©").font(.largeTitle).background(Color.yellow).padding()
+   	Text("ø˚¬©").font(.largeTitle).background(Color.yellow).padding()
      ```
 
   - 색 적용되고 padding 적용되서 text의 원래 크기 만큼에만 컬러적용
 
-    ![TextBackground1](/Users/youjinmac/Documents/dev/TIL/Assets/SwiftUI/TextBackground1.png)
     
   <p align="center">
-  <img src="Assets/SwiftUI/TextBackground1.png" alt="집합 포함 메소드" height="50%" width="50%">
+  <img src="Assets/SwiftUI/TextBackground1.png" alt="수식어순서1" height="50%" width="50%">
   </p>
      ```swift
-  Text("ø˚¬©").font(.largeTitle).padding().background(Color.yellow)
+  	Text("ø˚¬©").font(.largeTitle).padding().background(Color.yellow)
      ```
      
 
   - padding 적용되고 색이 적용되서 padding 부분까지 컬러 적용
 
-  ![TextBackground2](/Users/youjinmac/Documents/dev/TIL/Assets/SwiftUI/TextBackground2.png)
   
   <p align="center">
-  <img src="Assets/SwiftUI/TextBackground2.png" alt="집합 포함 메소드" height="50%" width="50%">
+  <img src="Assets/SwiftUI/TextBackground2.png" alt="수식어순서2" height="50%" width="50%">
   </p>
 
 ## 공통 수식어
@@ -4082,9 +4080,9 @@ iBeacon
 - 내부구조 반환 타입 some View
 
      ```swift
-  public func font(_ font: Font?) -> some View {
+  	public func font(_ font: Font?) -> some View {
           <code>
-      }
+      	}
      ```
 
 - 각 뷰의 수식어는 이전뷰를 감싼 새로운 뷰 형태로 적용순서에 따라 결과가 달라질 수 있다.
@@ -4112,10 +4110,11 @@ iBeacon
    
 - 구성
    
-	   ```swift
-	// UIHostingController 
-   class UIHostingController<Content> : UIViewController where Content: View
-      ```
+	```swift
+	   // UIHostingController 
+   	   
+	   class UIHostingController<Content> : UIViewController where Content: View
+	```
    
    
    
