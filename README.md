@@ -89,6 +89,12 @@ Swift, Xcode, iOS 관련
 		- [MapView](https://github.com/eujin811/TIL#mapview)
 		- [ListView -> SwiftUI의 TableView](https://github.com/eujin811/TIL#listview-swiftui-tableview)
 		- [Stack](https://github.com/eujin811/TIL#stack)
+		- [SwiftUI View 위치구성]()
+			- [Overlay]()
+				- SwiftUI의 addSubView
+			- [Background]()
+			- [Spacer]()
+			- [Alignment]()
 		- [GeiometryReader](https://github.com/eujin811/TIL#geiometryreader)
 		- [Path](https://github.com/eujin811/TIL#path)
 		- [Gradient](https://github.com/eujin811/TIL#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
@@ -4203,13 +4209,38 @@ iBeacon
   
 
 ## Image
+- 기본적으로 주어진 공간과 관계없이 그 고유의 크기를 유지한다.
+- resizable()없이 frame 수식어 적용 시 이미지 크기는 그대로 차지하는 공간만 늘어난다.
 
-   ```swift
-	Image("imageName").clipShape(Circle())
-   ```
-- clipShape
-- overlay
-- shadow
+|수식어| |
+|---|---|
+| .frame | resizable없이 사용시 이미지 크기는 그대로, 차지하는 공간만 커짐 |
+| .resizable() | 이미지 크기 제정의 |
+| | resizable().frame|
+| .resizable(capInsets: ) | 특정영역 크기 제정의 | 
+| .resizable(resizeMode: ) | .title, Slicing 등 타일형식, 부분 영역 늘리기 |
+| **ContentMode** |  |
+| -> .scaleToFit() | Default, 비율과 관계없이 이미지 늘려줌 | 
+| -> .aspectFit() | 원본비율 유지한 상태에서 최대 크기까지 늘려줌(너비와 높이중 작은값 기준) |
+| -> .aspectFillt() | 원본의 비율 유지한 상태에서 최대 크기 늘려줌(너비와 높이중 큰 값 기준) | 
+| .clipped() | 프레임 벗어나는 이미지 제거 (clipsToBounds 활성화 효과 비슷) |
+| .aspectRatio | 이미지 세부적 조정 |
+| .clipShape() | 이미지 원하는 모습만 남기고 자르기 | 
+| ->  .clipShape(Circle()) | 이미지 원으로 자름 | 
+| ->  .clipShape(rectanble().inset(by: 값)) | 사각형으로 값만큼 줄인 |
+| ->  .clipshape(Ellipse()) | 타원만큼 |
+| .renderingMode(.original) | 원본 이지미 색상 유지|
+| | 뷰 다루다가 이미지 색상 변했을 때 사용 | 
+| .renderingMode(.template).foregroundColor(.red) | 이미지에 색상 적용 | 
+| **SF Symbols** | |
+| Image(systemName: ) | SF Symbols 적용 | 
+| .imageScale(.~) | SF Symbols 크기 적용 |
+| ->  .imageScale(.small) | |
+| ->  .imageScale(.mdeium) | |
+| ->  .imageScale(.large) | | 
+| Image(systemName: ).font | 심볼의 크기, 선굵기 지정 가능 | 
+| shadow() | 그림자 | 
+ 
 
 ## NavigationView (SwiftUI)
 - UINavigationController역할
@@ -4450,13 +4481,146 @@ iBeacon
 	}
    ```
 
+## SwiftUI View 위치구성
+- Stack을 제외한 수식어
+	- Overlay
+	- Background
+	- Alignment
+	- Spacer
+- 위치설정 적정 사용시점
+	- 개별적인 뷰 객체 꾸밀 때
+		- **.overlay** 혹은 **.background**
+		- 수식 대상이 되는 뷰와 직접적인 연관성이 있는 뷰 추가할 때 사용	- 레이아웃 구성 시
+		- **ZStack**
+			- 자식 뷰의 크기에 따라 ZStack이 함께 변할 수 있어 특정 콘텐츠 변경 시 다른 뷰에 영향을 줄 수 있다.
+		- 상대적으로 직접적인 연관성이 없는 뷰들을 계층 구조로 나열해 구성 할 때 사용
+		
+- **Spacer**
+	- 부모 뷰 외부에서 사용될 경우
+		- 부모 뷰가 제공하는 공간 내에서 최대 크기
+	   ```swift
+		var body: some View {
+		   Spacer().background(Color.gray)
+		}
+	   ```
+<p align="center">
+  <img src="Assets/SwiftUI/SpacerOtherView.png" alt="SpacerOtherView" height="50%" width="50%">
+  </p>
+	- 부모 뷰 내부에서 사용될 경우	
+		- 공간 차지를 위한 기능	
+		- 사용가능한 공간의 최대 크기
+	- minLength: 최소 간격 지
+
+
+- **Overlay**
+	- SwiftUI의 addSubView
+	- view 위에 새로운 뷰를 중첩하여 쌓는 기능
+	- 자식 뷰는 부모 뷰를 기준으로 프레임 좌표 및 크기 영향 받는다.
+   ```swift
+	Rectangle().
+	   .fill(Color.green)
+	   .frame(width: 100, height: 100)
+	   .overlay(
+		Rectangle().fill(Color.yellow).frmae(width: 50, height: 50)
+	   )  
+   ```
+<p align="center">
+  <img src="Assets/SwiftUI/overlay.png" alt="overlay" height="50%" width="50%">
+  </p>
+
+- **Background**
+	- 뷰 원본의 공간을 기준으로 뷰를 아래 방향으로 중첩
+   ```swift
+	Rectangle().
+	   .fill(Color.yellow)
+	   .frame(width: 100, height: 100)
+	   .background(
+		Rectangle().fill(Color.green).frame(width: 150, height: 150)
+	   )
+   ```
+<p align="center">
+  <img src="Assets/SwiftUI/background1.png" alt="background1" height="50%" width="50%">
+  </p>
+
+- **Alignment**
+	- 정렬
+   ```swift
+	Circle()
+	   .fill(Color.yellow.opacity(0.7))
+	   .frame(width: 150, height: 150)
+	   .overlay( 
+		Image(systemName: "arrow.left")
+		   .font(.title)
+		   .padding(),
+		alignment: .leading
+	   ) 
+	   .background(
+		Image(systemName: "arrow.right)
+		   .font(.title)
+		   .padding(),
+		alignment:
+		   .trailing
+	   )
+   ```
 
 ## Stack
-- 
+- 뷰를 배치하는데 사용하는 컨테이너뷰
+- 여러개의 view를 묶을 때에도 필요하다.
+	- Body는 하나의 값만 반환하기 때문에 하나의 뷰로 반환해 줄 컨테이너 뷰가 필요하기 때문
+
+- **HStack**
+	- 가로
+	- 구조
+	   ```swift
+		struct HStack<Content> : View where Content: View
+	   ```
+	- 생성자
+	   ```swift
+		init(alignment: VerticalAlignment, spacing: CGFloat?, @ViewBuilder content: () -> Content)
+	   ```
+		- alignment: 뷰의 정렬
+		- spacing: 내부 뷰 간격
+		- content: 내부 컨텐츠
+	- 사용
+	   ```swift
+		HStack { ... }
+		HStack(alignment: .center) { ... }
+		HStack(spacing: 20) { ... }
+	   ```
+- **VStack**
+	- 세로
+	- 구조
+	   ```swift
+		struct VStack<Content>: View where Content: View
+	   ```
+	- 사용
+           ```swift
+                VStack { ... }
+                VStack(alignment: .center) { ... }
+                VStack(spacing: 20) { ... }
+           ```
+- **ZStack**
+	- 뎁스 쌓임
+	- 자식 뷰의 크게이 따라 ZStack 함께 변할 수 있어 특정 콘텐츠의 변경 사항이 다른 뷰에 영향을 줄 수 있다.
+	   ```swift
+		struct ZStack<Content>: View where Content: View
+	   ```
+	- 사용
+           ```swift
+                ZStack { ... }
+                ZStack(alignment: .center) { ... }
+                ZStack(spacing: 20) { ... }
+           ```
+- spacing: 내부 간격
+   ```swift
+	HStack(spacing: 20) { ... }
+   ``` 
 - alignment : 내부정렬
    ```swift
 	HStack(alignment: .leading) { ... }
    ```
+
+
 ## GeiometryReader
 - 콘텐츠 자체 크기를 정의한 함수로 공간을 조정할 때 사용하는 컨테이너 뷰
    ```swift
@@ -4623,13 +4787,32 @@ iBeacon
 - 이벤트 가공
 - Pulisher로 부터 input을 받을 수 있는 타입을 선언하는 프로토콜
 - 변경사항을 설명하는 life cycle 이벤트를 받는다.
+- 받는 데이터 타입
+	- input 
+		- Publisher에게 받은 값의 종류
+	- Failure
+		- 에러종류
 - Sink
 	- Publisher에서 Just메소드로 만든 Publisher를 받는 Subscriber메소드
 	- subscriber를 만들고 subscriber를 리턴하기 전에 즉시 unlimited number of values를 요청한다.
 
    ```swift
+	let subscriber = pulisher.sink(recevieCompletio: { (result) in
+	   switch result {
+	   case .finished:
+		print("finished")
+	   case .failure(let error):
+		print(error.localizedDescription)
+	   }
+	}, recevieValue: { (value) in
+	   print(value)
+	})
 	
+	// jinjin
+	// finished
    ```
+- 
+
 
 ## Subject
 
