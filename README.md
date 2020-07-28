@@ -4060,14 +4060,22 @@ iBeacon
   - 색 적용되고 padding 적용되서 text의 원래 크기 만큼에만 컬러적용
 
     ![TextBackground1](/Users/youjinmac/Documents/dev/TIL/Assets/SwiftUI/TextBackground1.png)
-
+    
+  <p align="center">
+  <img src="Assets/SwiftUI/TextBackground1.png" alt="집합 포함 메소드" height="50%" width="50%">
+  </p>
      ```swift
   Text("ø˚¬©").font(.largeTitle).padding().background(Color.yellow)
      ```
+     
 
   - padding 적용되고 색이 적용되서 padding 부분까지 컬러 적용
 
   ![TextBackground2](/Users/youjinmac/Documents/dev/TIL/Assets/SwiftUI/TextBackground2.png)
+  
+  <p align="center">
+  <img src="Assets/SwiftUI/TextBackground2.png" alt="집합 포함 메소드" height="50%" width="50%">
+  </p>
 
 ## 공통 수식어
 
