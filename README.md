@@ -89,12 +89,12 @@ Swift, Xcode, iOS 관련
 		- [MapView](https://github.com/eujin811/TIL#mapview)
 		- [ListView -> SwiftUI의 TableView](https://github.com/eujin811/TIL#listview-swiftui-tableview)
 		- [Stack](https://github.com/eujin811/TIL#stack)
-		- [SwiftUI View 위치구성]()
-			- [Overlay]()
+		- [SwiftUI View 위치구성](https://github.com/eujin811/TIL#swiftui-view-%EC%9C%84%EC%B9%98%EA%B5%AC%EC%84%B1)
+			- Overlay
 				- SwiftUI의 addSubView
-			- [Background]()
-			- [Spacer]()
-			- [Alignment]()
+			- Background
+			- Spacer
+			- Alignment
 		- [GeiometryReader](https://github.com/eujin811/TIL#geiometryreader)
 		- [Path](https://github.com/eujin811/TIL#path)
 		- [Gradient](https://github.com/eujin811/TIL#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
@@ -4102,9 +4102,13 @@ iBeacon
 - 공통수식어
 
 |      | 수식어    |
-| ---- | --------- |
+|------ | --------- |
 | 여백 | padding() |
 | 폰트 | Font      |
+| background | 뷰 원본의 공간 기준으로 아래 방향으로 중첩, 컬러 바꿀때도 사용 |
+| overlay | SwiftUI의 addSubView 느낌, view 위에 새로운 뷰 중첩으로 쌓음 |
+| opacit(rkqt) | SwiftUI의 alpha값 |
+| edgesIgnorigSafeArea | SafeArea 영역까지 적용 시 |
 
 
 
