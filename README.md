@@ -97,6 +97,8 @@ Swift, Xcode, iOS 관련
 			- Background
 			- Spacer
 			- Alignment
+			- EmptyView
+			- Padding
 		- [GeiometryReader](https://github.com/eujin811/TIL#geiometryreader)
 		- [Path](https://github.com/eujin811/TIL#path)
 		- [Gradient](https://github.com/eujin811/TIL#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
@@ -4129,8 +4131,26 @@ iBeacon
 | overlay | SwiftUI의 addSubView 느낌, view 위에 새로운 뷰 중첩으로 쌓음 |
 | opacit(rkqt) | SwiftUI의 alpha값 |
 | edgesIgnorigSafeArea | SafeArea 영역까지 적용 시 |
+| .primary | 다크모드 위해 나온 컬러 (다크모드: 흰색, 라이트모드: 검정색) |
+| .colorInvert | 색반전 효과 (.primary 같은 곳에서 사용)|
+|  | Return 타입 some View (background 사용가능)  |
+| .cornerRadius | 뷰 모서리 둥글게, UIKit과 다라르게 clipToBound 별도 활성화 하지 않아도 해당 효과 적용 |
+| .shadow | 그림자 효과, 불투명한 상태의 뷰에 모두 금자 효과를 부여한다. |
 
 
+	- **shadow**
+		- 뷰의 가장자리에만 그림자 넣을 때
+			1. background 수식어 사용.
+			2. clipped 수식어 사용 (or 이를 포함한 cornerRadius 사용) + compositing
+			3. shadow 적용
+	   ```swift
+		HStck { 
+		   ...
+		}
+		.background(...)
+		.clipped()
+		.shadow(color: , radius: )
+	   ```
 
 ## UIHostingController
 
@@ -4511,6 +4531,8 @@ iBeacon
 	- Background
 	- Alignment
 	- Spacer
+	- EmptyView
+	- Padding
 - 위치설정 적정 사용시점
 	- 개별적인 뷰 객체 꾸밀 때
 		- **.overlay** 혹은 **.background**
@@ -4586,6 +4608,37 @@ iBeacon
 		   .trailing
 	   )
    ```
+- **EmptyView**
+	- 어떤 내용도 표현하지 않고 공간도 차지하지 않는 뷰
+	- 스택 내부에 반드시 하나 이상의 뷰를 넣아햐 하므로 빈 스택 원할때 사용
+
+   ```swift
+	HStack {
+	   EptyView()
+	}
+   ```
+
+- **Padding**
+	- 전체 적용
+	   ```swift
+		VStack { 
+		   ...
+		}.padding()
+
+		VStack {
+		   ...
+		}.padding(12)
+	   ```
+	- 지정영역
+	   ```swift
+		VStack {
+		   ...
+		}.padding(.trailing, 10)
+
+		VStack {
+		   ...
+		}.padding([.leading, bottom], 12)
+	   ```
 
 ## Stack
 - 뷰를 배치하는데 사용하는 컨테이너뷰
