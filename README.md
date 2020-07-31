@@ -42,6 +42,8 @@ Swift, Xcode, iOS 관련
 	- [ScrollView](https://github.com/eujin811/TIL#scrollview)
 	- [Omit Return SE-0255](https://github.com/eujin811/TIL/blob/master/README.md#omit-returnse-0255)
 	  - 단일 표현식이 사용된 함수에 대해 클로저와 동일하게 리턴 키워드 생략 가능
+	- [OpaqueReturnType 불투명반환타입]()
+		- **some*
 	
 - iOS
 	- [iOS App구조](https://github.com/eujin811/TIL#ios-app-%EA%B5%AC%EC%A1%B0)
@@ -3929,7 +3931,25 @@ iBeacon
   	}
      ```
 
-  
+## Opaque Return Type (불투명 반환타입)
+- Opaque Type(SE-0244)
+- some View와 같은 불투명 타입을 반환한다.
+	- 뷰에 수식어 붙을 때 마다 반환 타입이 달라지고, 어떤 뷰가 올지 모르기 때문에 간단하게 사용하기 위해 만들어짐.
+	- API를 추상화하고 모듈간 결합성을 낮추는데 도움이 된다.
+   ```swift
+	var body: ModifiedContent<VStack<TupleView<...>>>
+
+	// 불투명 반환타입
+	var body: some View
+   ```  
+- 제네릭의 반대개념, 호출 된 코드가 호출한 코드의 타입을 결정한다.
+	- 제네릭: 호출하는 축에서 호출되는 축의 타입을 결정
+- concrete type(특정 실체 타입)을 반환하는 대신 타입 정보를 숨기고 프로토콜에 대한 정보만 남긴 채 특정 프로토콜 유형을 따라르는 API라는 것만 전달하고 싶을 때 사용
+- 프로토콜을 준수하는 어떤 타입이든 반환할 수 있다. 하지만 함수를 호출할 때마다 서로 다른 타입이 반환되는 단점을 갖는다.
+
+**some**
+- 프로퍼티와 첨자, 함수에만 반환 타입만 적용 가능
+- some 다음 올 수 있는 타입 -> protocol, class, Any, AnyObject
 
 
 # SwiftUI & Combin
