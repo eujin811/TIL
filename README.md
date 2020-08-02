@@ -89,7 +89,7 @@ Swift, Xcode, iOS 관련
 		- [TextField](https://github.com/eujin811/TIL#textfield-swiftui)
 		- [Picker](https://github.com/eujin811/TIL#picker-swiftui)
 		- [MapView](https://github.com/eujin811/TIL#mapview)
-		- [ListView -> SwiftUI의 TableView](https://github.com/eujin811/TIL#listview-swiftui-tableview)
+		- [List -> SwiftUI의 TableView](https://github.com/eujin811/TIL#listview-swiftui-tableview)
 		- [Stack](https://github.com/eujin811/TIL#stack)
 		- [SwiftUI View 위치구성](https://github.com/eujin811/TIL#swiftui-view-%EC%9C%84%EC%B9%98%EA%B5%AC%EC%84%B1)
 			- Overlay
@@ -99,7 +99,8 @@ Swift, Xcode, iOS 관련
 			- Alignment
 			- EmptyView
 			- Padding
-		- [GeiometryReader](https://github.com/eujin811/TIL#geiometryreader)
+		- [GeometryReader](https://github.com/eujin811/TIL#geometryReader)
+		- [frame]()
 		- [Path](https://github.com/eujin811/TIL#path)
 		- [Gradient](https://github.com/eujin811/TIL#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
 		- [Animation](https://github.com/eujin811/TIL#animation-swiftui)
@@ -4136,6 +4137,8 @@ iBeacon
 |  | Return 타입 some View (background 사용가능)  |
 | .cornerRadius | 뷰 모서리 둥글게, UIKit과 다라르게 clipToBound 별도 활성화 하지 않아도 해당 효과 적용 |
 | .shadow | 그림자 효과, 불투명한 상태의 뷰에 모두 금자 효과를 부여한다. |
+| .accentColor | tintColor 역할 |
+| .position | 뷰의 센터를 지정하는 역할 |
 
 
 	- **shadow**
@@ -4287,23 +4290,83 @@ iBeacon
  
 
 ## NavigationView (SwiftUI)
-- UINavigationController역할
-- .navigationBarTitle : 
-- .navigationBarItems(trailing: 정의해둔 UI)
-	
-	- 네비게이션 상단에 아이템 추가
-- Title
-	- Form 블록 끝에 NavigationBarTitle 추가해서 String 인자로 전달 (꼭 Form블록 뒤에!)
+- UINavigationController역할 혹은 UISplitViewController의 역할 수행.
    ```swift
 	var body: some View {
 	   NavigationView {
-		Form {
-		   ...
-		}.navigationBarTitle("Hi")
+	      Image("image")
 	   }
 	}
    ```
-- 화면이동
+- .navigationBarTitle : 
+	- NavigationView 내부에서 사용해야 한다.
+		- (preference 기능) 하위 뷰에서 상위 뷰에 데이터 전달하는 방식 사용
+	- .navigationBarTitle(title:)
+   	   ```swift
+   	      NavigationView {
+                    Image("image").navigationBarTitle("Title")
+   	      }
+	   ```
+	- .navigationBarTitle)title:, displayMode: )
+		- automatic: 기본값
+		- .large:
+		- .inline:
+	   ```swift
+		// large
+		NavigationView {
+                    Image("image").navigationBarTitle("Title", displayMode: .large)
+             	 }	 
+	   ```
+<p align="center">
+  <img src="Assets/SwiftUI/NavigationLarge.png" alt="네비게이션 .large" height="50%" width="50%">
+  </p>
+
+	   ```swift
+		// inline
+                NavigationView {
+                    Image("image").navigationBarTitle("Title", displayMode: .inline)
+                 }
+	   ```
+<p align="center">
+  <img src="Assets/SwiftUI/NavigationInline.png" alt="네비게이션 .inline" height="50%" width="50%">
+  </p>
+
+
+- .navigationBarItems(trailing: 정의해둔 UI)
+	
+	- 네비게이션 상단에 아이템 추가
+	- leading에 아이템 추가 시 자동생성된 back 버튼 덮어쓴다.(iOS 13.4 이전 버전 기준)
+
+	- 여러개 아이템 추가
+		- leading 혹은 trailing에 둘 이상 아이템 넣을 때 HStack 이용하면 된다.
+	
+   ```swift
+      var body: some View {
+        
+          let leadingItem = Button(action: { print("Leadiong item tapped")}) {
+              Image(systemName: "bell").imageScale(.large)
+          }
+          let trailingItem = Button(action: { print("Trailing")}) {
+              Image(systemName: "gear").imageScale(.large)
+          }
+        
+          return NavigationView {
+              Image("swift")
+                  .navigationBarItems(leading: leadingItem, trailing: trailingItem)
+                  .navigationBarTitle("Title")
+          }
+      }
+
+   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/NavigationItem.png" alt="NavigationItem" height="50%" width="50%">
+  </p>
+
+- navigationLink
+	- 화면이동
+	- 특정조건 만족 시 지정 화면으로 이
+	- pushViewController 기능 수행과 동일
    ```swift
 	NavigationView {
 	   List {
@@ -4313,7 +4376,48 @@ iBeacon
 	   }	
 	}
    ```
+
+- navigationBarHidden(true)
+	- naviagtionBar 숨기기
+   ```swift
+	NavigationView {
+	   HStack {
+		...
+	   }.navigationBarHidden(true)
+	}
+   ```
+- navigationBarBackButtonHidden(true)
+	- naviagtion의 backButton 숨기기
+   ```swift
+	NavigationLink(
+		destination: Text("Destination View").navigationBarBackButtonHidden(true))
+
+   ```
+ 
+- Style
+	- navigationViewStyle
+		- Default : 환경에 따라 자동으로 결정
+		- StackNavigationViewStyle: 네비게이션 계층 구조를 하나의 뷰만으로 탐색해 나가는 스타일
+		- DoubleColumn: Mater와 Detail로 구분되는 2개의 뷰를 이용해 콘텐츠 표현, 내부적으로 SplitViewController 사용
+			- 첫번째 뷰와 마지막 뷰만 이식		
+			- 두개의 분할된 뷰로 표현되기 때문
+			- regular 사이즈 device만 해당
+<p align="center">
+  <img src="Assets/SwiftUI/NaviDoubleColumn.png" alt="Navigation DoubleColumn" height="50%" width="50%">
+  </p>
+
+		- 네비게이션 뷰에는 여러 개의 자식 뷰를 전달할 수 있지만 Stack일 때는 첫 번째 뷰만 인식하고 나머지 무시, DoubleColumn일 때는 첫 번째와 마지막 뷰만 인식
+
+	
+   ```swift
+	NaviagtionView {...}.naviagtionViewStyle(StackNavigationViewStyle())
+   ```
+
+
+
 ## Button (SwiftUI)
+- 기본 사용법
+	
    ```swift
 	Button("")	{
 		// 버튼 클릭 시 발생하는 callback
@@ -4330,6 +4434,51 @@ iBeacon
 	   }
 	}
    ```
+   ```swift
+	Button(action: {..}) {
+	   // 내부구성
+	   Text("text").background. ...
+	}
+   ```
+
+- 이미지 버튼
+	- Button 내부에 이미지 넣을 때 RenderingMode, ButtonStyle을 사용하지 않으면 accentColor(tint color) 색으로 바꾼다.
+		- RenderingMode
+		   ```swift
+			Button(action: {...}) { 
+			   Image("image").renderingMode(.orginal)
+			}
+		   ```	
+		- ButtonStyle
+		   ```swift
+			Button {...}.buttonStyle(playinButtonStyle())
+		   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/ImageButton.png" alt="SwiftUI ImageButton" height="50%" width="50%">
+  </p>
+
+
+- 수식어
+| buttonStyle | |
+|----|----|
+| .buttonStyle(DeafultButtonStyle()) | 버튼이 사용된 환경에 따라 시스템이 알아서 적절한 버튼 스타일을 반영한다. |
+| .buttonStyle(BorderButtonStyle()) | 콘텐츠에 미리 지정된 시각적 효과 적용 (	iOS에서 대부분 사용되는 경우) |
+| .buttonStyle(PlainButtonStyle()) | 버튼의 콘텐츠에 어떠한 시각적 요소도 적용하지 않음 | 
+
+## onTapGesture
+	- Image 혹은 text와 같은 view에 tab 했을 때 지정된 동작을 수행하는 수식어
+	- 단, 하이라이트 혹은 애니메이션 등의 기본효과 혹은 커스텀 버튼 스타일 사용 불가
+	- 클랙 행위만 함.
+
+
+   ```swift
+	Image(systemName: "person.circle)
+		.onTapGesture { 
+			print("onTapGesture") 
+		  }
+   ```
+
 
 ## TextField (SwiftUI)
    ```swift
@@ -4510,7 +4659,10 @@ iBeacon
 		   }
 		}
 	   ```
-## ListView (SwiftUI TableView)
+## List (SwiftUI TableView)
+- SwiftUI의 TableView
+	- DataSource, Delegate를 구현하지 않고 간단하게 구현 가능!
+
 - basic
    ```swift
 	List {
@@ -4518,12 +4670,94 @@ iBeacon
 	   Text("..")
 	}
    ```
-- Custom
+- 아이템 지정 사용가능
+   ```swift
+	List(0..<100) {
+	   Text("\($0)")
+	}
+   ```
+
+- id 식별자 지정
+	- id 매개 변수에는 Hashable 프로토콜을 준수하는 프로퍼티 지정 가능, 그 데이터 타입 자체가 Hashable을 준수하며 간단히 self라고 입력 가능하다!
    ```swift
 	List(data, id: \.id) {
 		LandmarkRow($0)
 	}
    ```
+
+   ```swift
+	List(["A","B","C","D","E"], id: \.self) {
+	   Text("\($0)")
+	}
+   ```
+
+- identifiable 프로토콜 채택
+	- 타입 자체에 id 프로퍼티를 만들고 이것을 식별자로 삼는다.
+   ```swift
+	List([Animal(name:"tory"), Anumal(name: "jinjin"]))
+   ```
+
+- section, footer
+   ```swift
+	var body: some View {
+	   let fruits = ["사과", "배", "포도", "바나나" ]
+	   let drinks = ["물", "우유", "탄산수"]
+
+	   let titles = ["Fruits", "Drinks"]
+	   let data = [fruist, drinks]
+
+	   return List {
+		ForEach(data.indices) { index in
+		   Sectiion(
+			header: Text(titles[index]).font(.title),
+			footer: HStack { 
+				Spacer()
+				Text("\(data[index].count)건")}
+			 ) { 
+			 ForEach(data[index], id: \.self) {
+			    Text($0)
+			  } 
+			}
+		  }
+	    }
+
+	}
+   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/List.png" alt="List" height="50%" width="50%">
+  </p>
+
+
+- ListStyle
+	- DeafultlistStyle
+		- 리스트 기본 스타일
+	- PlainListStyle
+		- UiTableView의 기본 스타일
+	- GroupedListStyle
+		- 각 섹션으로 분리된 그룹으로 묶어 표현하는 스타일
+		- compeact Device 일 때 grouped 스타일로 나타남
+		- regular Device 일 때 insetGrouped 스타일 적용
+			- device를 regular 사이조 지정해 강제지정 가능
+
+	- grouped
+	   ```swift
+		List { }.listStyle(GroupedListStyle())
+	   ```
+<p align="center">
+  <img src="Assets/SwiftUI/ListGroupedList.png" alt="GroupedList" height="50%" width="50%">
+  </p>
+	
+	- insetGrouped
+	   ```swift
+		List {}
+		     .listStyle(GroupedListStyle())
+		     .environment(\.horizontalSizeClass, .regular)
+	   ```
+<p align="center">
+  <img src="Assets/SwiftUI/ListInsetGrouped.png" alt="InsetGrouped" height="50%" width="50%">
+  </p>
+
 
 ## SwiftUI View 위치구성
 - Stack을 제외한 수식어
@@ -4698,8 +4932,14 @@ iBeacon
    ```
 
 
-## GeiometryReader
-- 콘텐츠 자체 크기를 정의한 함수로 공간을 조정할 때 사용하는 컨테이너 뷰
+## GeometryReader
+- 자식 뷰에 부모 뷰와 기기에 대한 크기 및 좌표계 정보를 전달하는 기능 수행하는 컨테이너 뷰
+- 콘텐츠 자체 크기 정의한 함수, 공간 조정할 때 사용하는 컨테이너 뷰
+- 기기 회전 등의 이유로 뷰의 크기 변경되면 값이 자동 갱신된다.
+- 자식 뷰 하나만 있을 경우 중앙 정렬된다.
+- 자식 뷰 여러개일 경우 좌측 상단 배치
+- 크기 미지정 시 공간 최대 크기.
+
    ```swift
 	GeometryReader { geometry in
 	   path { path in
@@ -4710,6 +4950,199 @@ iBeacon
 	   }
 	}
    ```
+- **GeometryProxy**
+	- geometryReader의 레이아웃 정보를 자식 뷰에 제공한다.
+	- GeometryProy(size:,safeAreaInsets:, frame: , subscript<T>(anchor: Anchor<T>) -> T { get }
+		- size: GeometryReader의 크기 반환
+		- safeAreaInsets: GeometryReader가 사용된 환견의 안전선 크기 반환
+		- frame : 특정 좌표계 기준으로 한 프레임 정보
+		- subscript<T>(anchor:Anchor<T>) -> T { get } 
+			- 자식 뷰에 anchorPreference 수식어를 이용해 제공한 좌표나 프레임을 지오메트리 리더의 좌표계를 기준으로 다시 변환해 사용
+	- 구조
+	   ```swift
+		struct GeometryProxy {
+		   var size: CGSzie { get } 
+		   var safeAreaInsets: EdgeInsets { get }
+		   var frame(in coordinateSpace: CoordinateSpace -> CGRect
+		   subscript<T>(anchor: Anchor<T>) -> { get }
+		}
+	   ```
+   	- 사용 예시
+   ```swift
+	GeometryReader { geometry in 
+	    Text("Geometry Reader")             // 안전선 내부에
+                .font(.largeTitle)
+                .bold()
+                // 뷰의 센터 지정
+                .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top)
+            VStack {
+                Text("Size").bold()
+                Text("width: \(Int(geometry.size.width))")
+                Text("height: \(Int(geometry.size.height))")
+            }.position(x: geometry.size.width / 2, y: geometry.size.height / 2.5)
+	   VStack {
+                Text("SafeAreaInsets").bold()
+                Text("top: \(Int(geometry.safeAreaInsets.top))")
+                Text("bottom: \(Int(geometry.safeAreaInsets.bottom))")
+            }.position(x: geometry.size.width / 2, y: geometry.size.height / 1.4)
+	}
+	.font(.title)
+	.frame(height: 500)
+	.border(Color.green, width: 5)
+   ```
+<p align="center">
+  <img src="Assets/SwiftUI/GeometryReader1.png" alt="GeometryProxy" height="50%" width="50%">
+  </p>	
+
+
+## frame
+- 자식 뷰가 활용 가능한 크기, 정렬, 위치 결정
+- 자식 뷰는 그 자신의 성질에 따라 크기가 결정된다.
+- frame은 자신의 좌표 공간에서 자식 뷰를 적절하게 배치하는 역할
+- layout을 frame에서 잡는 느낌이랄까??
+- 고정적으로 크기주기
+   ```swift
+	.frame(width: , height: , alignment: )
+   ```
+	- alignment: 자식뷰가 frame의 어느 위치에 놓일것인지
+	- 예시
+	   ```swift
+		Text("Frame").background(Color.yellow).frame(width: 200, height: 100, alignment: .leading).border(Color.red)
+
+		Text("Frame").background(Color.yellow).frame(width: 200, height: 100, alignment: .trailing).border(Color.red)
+	   ```
+<p align="center">
+  <img src="Assets/SwiftUI/frame1.png" alt="frame1" height="50%" width="50%">
+  </p>
+
+- 크기 제약조건
+   ```swift
+	func frame(minWidth: , idealWidth: , maxWidth: , minHeight: , idealHeight: , maxHeight: , alignment: ) -> some View
+   ```
+	- minWidth: 최소 width
+	- idealWidth: 이상정인 width
+    	- maxWidth: 최대 width
+    	- minHeight: 최소 
+    	- idealHeight: 이상적
+    	- maxHeight: 최대
+    	- alignment: 자식뷰 정렬 위치
+    	- **Min <= ideal <= max  (오름차순 정렬해야함.)**
+
+	- **ideal**
+		- 부모 뷰의 공간과 관계 없이 자신에게 이상적인 크기의 값을 갖는 것.
+
+  
+   ```swift
+	HStack {
+	   Rectangle().fill(Color.red).frame(minWidth: 100)
+	   Rectangle().fill(Color.orange).frame(maxWidth: 15)
+	   Rectangle().fill(Color.yellow).frame(height: 150)
+	   Rectangle().fill(Color.green).frame(maxHeight: .infinity)   // 최대높이
+	   Rectangle().fill(Color.blue).frame(maxWidth: .infinity, maxHeight: .infinity)
+	    Rectangle().fill(Color.purple)
+	}.frame(width: 300, height: 150)
+   ```
+		- .infinity : 설정 시 기기나 뷰에 따라 높이가 변해도 항상 최대로 정
+		
+<p align="center">
+  <img src="Assets/SwiftUI/frame2.png" alt="frame2" height="50%" width="50%">
+  </p>
+
+
+- ideal
+	- 부모 뷰의 공간과 관계 없이 자신에게 이상정인 크기의 값을 갖는 것.
+	- ideal 적용 후 fixedSize 적용하면 그 부분은 고정되고 나머지 부분 이상적 크기로 적
+
+   ```swift
+	VStack {
+	    Text("Frame Modifier")
+                .font(.title)
+                .bold()
+                .fixedSize()        // Text의 크기 고정하고 크기 잡음
+                .frame(width: 80, height: 30)
+
+	   Rectangle().fixedSize()
+	   Color.red.fixedSize()
+	   Image("swift").resizable().fixedSize()
+	   
+	   Rectangle()
+                .frame(idealWidth: 100)
+                .fixedSize()
+	} 
+   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/idealFrame.png" alt="idealFrame" height="50%" width="50%">
+  </p>
+
+- **fixedSize()**
+	- 이상적인 크기정보 적용! 
+	- fizedSize 사용 전 idealWidth, idealHeight 지정 시 원하는 크기로 설정 가능
+	- 예시
+   ```swift
+	VStack {
+	   Group {
+		Text("Fixed 적용 시 글자 생략되지 않음").font(.title)
+
+		Text("Fixed 적용 시 글자 생략되지 않음").fixedSize(horizontal: false, vertical: true)
+
+		Text("Fixed 적용 시 글자 생략되지 않음").fixedSize(horizontal: true, vertical: false)
+	   }
+	   .font(.title)
+	   .frame(width: 150, height: 40)
+
+	   Rectangle().fixedSize(horizontal: true, vertical: false)
+           Rectangle().fixedSize(horizontal: false, vertical: true)
+	}
+   ```
+<p align="center">
+  <img src="Assets/SwiftUI/fixedSize.png" alt="fixedSize" height="50%" width="50%">
+  </p>
+
+
+- **Layout Priority**
+	- view의 frame에서 우선순위(비중..?)
+	- 우선순위가 높으면 부모뷰의 크기 변화에 더 큰 영향을 받는다.
+	- 같은 frame 안에서 layoutPriority 적용된 뷰가 있음에도 크기를 설정하지 않은 뷰가 있을 경우 공간을 할당받지 못한다.
+
+   ```swift
+        VStack(spacing: 20) {
+
+       // 우선순위 미적용
+           HStack {
+                Color.red
+                Color.green
+                Color.blue
+            }.frame(height: 40)
+            
+            // 우선순위 변경
+            
+            HStack {
+                Color.red.layoutPriority(1)
+                Color.green//.layoutPriority(1)
+                Color.blue.layoutPriority(1)
+            }.frame(height: 40)
+            
+            HStack {
+                Color.red.layoutPriority(1)
+                Color.green.frame(minWidth: 30)//.layoutPriority(1)
+                Color.blue.frame(maxWidth: 50).layoutPriority(1)
+            }.frame(height: 40)
+            
+            HStack {
+                Color.red.frame(width: 50)
+                Color.green.layoutPriority(1)
+                Color.blue.frame(maxWidth: 50).layoutPriority(1)
+            }.frame(height: 40)
+            
+        }.frame(width: 300)
+   ```
+<p align="center">
+  <img src="Assets/SwiftUI/LayoutPriorityFrame.png" alt="LayoutPriorityFrame" height="50%" width="50%">
+  </p>
+
+
+
 
 ## Path
 - 그리기
