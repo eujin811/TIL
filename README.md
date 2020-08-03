@@ -44,6 +44,9 @@ Swift, Xcode, iOS 관련
 	  - 단일 표현식이 사용된 함수에 대해 클로저와 동일하게 리턴 키워드 생략 가능
 	- [OpaqueReturnType 불투명반환타입]()
 		- **some*
+	- [Fuction Builders]()
+		- @ViewBuilder
+
 	
 - iOS
 	- [iOS App구조](https://github.com/eujin811/TIL#ios-app-%EA%B5%AC%EC%A1%B0)
@@ -3955,6 +3958,124 @@ iBeacon
 - some 다음 올 수 있는 타입 -> protocol, class, Any, AnyObject
 
 
+## FunctionBuilders
+- Swift는 내장 도메인 트고하 언어(DSL)을 정의 하도록 추가된 문법이다.
+	- DSL: 특정 종류의 문제를 더 쉽고 나은 방법으로 해결할 수 있게 하는 특수한 형태의 코드 패턴
+- 내장 DSL을 구현하고자 사용되었다.
+	- DSL은 호스트 언어에 내장되어 그 기능을 적극적으로 활용한다.
+	- 설계 시 많은 사용구를 제거하고 간결한 코드를 가능하게 하며 특화된 기능을 쉽게 구현할 수 있도록 도와준다.
+- ViewBuilder
+	- 함수 빌더를 이용해 만들어진 SwiftUI 프레임 워크를 위한 내장 Swift DSL, 뷰 생성 시 전달 받은 함수를 통해 하나 이상의 자식 뷰를 만드는데 사용된다.
+	
+- 커스텀 함수 빌더
+	- 연산 프로퍼티, 함수, 함수의 매개변수에 적용 가능
+
+**@ViewBuilder**
+- 함수로 정의된 매개 변수에 뷰를 전달받아 하나 이상의 자식뷰를 만들어낸다.
+- 커스텀 뷰 제작이 가능하다.
+	- @ViewBuilder 속성 적용하고, vody에서 원하는 기본값 갖는 컨테이너뷰 만든 뒤 content에 전달
+- 최대개수 유의사항
+	- ViewBUilder는 buildBlock이라는 타입 메서드에 값 전달, 2개 이상의 뷰 일때는 TupleView 타입을 반환한다.
+	   ```swift
+		static func buildBlock<C0, C1> -> TupleView<(C0, C1)>
+	   ```
+	- buildBlock 매개 변수 최대 개수는 10개
+		- ViewBuilder 속성 매개 변수에 전달할 수 있는 최대개수도 10개
+		- Satck과 같은 컨테이너 뷰 내부에 뷰의 최대 개수 10개인 이유.
+		- 10개 초과 시 컨테이너 뷰 내부에 컨테이너 뷰 추가하는 방식으로 사용됨.
+
+   ```swift
+	struct MyVStack<Content: View>: View {
+	   let content: Content
+	   init(@ViewBuilder content: () -> Content) {
+		self. content = content()
+	   }   
+	   var body: some View {
+		VStack(alignment: .leading, spacing: 5) {
+		   content
+		}
+	   }
+	}
+   ```
+   ```swift
+	MyVStack {
+	   Color.blue.frame(width: 100, height: 20)
+	   Text("Hello, Yojin").font(.title)
+	   Rectangle().frame(width: 250, height: 40)
+	}
+   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/ViewBuilder.png" alt="ViewBuilder" height="50%" width="50%">
+  </p>
+
+**커스텀 함수 빌더**
+1. @_functionBuilder 사용해 선언 속성 추가
+2. 함수 빌더에 일반적으로 사용될 buildBlock 함수 2가지 경우로 나누어 각각 정의
+	- 정의
+	   ```swift
+		@_functionBuilder	// 함수 빌더로 선언해 주는 속성 추가
+		struct EvenNumbers {	// @EvenNumbers
+		   static func buildBlock(_numbers: Int...) -> [Int] {
+			numbers.filter { $0.isMultiple(of: 2) }
+		   }
+		   static func buildBlock(_ numbers: [Int]) -> [Int] {
+			numbers.filter { $0.isMultiple(of: 2) }
+		   }
+		}
+	   ```
+	- 사용
+		- 연산프로퍼티
+	   ```swift
+		@EvenNumbers var copuatedProperty: [Int] {
+		   1
+		   2
+		}
+	   ```
+		- 함수
+	   ```swift
+		@EvenNumbers
+		func annotatedfunction(_ numbers: [Int]) -> [Int] {
+		   numbers.filter { $0 > 2 }
+		}
+
+		// 사용
+		Text("Hello").onTapGesture {
+		   self.annotatedfunction([1,2,3,4])
+		}
+	   ```
+		- 매개변수
+	   ```swift
+		// 1.
+		func annotatedParameter(@EvenNumbers _ content: () -> [Int]) -> [Int] {
+		   content()
+		}
+
+		// 사용
+		Text("Hello").onTapGesture {
+		   self.annotatedParameter { 1; 2; 3; 4; }
+		}
+	
+	   ```	
+
+	   ```swift
+		// 2.
+		struct MyNumber<T> {
+		   let numbers: T
+		   @inlinable init(@EvenNumbers contents content: () -> T {
+			self.numbers = content()
+		   }
+		}
+		
+		// 사용
+		let example = MyNumbers {
+		   1
+		   2
+		}
+
+		example.numers  	// [2]
+	   ```
+
 # SwiftUI & Combin
 
 # SwiftUI
@@ -4693,9 +4814,37 @@ iBeacon
 
 - identifiable 프로토콜 채택
 	- 타입 자체에 id 프로퍼티를 만들고 이것을 식별자로 삼는다.
+	- Model에서 프로토콜 준수를 위한 id 프로퍼티 추가 + 프로토콜 채택
+		- 모델링한 데이터가 식별자 제공시 List에서 id 생략 가능하다.
+			- 단, 다른 식별자 사용 시 다른 값 전달 가능성이 있다.
+	- View 에서 identifiable 사용
+	
    ```swift
-	List([Animal(name:"tory"), Anumal(name: "jinjin"]))
+	// Model
+	struct Product: Decodable {
+	    let id: UUID = UUID()       // identifiable 프로토콜 준수를 위한 id 프로퍼티
+						// 원하는 방식 뭐든, let id: String { name }    
+
+   	    let name: String
+   	    let imageName: String
+   	    let price: Int
+   	    let description: String
+   	    var isFavorite: Bool = false
+	}
+	
+	extension Product: Identifiable {}      //프로토콜 채택
+
+	
+	// View
+	//Lsit(store.product, id: \.name)
+
+	List(store.products) { product in
+		ProductRow(product: product)
+	}
+	
+	// product가 식별자를 제공하고 있어 id 생략 가능
    ```
+
 
 - section, footer
    ```swift
