@@ -44,7 +44,7 @@ Swift, Xcode, iOS 관련
 	  - 단일 표현식이 사용된 함수에 대해 클로저와 동일하게 리턴 키워드 생략 가능
 	- [OpaqueReturnType 불투명반환타입]()
 		- **some*
-	- [Fuction Builders]()
+	- [Fuction Builders](https://github.com/eujin811/TIL#functionbuilders)
 		- @ViewBuilder
 
 	
@@ -92,7 +92,7 @@ Swift, Xcode, iOS 관련
 		- [TextField](https://github.com/eujin811/TIL#textfield-swiftui)
 		- [Picker](https://github.com/eujin811/TIL#picker-swiftui)
 		- [MapView](https://github.com/eujin811/TIL#mapview)
-		- [List -> SwiftUI의 TableView](https://github.com/eujin811/TIL#listview-swiftui-tableview)
+		- [List -> SwiftUI의 TableView](https://github.com/eujin811/TIL#list-swiftui-tableview)
 		- [Stack](https://github.com/eujin811/TIL#stack)
 		- [SwiftUI View 위치구성](https://github.com/eujin811/TIL#swiftui-view-%EC%9C%84%EC%B9%98%EA%B5%AC%EC%84%B1)
 			- Overlay
