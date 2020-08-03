@@ -4312,28 +4312,173 @@ iBeacon
 	   ```
 ## Prieview
 - 실제 앱에서 적용되지 않지만 canvas에서 보여질 미리보기
+- PreviewProvider 프로토콜 준수하는 타입이 있어야 한다.
+	- 이를 통해 XCode가 작업 중인 파일과 더불어 렌더링해야 할 뷰를 알고, 그 외 나머지 부분은 분리하고 관련된 코드들에 대해서 컴파일한다.
+	- preview 프로퍼티에서 반환된 뷰를 Swift의 동적 치환 기능을 이용해 컴파일러에 의해 내부 적으로 생성된 값으로 교체 한다.
+		- 변경 시 마다 전체 앱을 다시 컴파일 하지 않아도 된다.
+		- XCdode의 최적화 작업으로 인해 단순 문자열, 숫자 같은 리터럴 값 변경 시에는 파일과 view 컴파일 하지 않아도 즉각 반영된다.
+   ```swift
+	struct ContentView_Previews: PreviewProvider {
+	   static var previews: some View {
+		ContentView()
+	   }
+	}
+   ```
+
 - 사이즈 조정
    ```swift
 	view.previewLayout(.fixed(width: , height: ))
    ```
-- cell 여러개 볼 때
-	- Group으로 묶으면 된다.
-   ```swift
-	Group {
-	   LandmarkRow(landmark: data1 )
-	   LandmarkRow(landmark: data2 )
-	}
-   ```
+
 - Device 변경
    ```swift
 	ContentView().previewDevice(PreviewDevice(rawValue: "iPhone X"))
    ```
+
+
 - Device 여러개
+   ```swift
+        Group {
+           LandmarkRow(landmark: data1 )
+           LandmarkRow(landmark: data2 )
+        }
+   ```
+
    ```swift
 	ForEach(["iPhone SE", "iPhone XS Max"], id: \.self) {
 	   ContentView().previewDevice(PreviewDevice(rawValue: $0))
 	}
    ```
+- 이름지정
+   ```swift
+	ContentView().previewDisplayName("GeometryReader")
+   ```
+<p align="center">
+  <img src="Assets/SwiftUI/PreviewName.png" alt="PreviewName" height="50%" width="50%">
+  </p>
+
+
+- **레이아웃 변경** (크기변경)
+	- sizeThatFits
+		- view가 갖는 크기와 컨테이너 크기 일치
+		- 뷰의 크기가 기기의 크기보다 크더라도 프리뷰가 그것에 맞게 늘어나 전체의 모습을 볼 수 있다.
+	   ```swift
+		Group {
+		   ch04Preview().previewLayout(.sizeThatFits)
+		   ch04Preview()
+		}
+	   ```
+<p align="center">
+  <img src="Assets/SwiftUI/previewSizeThatFits.png" alt="previewSizeThatFits" height="50%" width="50%">
+  </p>
+
+	- fized
+		- 가로모드 지원 시 Device 가로 모드 크기 지정해서 확인학.
+	   ```swift
+		ContentView.previewLayout(.fixed(width: 550, height: 250))
+	   ```	
+<p align="center">
+  <img src="Assets/SwiftUI/previewLayout.png" alt="previewLayout" height="50%" width="50%">
+  </p>
+
+- **preview 동작과정**
+	1. 현재 소스 에디터에 PreviewProvider 프로토콜 준수하는 타입 존재하는지 확인
+	2. PreviewProvider 프로토콜의 필수 구현 사항인 previews 타입 프로퍼티에서 뷰 생성
+	3. 액티브 스킴의 목적지(Destination)로 선택한 시뮬레이터 또는 맥에 연결한 기기의 형태로 프리뷰 컨테이너 렌더링.
+		1. 리뷰 컨테이너를 직접 지정해 줄 경우 3에서 선택한 기기 무시하고 해당 기기 형태로 렌더링
+
+- preview 자동갱신
+	- **자동갱신
+		- 연산 프로퍼티 입력 값 변경 시	
+		- 단순 문자열, 숫자 같은 리터럴 값 변경 시
+		- 함수나 메서드 범위 안에서 코드 변경 시
+	- **다시 빌드해야될 때**
+		- 프로퍼티와 메서드 추가 / 제거 / 수정
+		- 저장 프로퍼티의 값 변경
+		- View 타입 이름 변경 or 추가
+		- 앱을 수동으로 빌드하는 경우
+		- TopLevel 구조체 / 클래스 범위에서는 키워드, 속성, 프리프로세서 구문에 대한 수정 등 일부 예외 제외한 모든 상황에서 자동갱신 중단.
+**EnvironmentValues**
+	- colorScheme, timeZone, locale, calendar, layoutDirection, sizeCategory 등 기존 UITraitCollction을 비롯해 다양한 클래스에서 나뉘어 사용하고 관리되던 속성들을 이제 EnvironmentValues 하나에 모두 담아서 쉽게 접근 관리 가능하다.
+	- 프레임워크에 의해 별도 관리된다. 어떤 뷰에서든 접근 가능
+	- 상위 계층의 뷰가 가진 환경 요소를 그대로 상속받는다.
+		- 단, 하위 계층 뷰에 개별적 환경 구성 시 예외
+- **Environment 수식어**
+	- ContentView를 여러개 두고 서로 다른 환경을 적용해 확인해보고 싶을 때사용
+		- 뷰의 환경요소 변경
+	   ```swift
+	    ch04PreviewEnvironment()
+                .environment(\.locale, .init(identifier: "ko_KR"))
+                .environment(\.colorScheme, .light)
+                .previewLayout(.fixed(width: 300, height: 300))
+            
+            ch04PreviewEnvironment()
+                .environment(\.locale, .init(identifier: "en_US"))
+                .environment(\.layoutDirection, .rightToLeft)
+                .environment(\.colorScheme, .dark)
+                .previewLayout(.fixed(width: 300, height: 300))
+	   ```
+<p align="center">
+  <img src="Assets/SwiftUI/previewEnvironment.png" alt="previewEnvironment" height="50%" width="50%">
+  </p>
+
+
+- **@Environment**	
+	- EnvironmentBalues의 특정 요소를 읽어와 뷰 구성에 반영해야 할 때 사용
+		- LTR(Left to Right)언어 사용하는 환경과 아랍어, 히브리어와 같은 RTL언어 환경에서 뷰를 서로 다르게 보이고 싶을 때
+	- 읽기전용
+	   ```swift
+		// LTR, RTL
+		 var environmentView: some View {
+ 	           if layoutDirection == .leftToRight {
+	              return Text("Left to Right")
+	           } else {
+	               return Text("Right to Left")
+	           }
+		}
+	   ```
+- **Custom Environment**
+	1. EnvironmentKey 프로토콜 채택 타입 만듬 + defaultValue 타입 프로퍼티 정의 (해당 키에 대한 기본 값self)
+	2. EnvironmentValues 타입에 실제 사용할 연산프로퍼티 추가 + getter, setter
+	3. 사용
+
+	1.
+	   ```swift
+		struct MyEnvironmentKey: EnvironmentKey {
+		    static let defaultValue: Int = 0
+		}
+	   ```
+	2.
+	   ```swift
+		extension EnvironmentValues {
+		    var myEnvironment: Int {
+		        get { self[MyEnvironmentKey.self] }
+		        set { self[MyEnvironmentKey.self] = newValue }
+		    }
+		}
+	   ```
+
+	3.
+	   ```swift
+		struct MySubView: View {
+		    @Environment(\.myEnvironment) var myValue
+		    var body: some View {
+		        Text("\(myValue)")
+		    }
+		}
+		//ContentView
+		struct ContentView: View {
+ 		   @Environment(\.layoutDirection) var layoutDirection
+    
+		    var body: some View {
+        
+		        MySubView().environment(\.myEnvironment, 10)
+	
+		    }
+		}
+	   ```
+
+
 ## Layout (SwiftUI)
 - edgesIgnoringSafeArea(...)
 	- safeLayout 적용하고 싶지 않을 때
