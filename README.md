@@ -46,7 +46,7 @@ Swift, Xcode, iOS 관련
 		- **some*
 	- [Fuction Builders](https://github.com/eujin811/TIL#functionbuilders)
 		- @ViewBuilder
-
+	- [identifiable Protocol]()
 	
 - iOS
 	- [iOS App구조](https://github.com/eujin811/TIL#ios-app-%EA%B5%AC%EC%A1%B0)
@@ -4076,6 +4076,115 @@ iBeacon
 		example.numers  	// [2]
 	   ```
 
+## identifiable Protocol
+- 동일성 판단
+- 개체의 정체성을 그 개체의 상태와구분하고, 안정적인 식별자 제공
+- Value Type에도 Reference Type과 같은 정체성을 갖는다.
+- Hashable 프로토콜을 준수하는 id 프로퍼티 하나만 갖는 매우 단순한 프로토콜
+	- 고유한 개체를 구분하기 위해 비교 알고리즘에 id를 사용하게된다.
+	- id 다르면 다른 대상
+	- 값이 달라도 id 같으면 같은 개체
+   ```swift
+	public protocol Identifiable {
+	   associated type ID: Hashable
+	   var id: Self.ID { get }
+	}
+
+	extension Animal: Identifiable { }
+   ```
+- 예시
+	- 저장프로퍼티로 값 저장
+	   ```swift
+		struct Animal: Identifiable {
+		   let id: UUID = UUID()
+
+		   let name: String
+		   let age: String
+		}
+	   ```
+	- 연산 프로퍼티로 다른 프로퍼티의 값 지정
+	   ```swift
+		struct Animal: Identifiable {
+		   var id: UUID { uuid }
+		   var uuid = UUID()
+		}
+	   ```
+	- 기존에 이미 id 프로퍼티 존재 시
+	   ```swift
+		struct Animal {
+		   var id: UUID
+		}
+		
+		extension Animal: Identifiable { }
+	   ```
+- 필요성
+	- **Value Type**은 상태를 통해 Equlity(동등성)만 비교, 하지만 값이 변할 수 있다. 때문에 고유 식별자가 필요하다.
+	- **Reference Type**은 상태의 변화와 상관 없이 식별 연산자 -> === 이용해 동일성 여부 판단가능
+		- 하지만 여러 프로세스 분산되어 처리, 혹은 저장했던 값 불러왔을 때 메모리 주소만으로는 완전히 식별하기 힘들 경우 발생한다.
+	- 개별적으로 Value Type 도 Reference 타입과 같은 정체성을 가질 수 있다.(참조 타입도 더 명확하게 식별 가능)
+
+- AnyObejct
+	- 참조 타입에 한해 id 프로퍼티에 Obeject Identifier라는 구조체 사용
+	- 임의의 타이보 사용 가능.
+   ```swift
+	extension Identifiable where Self: AnyObject {
+	   public var id: ObjectIdentifier { get }
+	}
+
+	var id: ObjectIdentifier {
+	   ObjectIdentifier(self)
+	}
+
+	// 임의의 타입 사용
+	class someClass: Identifiable {
+	   var id: String = "My ID"
+	}
+   ```
+- SwiftUI
+	- ForEach, List 등 데이터 나열하는 뷰, alert, actionSheet, popover ㅊ럼 화면을 띄울 항목을 정확하게 구별해야 하는 수식어 들에서 Identifiable 프로토콜을 요구한다.
+	- Identifialbe 프로토콜 적용하지 않을 경우 컴파일러가 어느 것을 식별자로 사용할지 알 수 없다.
+
+   ```swift
+	extension List {
+	   init<Data, RowContent>(_ data: Data, ...) where Data.Element: Identifiable
+	}
+
+	extension View {
+	   func alert<Item>(item: Binding<Item?>
+		...
+	   ) -> some View where Item: Identifiable
+	}
+   ```
+	- 예시
+	   ```swift
+		let 개 = Animal(id: 1, name: "토리", age: 5)
+		let 고양이 = Animal(id: 2, name: "릴리", age: 2)
+		let 토끼 = Animal(id: 3, name: "또또", age: 3)
+	   ```
+	   ```swift
+		ForEach([개, 고양이, 토끼], id: \.id) { ... }
+	   ```
+	   ```swift
+		ForEach([개, 고양이, 토끼]) { Text(String(describing: $0)) }
+		
+		// Animal(id: 1, name: “토리”, age: 5)
+		// Animal(id: 2, name: “릴리”, age: 2)
+		// Animal(id: 3, name: “또또”, age: 3)
+	   ```
+
+	- id 중복 시 같은 데이터 출력
+	   ```swift
+		let 개 = Animal(id: 1, name: “토리”, age: 5)
+		let 고양이 = Animal(id: 1, name: “릴리”, age: 2)
+		let 토끼 = Animal(id: 1, name: “또또”, age: 3)
+
+		ForEach([개, 고양이, 토끼]) { Text(String(describing: $0)) }
+
+		// Animal(id: 1, name: “토리”, age: 5)
+		// Animal(id: 1, name: “토리”, age: 5)
+		// Animal(id: 1, name: “토리”, age: 5)
+	   ```
+
 # SwiftUI & Combin
 
 # SwiftUI
@@ -4968,8 +5077,7 @@ iBeacon
 	// Model
 	struct Product: Decodable {
 	    let id: UUID = UUID()       // identifiable 프로토콜 준수를 위한 id 프로퍼티
-						// 원하는 방식 뭐든, let id: String { name }    
-
+					// 원하는 방식 뭐든, let id: String { name }    
    	    let name: String
    	    let imageName: String
    	    let price: Int
