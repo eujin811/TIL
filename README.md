@@ -75,7 +75,7 @@ Swift, Xcode, iOS 관련
 
 	  
 	
-- SwiftUI & Combin
+- SwiftUI & Combine
 	- [SwiftUI](https://github.com/eujin811/TIL#SwiftUI)
 		- [UIHostingController](https://github.com/eujin811/TIL#uihostingcontroller)
 		- [View](https://github.com/eujin811/TIL#view-swiftui)
@@ -108,10 +108,15 @@ Swift, Xcode, iOS 관련
 		- [Gradient](https://github.com/eujin811/TIL#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
 		- [Animation](https://github.com/eujin811/TIL#animation-swiftui)
 		- [ScrollView](https://github.com/eujin811/TIL#scrollview-swiftui)
-		- 
+		- [데이터 흐름]()
+			- @State
+			- @Binding
+			- ObservableObject
+			- @ObservedObject
+			- ... 
 
 
-	- [Combin](https://github.com/eujin811/TIL#Combin)
+	- [Combine](https://github.com/eujin811/TIL#Combine)
 		- [Publisher](https://github.com/eujin811/TIL/blob/master/README.md#publisher)
 			- Future
 			- Just
@@ -5622,8 +5627,309 @@ iBeacon
 	}
    ```
 
+## 데이터 흐름
+- SwiftUI Tool
+	- 값을 저장하는 일반 프로퍼티, 상태값을 지닌 프로퍼티를 별도로 구분하여 사용한다.
+	- UIKit의 경우 일반 프로퍼티만 사용한다.
+	- property
+	- @State
+		- 뷰의 상태를 저장하고 다루기 위한 원천 자료
+	- @Binding
+		- 상위 뷰가 가진 상태를 하위 뷰에서 사용하고 수정할 수 있게 해주는 파생 자료에 사용
+	- ObservedObject
+		- 뷰 외부모델이 갖는 원천 자료를 다루기 위한 도구
+		- 모델에 대한 직접적인 의존성 갖음
+	- @ObservedObject
+	- @Published
+	- @EnvironmentObject
+		- 뷰 외부모델이 갖는 원천 자료를 다루기 위한 도구
+		- 모델에 대한 간접적인 의존
+	- @GestureState
+- 프로퍼티 값 수정
+	- view의 body 밖에서 선언된 일반 프로퍼티 body 내부에서 수정이 불가능
+		- 구조체 연산 프로퍼티의 getter 기본 속성이 nonmutating이기 때문
+	- 상태값을 지닌 프로퍼티 사용해야지 body 내부에서 수정이 가능하다.
+	   ```swift
+		// error 
+	       var framework: String = "UIKit"
+	       var body: some View {
+	           Button(framework) {
+	               self.framework = "SwiftUI"
+	           }
+	       }
 
-# Combin
+	   ```
+	   ```swift
+		@State var framework: string = "UIKit"
+		var body: some View {
+		   Button(framework) {
+		      self.framework = "SwiftUI"
+		   }
+		}
+	   ```
+- SwiftUI 데이터 종류
+	- **원천 자료**
+		- 본질적 데이터
+		- @State
+	- **파생 자료**
+		- 원천 자료로 부터 파생된 부차적 데이터
+		- @Binding
+
+   ```swift
+	struct SuperView: View {
+	   let name = "김유진"		// 원천자료
+	   var body: some View { Subview(name: name) }
+	}
+	
+	struct Subview: View {
+	   let name: String		// 파생자료
+	   var body: some View { Text("\(name)")}
+	}
+   ```
+- SwiftUI의 데이터 흐름 2가지 원칙
+	- **데이터 의존성**
+		- 뷰는 매번 데이터 변경될 때마다 그 값을 반영해야 하므로, 데이터에 대한 의종성을 갖는다.
+		- 뷰가 어떤 데이터에 대해 의존성이 있는지 알려 주면 나버지는 프레임워크에서 알아서 처리하도록 설계 되어있다.
+			- **UIKit**: 기존 데이터 추가, 변경 시 변경 사항을 뷰에 반영하기 위한 추가 코드 작성 때문에 코드의 복잡성, 실수 가능성 내포되어있다. (view.reloadData)	
+			- **SwiftUI**: 동작 발생 시 프레임워크가 동작 수행, 시스템이 감시해 의존하는 뷰에게 새로운 버전 UI 생성한다.
+				- 뷰의 보든것을 다시 그리는 것이 아닌 @State를 소유한 뷰를 비교, 유혀성 검사하여 변경된 부분만 다시 렌더링 한다.
+			- 뷰의 변화를 이해하고 예측하기 쉬워짐.
+<p align="center">
+  <img src="Assets/SwiftUI/SwiftUIData.png" alt="SwiftUIData" height="50%" width="50%">
+  </p>
+
+	- **단일 원천 자료**
+		- 동일한 데이터 요소가 여러 곳으로 나뉘어 중복되지 않고 한 곳에서 다루어지고 수정되어야 한다.
+		- 뷰가 참조하는 데이터는 단일 원천 자료여야 한다.
+			- 중복된 원천 자료의 경우 데이터 변경 시 불일치 문제가 발생한다.
+		- 원천자료 중복을 막기위해 자료 구조 설계 시 우선 뷰에 사용되는 원천 자료를 살펴본 뒤 단일 자료와 원천 자료 설정 시 주의해야 한다.
+
+	   ```swift
+		struct MainView: View {
+		   @State private var isFavorite: Bool = true
+		}
+
+		struct DetailView: View {
+		   @Binding var isFavorite: Bool 	// 단일 원천 자료
+		   //@State var isFavorite: Bool = false // x
+		}
+	   ```
+		- 단일 원천 자료 사용시 동기화 코드를 작성하지 않아도 된다.
+
+**@State**
+- @State가 선언된 framework 프로퍼티는 항상 초깃 값을 유지하고 변경 발생 시 SwiftUI에서 제공하는 저장소에 값을 전달하고 참조하는 형태로 작동
+- 뷰 자체에서 가져야할 상태 프로퍼티이자 원천 자료
+	- 뷰의 상태를 저장하고 다룬다.
+- 데이터에 대한 영속적인 상태를 저장, 관할하는 역할을 수행한다.
+- private 사용하는 것이 좋다.
+	- 뷰 자신이 UI 상태를 저장하기 위한 데이터로 설계되었으므로, 해당 뷰가 소유하고 관리한다는 개념을 명시적으로 나타내기 위해
+- view의 body 밖에서 사용하는 프로퍼티 body 내부에서 수정하고 싶을 때 사용
+	- body 내에서 프로퍼티 사용 시 $ 사용
+		- 내부적으로 projectdValue라는 프로퍼티를 이용하게 된다. 이 타입은 Binding 타입으로 Binding 타입의 매개 변수에 상태 프로퍼티의 값을 전달해 줄 수 있다.
+		   ```swift
+			init(isOn: Binding<Bool>, @ViewBuilder label: () -> Label)
+		   ```
+   ```swift
+	@State private var isFavorite = true
+	@State private var count = 0
+
+	var body: some View {
+	   VStack(spacing: 30) {
+		Toggle(isOn: $isFavorite) {
+                   Text("isFavorite: \(isFavorite.description)")
+            	}
+            	Stepper("Count: \(count)", value: $count)
+	   }
+	}
+   ```
+
+**@Binding**
+- 상위 뷰가 가진 상태를 하위 뷰에서 사용하고 수정할 수 있게 해준다.
+- 전달받은 데이터를 읽거나 직접 변경할 수 있도록 만들어진 타입
+- 상태 화면 그 자체가 별도의 원천 자료를 갖는 대신 메인 화면의 것을 참조한다.
+- 동기화 코드를 작성하지 않아도 된다.
+
+   ```swift
+	struct ContentView: View {
+	   @State var framework: String = "UIKit"
+
+	   var body: some View {
+		SubView(framework: self.$framework)
+	   }
+	}
+
+	struct SubView: View {
+	   @Binding var framework: String
+
+	   var body: some View {
+		Text(framework)
+	   }
+	}	
+   ```
+
+**ObservableObject, @ObservedObject**
+- 뷰의 외부 모델이 갖는 원천 자료를 다루기 위한 도구
+- 참조타입을 사용하는 경우에 사용된다.
+	- 프로토콜이며, AnyObject를 채택하고 있어 구조체나 열거형 타입에는 사용할 수 없다.
+		- AnyObject: 모든 클래스가 임시적으로 준수하는 프로토콜, 클래스, 클래스 타입 또는 전용 프로토콜의 인스턴스에 대한 구체적인 타입으로 사용가능
+	   ```swift
+		protocol ObservableObject: AnyObject{ ... }
+	   ```
+- 외부 모델에 대한 직접적인 의존성을 갖고 그 데이터를 만드는데 사용됨.
+	- 뷰의 서브트리에서 해당 모델을 사용하지 않는 뷰가 있어도 또 다른 자식 뷰가 사용해야 한다면 모델을 꼭 전달받아 넘겨주어야 한다.
+<p align="center">
+  <img src="Assets/SwiftUI/ObservedObject.png" alt="ObservedObject" height="50%" width="50%">
+  </p>
+
+<p align="center">
+  <img src="Assets/SwiftUI/ObservedObject2.png" alt="ObservedObject2" height="50%" width="50%">
+  </p>
+- 뷰 갱신을 알리는 property wrappers
+	- @Published
+	- objectWillChange
+- **@Published**
+	- Observable의 값이 변경 되었을 때 뷰를 갱신하도록 알려주는 property wrappers
+	- 변경 즉시 뷰에 알린다.
+
+   ```swift
+	// Model
+	class User: ObservableObject {
+	   let name = "User Name"
+
+	   @Published var score = 0
+	}
+   ```
+   ```swift
+	// View
+	@ObservedObject var user: User
+	var body: some View {
+	   VStack {
+		Text(user.name)
+
+		Button(action: { self.user.score += 1 }) {
+		   Text(user.score.description)
+		}
+	   }
+	}
+
+	// 사용	
+	ContentView(user: User())
+   ```
+- **objectWillChange**
+	- 변경 시점에 알리지 않고 프로퍼티 변경 시점을 자신이 정해 알리고 싶을 때 사용
+
+   ```swift
+	//Model
+	class User: ObservableObject {
+	   let name = "User Name"
+
+	   let objectWillChange = ObjectWillChangePublisher()
+	   
+	   // 2의 배수일 때 변화
+	   var count = 0 {
+		willSet {
+		   print(newValue % 2)
+		   if(newValue % 2 == 0) {
+		      print("doubleClick")
+		      objectWillChange.send()
+		   }
+		}
+	   }
+	}
+   ```
+   ```swift
+	//View
+	@ObservedObject var user: User
+
+	var body: some View {
+	   Button(action: { self.user.count += 1}) {
+	      VStack {
+		 Text("objectWillChange")
+		 Text(user.count.description)
+	      }
+	   }
+	}
+
+	// 사용
+	
+	ContentView(user: User())
+   ```
+
+
+**@EnvironmentObject**
+- 뷰의 외부 모델이 가진 원천적 자료를 다루기 위한 도구
+- 모델에 대한 간접적인 의존성 만드는데 사용
+- 사용순서
+	1. environmentObject 이용해 특정 뷰에 대한 환경 요소로 Observable Object 모델 등록
+	2. 해당 뷰를 포함한 모든 자식 뷰에서 @EnvironmentObject 프로퍼티 레퍼를 이용해 등록해 두었던 모델에 대한 의존성 만듬
+
+   ```swift
+	// Model
+	class Data: ObservableObject { let name = "name" }
+   ```
+   ```swift
+	SuperView().environmentObject(Data())
+   ```
+   ```swift
+	// superView의 하위뷰
+	struct SubView: View {
+	   @EnvironmentObject var data: Data
+	   var body: some View { ... }
+	}
+   ```
+- 부모 뷰가 어떤 값을 갖게될 경우 그 자식 뷰들은 직접 전달받지 않아도 어던 뷰든지 간에 부모뷰와 동일한 데이터 접근이 가능하다.
+
+<p align="center">
+  <img src="Assets/SwiftUI/EnvironmentObject.png" alt="EnvironmentObject" height="50%" width="50%">
+  </p>
+
+<p align="center">
+  <img src="Assets/SwiftUI/EnvironmentObject2.png" alt="EnvironmentObject2" height="50%" width="50%">
+  </p>
+
+- 사용예시
+   ```swift
+	// Model
+	class User: ObservableObject {
+	   let name = "User Name"
+	}
+   ```
+   ```swift
+	// environmentObject
+	struct ContentView: View {
+	   var body: some View {
+		SuperView().environmentObject(User())
+	   }
+	}
+
+	// 하위뷰들
+	
+	struct Superview: View {
+	   var body: some View {
+		SubView()
+	   }
+	}
+
+	struct SubView: View {
+	   @EnvironmentObject var user: User
+
+	   var body: some View {
+		Text(user.name.description)
+	   }
+	}
+   ```
+
+| @ObservedObject | @EnvironmentObject |
+|:----:|:----:|
+| 모델에 대한 직접적인 의존성 | 모델에 대한 간접적인 의존성 |
+| 자식뷰에 모델 직접 전달 | 부모 뷰 특정 값 갖을 때 자식뷰는 데이터 직접전달 받지 않도록 데이터 접근가능|
+| 서브트리에 해당 모델 사용하지 않는 뷰 있어도 전달해야함 | 일부 뷰 에서 띄엄띄엄 사용 가능하다 |
+
+
+
+
+
+# Combine
 - 선언형 프레임워크, 함수형 프로그래밍, 비동기를 기반으로 한 리액티브
 	- Reactive Programming (반응형 프로그래밍)
 		- 데이터의 흐름을 먼저 정의하고 데이터가 변경되었을 때 연관되는 함수나 수식이 업데이트 된다.
