@@ -115,10 +115,10 @@ Swift, Xcode, iOS 관련
 			- @ObservedObject
 			- ... 
 		- [Alert](https://github.com/eujin811/TIL#alert)
-                - [ActionSheet](https://github.com/eujin811/TIL#actionsheet)
-                - [Present](https://github.com/eujin811/TIL#present)
-                        - PageSheet
-                        - popover
+		- [ActionSheet](https://github.com/eujin811/TIL#actionsheet)
+		- [Present](https://github.com/eujin811/TIL#present)
+			- PageSheet
+			- popover
 		- [Property Wrappers](https://github.com/eujin811/TIL#property-wrappers)
 
 
@@ -4332,6 +4332,7 @@ iBeacon
   <p align="center">
   <img src="Assets/SwiftUI/TextBackground1.png" alt="수식어순서1" height="50%" width="50%">
   </p>
+
      ```swift
   	Text("ø˚¬©").font(.largeTitle).padding().background(Color.yellow)
      ```
