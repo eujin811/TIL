@@ -4709,11 +4709,12 @@ iBeacon
   <img src="Assets/SwiftUI/NavigationLarge.png" alt="네비게이션 .large" height="50%" width="50%">
   </p>
 
+
 	   ```swift
 		// inline
-                NavigationView {
-                    Image("image").navigationBarTitle("Title", displayMode: .inline)
-                 }
+		NavigationView {
+			Image("image").navigationBarTitle("Title", displayMode: .inline)
+		}
 	   ```
 <p align="center">
   <img src="Assets/SwiftUI/NavigationInline.png" alt="네비게이션 .inline" height="50%" width="50%">
