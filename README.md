@@ -108,7 +108,7 @@ Swift, Xcode, iOS 관련
 		- [Gradient](https://github.com/eujin811/TIL#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
 		- [Animation](https://github.com/eujin811/TIL#animation-swiftui)
 		- [ScrollView](https://github.com/eujin811/TIL#scrollview-swiftui)
-		- [데이터 흐름]()
+		- [데이터 흐름](https://github.com/eujin811/TIL#%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%9D%90%EB%A6%84)
 			- @State
 			- @Binding
 			- ObservableObject
@@ -129,7 +129,11 @@ Swift, Xcode, iOS 관련
 		- [Scheduler](https://github.com/eujin811/TIL/blob/master/README.md#scheduler)
 		- [Cancellable](https://github.com/eujin811/TIL/blob/master/README.md#cancellable)
 		- [@EnvironmentObject](https://github.com/eujin811/TIL#evironmentobject)
-
+		- [Alert]()
+		- [ActionSheet]()
+		- [Present]()
+			- PageSheet
+			- popover
 
 
 
@@ -5631,20 +5635,20 @@ iBeacon
 - SwiftUI Tool
 	- 값을 저장하는 일반 프로퍼티, 상태값을 지닌 프로퍼티를 별도로 구분하여 사용한다.
 	- UIKit의 경우 일반 프로퍼티만 사용한다.
-	- property
-	- @State
+	- **property**
+	- **@State**
 		- 뷰의 상태를 저장하고 다루기 위한 원천 자료
-	- @Binding
+	- **@Binding**
 		- 상위 뷰가 가진 상태를 하위 뷰에서 사용하고 수정할 수 있게 해주는 파생 자료에 사용
-	- ObservedObject
+	- **ObservedObject**
 		- 뷰 외부모델이 갖는 원천 자료를 다루기 위한 도구
 		- 모델에 대한 직접적인 의존성 갖음
-	- @ObservedObject
-	- @Published
-	- @EnvironmentObject
+	- **@ObservedObject**
+	- **@Published**
+	- **@EnvironmentObject**
 		- 뷰 외부모델이 갖는 원천 자료를 다루기 위한 도구
 		- 모델에 대한 간접적인 의존
-	- @GestureState
+	- **@GestureState**
 - 프로퍼티 값 수정
 	- view의 body 밖에서 선언된 일반 프로퍼티 body 내부에서 수정이 불가능
 		- 구조체 연산 프로퍼티의 getter 기본 속성이 nonmutating이기 때문
@@ -5924,6 +5928,220 @@ iBeacon
 | 모델에 대한 직접적인 의존성 | 모델에 대한 간접적인 의존성 |
 | 자식뷰에 모델 직접 전달 | 부모 뷰 특정 값 갖을 때 자식뷰는 데이터 직접전달 받지 않도록 데이터 접근가능|
 | 서브트리에 해당 모델 사용하지 않는 뷰 있어도 전달해야함 | 일부 뷰 에서 띄엄띄엄 사용 가능하다 |
+
+
+
+## Alert
+- 버튼 최대 2개	
+	- UIKit에서는 여러개 가능했음
+
+- **Alert(title: , message: )**
+	- 버튼 추가 안해도 확인 버튼 자동 생성
+   ```swift
+	Button(action: { self.showingAlert = true } ){
+            Text("Alert")
+        }.alert(isPresented: $showingAlert) {
+            Alert(title: Text("제목"),
+                  message: Text("내용"))
+   ```
+<p align="center">
+  <img src="Assets/SwiftUI/AlertBasic.png" alt="AlertBasic" height="50%" width="50%">
+  </p>
+
+- **Alert(title: , message: , primaryButton: , secondaryButton: )**
+	- title :
+	- message : 내용
+	- primaryButton : 메인 버튼
+	- secondaryButton: 서브버튼 (취소버튼으로 많이 쓰임)
+- 버튼 스타일
+	- .default: 기본 스타일
+	- .cancel: 취소 버튼, 왼쪽에 위치( 최대 1개만 사용, alert창 닫음)
+	- .destructive: 주의가 필요할 때 사용(빨간색 강조 들어감)
+- 사용 수식어
+	- **alert(isPresented: , content: )
+		- isPresented: alert창 표시될 상황
+- 사용법
+   ```swift
+	@State private var showingAlert: Bool = false
+	var body: some View {
+	   Button(action: { self.showingAlert = true }) {
+		Text("Alert)
+	   }.alert(isPresented: $showingAlert) {
+		Alert(
+		   title: Text("제목")
+		   message: Text("내용")
+		   primaryButton: .default(Text("확인), action: { print("확인") }),
+		   secondaryButton: .cancel(Text("취소")))
+	    }
+	}
+   ```
+
+
+## ActionSheet
+- 버튼 배열 형태로 받아 원하는 수만큼 버튼을 만들 수 있음.
+   ```swift
+	Action(title: Text, message: Text?, button: [ActionSheet.Button])
+   ```
+- 불러낼 수식어
+	- **actionSheet(isPresented: , content: )**
+- 버튼 스타일
+	- .default: 기본 스타일
+	- .cancel: 취소버튼, 하단위치( 작업 취소 + 창닫음, 최대 1개만 사용)
+	- .destructive: 주의가 필요할 때 사용 (빨간색 강조 들어감)
+   ```swift
+	@State private var showingActionSheet = false
+
+	var body: some view {
+	   VStack {
+		Button(action: { self.showingActionSheet = true }) {
+		   Text("ActionSheet")
+		}.actionSheet(isPresented: $showingActionSheet) {
+		   ActionSheet(
+			title: Text("제목"),
+			message: Text("내용"),
+			buttons: [
+			   .default(Text("버튼1")),
+			   .default(Text("버튼2")),
+			   .destructive(Text("버튼3, destructive")),
+			   .cancel(Text("취소"))
+			]
+		   )
+		}
+	   }
+	}
+   ```
+
+
+## Present
+- 새로운 뷰 컨트롤러로 전환하고 프레젠테이션 스타일을 변경할 수 있다.
+| UIKit | SwiftUI |
+|:----:|:----:|
+| fullScreen, pageSheet, automatic| pageSheet, popover |
+| iOS13 이전 기본값 fullScreen | 기본 값 pageSheet  |
+| iOS13 이후 부터는 automatic (대부분 pageSheet) |  |
+
+- prsentStyle
+	- **PageSteet**
+		- 기본 값
+	- **Popoever**
+		- 아이폰에서는 잘 사용하지 않는다. (Human Interface Guideline 권고)
+
+**PageSheet**
+- 실행
+	- sheet(isPresented: , onDismiss: , content: )
+		- isPresented: 출력 조건
+		- onDismiss: 화면 닫히기 전 수행할 작업
+		- content: 새로 출력될 화면
+	```swift
+	   @State private var showingSheet = false
+
+	   var body: some View {
+		Button(action: { self.showingSheet.toggle() }) {
+		   Text("Present").font(.title).foregroundColor(.blue)
+		}.sheet(
+		   isPresented: $showingSheet,
+		   onDismiss: { print("Dismissed") },
+		   content: { PageSheet() })
+	   }
+	```
+
+
+- 화면종료
+	- **presentationMode** 이용한 dismiss
+	- **Binding** 사용해 화면 출력 프로퍼티를 비활성화
+	- 화면 하단으로 끌어내림
+- **presentationMode**
+	- presentation 이용해 띄워진 뷰에 isPresented, dismiss 제공하는 환경 변수
+		- isPresented: 띄워져 있는지
+		- Dismiss: 화면 닫는 메소드
+	- **@Environment(\.presentationMode)
+   ```swift
+	struct PageSheet: View {
+	   @Environment(\.presetationMode) var presentationMode
+
+	   var body: some View {
+		Button(action: {
+			if self.presentationMode.wrappedValue.isPresented {
+			   self.presentationMode.wrappedValue.dismiss()
+			}
+		   }) {
+			Text("Tap to Dimiss").font(.title).foregroundColor(.red)
+		   }
+	   }
+	}
+   ```
+
+- **@Binding**이용한 출력 프로퍼티 비활성화
+   ```swift
+	PageSheet(isPresented: self.$showingSheet)
+   ```
+   ```swift
+	struct PageSheet: View {
+	   @Binding var isPresented: Bool
+
+	   var body: some View {
+		Button(action: { self.isPresented = false},
+		       label: { Text("@Binding Dismiss")})
+	   }
+	}
+   ```
+
+**Popover**
+- iPad 권장화면
+- 아이폰에서 가급적 사용 지양한다. Human Interface Guidline 권고
+- iPhone에서는 pagesheet 모양으로 나오지만 끌어내려서 끄려고 하면 이상한 액션과 함께 뷰가 꺼진다.
+
+  ```swift
+	.popover(isPresented: , attachmentAnchor: , arrowEdge: , content: )
+  ```
+	- isPresented: 출력조건
+	- attachmentAnchor: popover의 앵커로 사용할 영역, 위치
+	- arrowEdge: 화살표가 향하는 방향
+
+   ```swift
+	struct PresentContentView: View {
+	   @State var showingPopover = false
+
+	   var body: some view {
+		Button(action: { self.showingPopover.toggle()}) {
+		   Text("Popover Button").font(.largeTitle)
+		}.popover(
+		   isPresented: $showingPopover,
+		   attachmentAnchor: .rect(.bounds),
+		   arrowEdge: .top,
+		   content: popoverContents
+		)
+	   }
+	   
+	   // popover 띄울 창
+	   func popoverContents() -> some View {
+	        VStack(alignment: .leading) {
+	            HStack {
+	                Button(action: { self.showingPopover = false }) {		// 제거
+	                    Text("Cancel").foregroundColor(.red)
+	                }
+                
+	                Spacer()
+	                Text("New Event").font(.headline)
+	                Spacer()
+	                Button("Add(+)") { }
+	                
+	            }
+	            Divider().padding(.bottom, 8)		// 구분선
+            
+	            Text("Title")
+	            TextField("제목", text: .constant(""))
+            
+	            Text("Contents")
+	            TextField("내용", text: .constant(""))
+	            Spacer()
+	        }.padding()
+	    }
+
+	   }
+
+	}
+   ```
 
 
 
