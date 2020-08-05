@@ -4382,6 +4382,7 @@ iBeacon
 | .position | 뷰의 센터를 지정하는 역할 |
 
 
+
 	- **shadow**
 		- 뷰의 가장자리에만 그림자 넣을 때
 			1. background 수식어 사용.
@@ -4389,14 +4390,14 @@ iBeacon
 			3. shadow 적용
 
 
-	   ```swift
-		HStck { 
-		   ...
-		}
-		.background(...)
-		.clipped()
-		.shadow(color: , radius: )
-	   ```
+   ```swift
+	HStck { 
+	   ...
+	}
+	.background(...)
+	.clipped()
+	.shadow(color: , radius: )
+   ```
 
 ## UIHostingController
 
