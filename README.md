@@ -5201,6 +5201,7 @@ iBeacon
 <p align="center">
   <img src="Assets/SwiftUI/SpacerOtherView.png" alt="SpacerOtherView" height="50%" width="50%">
   </p>
+
 	- 부모 뷰 내부에서 사용될 경우	
 		- 공간 차지를 위한 기능	
 		- 사용가능한 공간의 최대 크기
