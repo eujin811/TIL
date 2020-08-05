@@ -4848,8 +4848,9 @@ iBeacon
 
 
 - 수식어
+
 | buttonStyle | |
-|----|----|
+| ---- | ---- |
 | .buttonStyle(DeafultButtonStyle()) | 버튼이 사용된 환경에 따라 시스템이 알아서 적절한 버튼 스타일을 반영한다. |
 | .buttonStyle(BorderButtonStyle()) | 콘텐츠에 미리 지정된 시각적 효과 적용 (	iOS에서 대부분 사용되는 경우) |
 | .buttonStyle(PlainButtonStyle()) | 버튼의 콘텐츠에 어떠한 시각적 요소도 적용하지 않음 | 
