@@ -114,6 +114,12 @@ Swift, Xcode, iOS 관련
 			- ObservableObject
 			- @ObservedObject
 			- ... 
+		- [Alert]()
+                - [ActionSheet]()
+                - [Present]()
+                        - PageSheet
+                        - popover
+		- [Property Wrappers]()
 
 
 	- [Combine](https://github.com/eujin811/TIL#Combine)
@@ -129,11 +135,6 @@ Swift, Xcode, iOS 관련
 		- [Scheduler](https://github.com/eujin811/TIL/blob/master/README.md#scheduler)
 		- [Cancellable](https://github.com/eujin811/TIL/blob/master/README.md#cancellable)
 		- [@EnvironmentObject](https://github.com/eujin811/TIL#evironmentobject)
-		- [Alert]()
-		- [ActionSheet]()
-		- [Present]()
-			- PageSheet
-			- popover
 
 
 
@@ -6143,9 +6144,179 @@ iBeacon
 	}
    ```
 
+## Property Wrappers
+- **@propertyWrapper**
+- 특정 제약이나 기능들을 정의해 둔 클래스, 구조체, 열거형 타입에 적용해 그 타입 이름과 동일한 커스텀 속성을 만들어주는 선언 속성
+- 프로퍼티에 적용할 수 있는 커스텀 속성을 직접 정의하고 활용하도록 한 것
+- 프로퍼티 기능
+	- 프로퍼티에 대한 접근 패턴 정의
+	- 프로퍼티에 별도의 저장소 제공하며, 쉽고 깔끔한 방법으로 코드를 재활용
+	- 반복되는 코드 제거
+	- 프로퍼티 래퍼 타입의 이름을 통해 그 프로퍼티가 가진 기능에 대한 문서화 역할 가능
 
+- **불필요한 상용구 제거 기능**
+	- 반복작성구 많은 것
+	   ```swift
+		var isLoggedIn: Bool {
+		   get { UserDefaults.standard.bool(forKey: "IS_LOGGED_IN") }
+		   set { UserDefaults.standard.set(newValue, forKey: "IS_LOGGED_IN")}
+		}
+		var isFirstLogin: Bool {
+		   get { UserDefaults.standard.bool(forKey: "IS_FIRST_LOGIN") }
+		   set { UserDefaults.standard.set(newValue, forKey: "IS_FIRST_LOGIN")}
+		}
+	   ```
+	- 불필요한 상용구 줄이기
+	   ```swift
+		@propertyWrapper
+		struct UserDefault<Value> {
+		    let key: String
+    
+		    var wrappedValue: Value? {
+		        get { UserDefaults.standard.object(forKey: key) as? Value }
+		        set { UserDefaults.standard.set(newValue, forKey: key)}
+		    }
+		}
+	   ```
+	   ```swift
+		@UserDefault(key: "IS_LOGGED_IN") var isLoggedIn: Bool?
+		@UserDefault(key: "IS_FIRST_LOGIN") var isFirstLogin: Bool?
+	   ```
+	   ```swift
+		let user = User()
+		user.isLoggedIn = true
+		user.isFirstLogin = false
+		print(user.isLoggedIn ?? false)
+		print(user.isFirstLogin ?? true)
+	   ```
 
+- **초깃값 지정**
+	- 초깃값 지정할 프로퍼티 레퍼를 만들어 사용한다.
+	- 예시 1 (소수점 둘째 자리까지 고정)
+	   ```swift
+		// 사용
+		struct Numbers {
+		    @RoundedToTwo var roundedNum: Double
+		}
 
+		var numbers = Numbers()
+		numbers.roundedNum = 1.2345
+		print(numbers.roundedNum)
+	   ```
+	   ```swift
+		//초깃값 지정
+		@propertyWrapper
+		struct RoundedToTwo {
+		    private var vlaue = 0.0
+		    private var multiplier = 100.0
+    
+		    var wrappedValue: Double {
+		        get { value }
+		        set { value = (newValue * multiplier).rounded() / multiplier }
+		    }
+		}
+	
+	   ```
+	- 예시2 (지정한 소수점까지 고정)	
+	   ```swift
+		// 사용 1
+		struct Numbers {
+		    @RoundedTo(2) var roundedNum = 1.2345
+		    @RoundedTo(wrappedValue: 1.2345, 2) var roundedNum2: Double
+		}
+
+		var numbers = Numbers()
+		print(numbers.roundedNum)       // 1.23
+		print(numbers.roundedNum2)      // 1.23
+	   ```
+	   ```swift
+		// 사용 2
+		let roundedTo = RoundedTo(wrappedValue: 1.234, 2)
+		print(roundedTo.wrappedValue)		// 1.23
+
+		let roundedTo2 = RoundedTo(wrappedValue: 1.234, 3)
+		print(roundedTo2.wrappedValue)		// 1.234
+	   ```
+	   ```swift
+		// 초깃값 지정
+		@propertyWrapper
+		struct RoundedTo<Value: FloatingPoint> {
+		    private var value: Value = 0
+		    private let precision: Int      // 자릿수 지정 위한 프로퍼티
+		    //precision 2일 경우 100, 3일경우 1000
+		    private var multiplier: Value {
+		        (0..<precision).reduce(1) { (sum, _) in sum * 10 }
+		    }
+    
+		    init(wrappedValue: Value, _ precision: Int) {
+		        assert(precision >= 0)
+		        self.precision = precision
+		        self.wrappedValue = wrappedValue
+		    }
+    
+		    var wrappedValue: Value {
+		        get { value }
+		        set { value = (newValue * multiplier).rounded() / multiplier }
+		    }
+		}
+
+	   ```
+
+- **자동생성코드**
+	- 프로퍼티 래퍼의 프로퍼티 선언 법 3가지
+		1. **레퍼 프로퍼티**
+		2. **직접 레퍼타입에 접근**
+			- 컴파일러에 자동 생성된 프로퍼티 래퍼 타입
+			- 컴파일러에 의해 자동 치환된 내용에 의해 직접 접근이 가능하다.
+			- 자동 생성된 레퍼타입의 변수는 private으로 선언되 외부에서 접근 하려면 별도 접근 방법 필요
+		3. **proejctedValue ($)**
+			- 2.을 외부에서 접근하는 방법
+			- proejctedValue 저의 타입에 따라 값 변화한다.
+	1. 레퍼 프로퍼티
+	   ```swift
+		@RoundedTo(2) var roundedNum = 1.2345
+	   ```
+	2. 직접 레퍼타입에 접근
+	   ```swift
+		// 레퍼프로퍼티 실제 구현 내용
+		private var _roundedNum: RoundedTo<Double> = RoundedTo<Double>(wrappedValue: 1.2345, 2)
+	   ```
+	   ```swift
+		// 직접 레퍼타입에 접근
+		var roundedNum: Double {
+		   get { return _roundedNum.wrappedValue }
+		   nonmutating set { _roundedNum.wrappedValue = newValue }
+		}
+	   ```	
+
+	3. 2.을 외부에서 접근하는 방법
+	   ```swift
+		// 2. 선언
+                private var _roundedNum: RoundedTo<Double> = RoundedTo<Double>(wrappedValue: 1.2345, 2)
+
+                var roundedNum: Double {
+                   get { return _roundedNum.wrappedValue }
+                   nonmutating set { _roundedNum.wrappedValue = newValue }
+                }
+	   ```
+	   ```swift
+		// 외부 접근 위한 처
+		@propertyWrapper
+		struct RoundedTo<Value: FloatingPoint> {
+		   …
+    
+		    var projectedValue: Self {
+		        get { self }
+		        set { self = newValue }
+		    }
+    
+		}
+
+		var $roundedNum: RoundedTo<Double> {
+ 		    get { _roundedNum.projectedValue }
+		    set { _roundedNum.projectedValue = newValue}
+		}
+	   ```
 
 # Combine
 - 선언형 프레임워크, 함수형 프로그래밍, 비동기를 기반으로 한 리액티브
