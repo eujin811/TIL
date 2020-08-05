@@ -103,7 +103,7 @@ Swift, Xcode, iOS 관련
 			- EmptyView
 			- Padding
 		- [GeometryReader](https://github.com/eujin811/TIL#geometryReader)
-		- [frame]()
+		- [frame](https://github.com/eujin811/TIL#frame)
 		- [Path](https://github.com/eujin811/TIL#path)
 		- [Gradient](https://github.com/eujin811/TIL#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
 		- [Animation](https://github.com/eujin811/TIL#animation-swiftui)
@@ -114,12 +114,12 @@ Swift, Xcode, iOS 관련
 			- ObservableObject
 			- @ObservedObject
 			- ... 
-		- [Alert]()
-                - [ActionSheet]()
-                - [Present]()
+		- [Alert](https://github.com/eujin811/TIL#alert)
+                - [ActionSheet](https://github.com/eujin811/TIL#actionsheet)
+                - [Present](https://github.com/eujin811/TIL#present)
                         - PageSheet
                         - popover
-		- [Property Wrappers]()
+		- [Property Wrappers](https://github.com/eujin811/TIL#property-wrappers)
 
 
 	- [Combine](https://github.com/eujin811/TIL#Combine)
@@ -6015,11 +6015,12 @@ iBeacon
 
 ## Present
 - 새로운 뷰 컨트롤러로 전환하고 프레젠테이션 스타일을 변경할 수 있다.
+
 | UIKit | SwiftUI |
 |:----:|:----:|
-| fullScreen, pageSheet, automatic| pageSheet, popover |
+| fullScreen, pageSheet, automatic | pageSheet, popover |
 | iOS13 이전 기본값 fullScreen | 기본 값 pageSheet  |
-| iOS13 이후 부터는 automatic (대부분 pageSheet) |  |
+| iOS13 이후 부터는 automatic (대부분 pageSheet) | . |
 
 - prsentStyle
 	- **PageSteet**
