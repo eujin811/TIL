@@ -4365,11 +4365,10 @@ iBeacon
 
 - 공통수식어
 	- **shadow**
-                - 뷰의 가장자리에만 그림자 넣을 때
-                        1. background 수식어 사용.
-                        2. clipped 수식어 사용 (or 이를 포함한 cornerRadius 사용
-) + compositing
-                        3. shadow 적용
+		- 뷰의 가장자리에만 그림자 넣을 때
+			1. background 수식어 사용.
+			2. clipped 수식어 사용 (or 이를 포함한 cornerRadius 사용) + compositing
+			3. shadow 적용
 
 |      | 수식어    |
 |------ | --------- |
