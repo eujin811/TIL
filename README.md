@@ -5191,6 +5191,10 @@ iBeacon
 		- 상대적으로 직접적인 연관성이 없는 뷰들을 계층 구조로 나열해 구성 할 때 사용
 		
 - **Spacer**
+	- 부모 뷰 내부에서 사용될 경우
+		- 공간 차지를 위한 기능
+		- 사용가능한 공간의 최대 크기
+	- minLength: 최소간격
 	- 부모 뷰 외부에서 사용될 경우
 		- 부모 뷰가 제공하는 공간 내에서 최대 크기
 	   ```swift
@@ -5204,11 +5208,6 @@ iBeacon
   <img src="Assets/SwiftUI/SpacerOtherView.png" alt="SpacerOtherView" height="50%" width="50%">
   </p>
 
-
-	- 부모 뷰 내부에서 사용될 경우	
-		- 공간 차지를 위한 기능	
-		- 사용가능한 공간의 최대 크기
-	- minLength: 최소 간격 지
 
 
 - **Overlay**
