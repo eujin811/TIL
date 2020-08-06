@@ -4557,7 +4557,7 @@ iBeacon
 
 
 - **@Environment**	
-	- EnvironmentBalues의 특정 요소를 읽어와 뷰 구성에 반영해야 할 때 사용
+	- EnvironmentValues의 특정 요소를 읽어와 뷰 구성에 반영해야 할 때 사용
 		- LTR(Left to Right)언어 사용하는 환경과 아랍어, 히브리어와 같은 RTL언어 환경에서 뷰를 서로 다르게 보이고 싶을 때
 	- 읽기전용
 	   ```swift
