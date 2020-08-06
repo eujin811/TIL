@@ -6367,8 +6367,14 @@ iBeacon
 		}
 	   ```
 	- 사용방법
-		1. view.modifier(CustomViewModifier(...))
-		2. ModifierContent(content: view, modifier: CustomViewModifier(...))
+	   ```swift
+		view.modifier(CustomViewModifier(...))
+	   ```
+	   ```swift
+		ModifierContent(content: view, modifier: CustomViewModifier(...))
+	   ```
+- 
+	- 
 		- 반환 타입 modifiedContent
 			- **ModifiedContent<Text, CustomViewModifier>**
 			- 기본 수식어의 반환타입은 모두 modifiedContent
