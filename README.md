@@ -6348,11 +6348,14 @@ iBeacon
 		}
 	   ```
 ## ViewModifier
+- 따로 커스텀한 뷰에 대한 수식어들을 뷰에 적용해 사용
 - 프로젝트에서 공통으로 사용할 것들 정의할 때 좋을것같다.
 - 활용법
 	- **ViewModifier**
 	- **concat**
+		- 다수의 ViewModifier들을 결합한다.
 	- **새로운 수식어 추가**
+		- ViewModifier를 수식어로 만들어 적용할 수 있게 해준다.
 
 - **ViewModifier**
 	- 구조
