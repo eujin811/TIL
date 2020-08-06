@@ -42,11 +42,11 @@ Swift, Xcode, iOS 관련
 	- [ScrollView](https://github.com/eujin811/TIL#scrollview)
 	- [Omit Return SE-0255](https://github.com/eujin811/TIL/blob/master/README.md#omit-returnse-0255)
 	  - 단일 표현식이 사용된 함수에 대해 클로저와 동일하게 리턴 키워드 생략 가능
-	- [OpaqueReturnType 불투명반환타입]()
+	- [OpaqueReturnType 불투명반환타입](https://github.com/eujin811/TIL/blob/master/README.md#opaque-return-type-%EB%B6%88%ED%88%AC%EB%AA%85-%EB%B0%98%ED%99%98%ED%83%80%EC%9E%85)
 		- **some*
 	- [Fuction Builders](https://github.com/eujin811/TIL#functionbuilders)
 		- @ViewBuilder
-	- [identifiable Protocol]()
+	- [identifiable Protocol](https://github.com/eujin811/TIL/blob/master/README.md#identifiable-protocol)
 	
 - iOS
 	- [iOS App구조](https://github.com/eujin811/TIL#ios-app-%EA%B5%AC%EC%A1%B0)
@@ -120,10 +120,12 @@ Swift, Xcode, iOS 관련
 			- PageSheet
 			- popover
 		- [Property Wrappers](https://github.com/eujin811/TIL#property-wrappers)
-		- [ViewModifier]()
+		- [ViewModifier](https://github.com/eujin811/TIL#viewmodifier)
 			- View 커스텀 수식어
-		- [CustomStyle]()
-		- [UIAppearance]()
+		- [CustomStyle](https://github.com/eujin811/TIL#customstyle)
+			- [Button Custom](https://github.com/eujin811/TIL#button-custom)
+			- [Toggle Custom](https://github.com/eujin811/TIL#toggle-custom)
+		- [UIAppearance](https://github.com/eujin811/TIL#uiappearance)
 
 	- [Combine](https://github.com/eujin811/TIL#Combine)
 		- [Publisher](https://github.com/eujin811/TIL/blob/master/README.md#publisher)
@@ -5720,6 +5722,7 @@ iBeacon
   <img src="Assets/SwiftUI/SwiftUIData.png" alt="SwiftUIData" height="50%" width="50%">
   </p>
 
+- 
 	- **단일 원천 자료**
 		- 동일한 데이터 요소가 여러 곳으로 나뉘어 중복되지 않고 한 곳에서 다루어지고 수정되어야 한다.
 		- 뷰가 참조하는 데이터는 단일 원천 자료여야 한다.
@@ -5806,6 +5809,9 @@ iBeacon
 <p align="center">
   <img src="Assets/SwiftUI/ObservedObject2.png" alt="ObservedObject2" height="50%" width="50%">
   </p>
+
+
+
 - 뷰 갱신을 알리는 property wrappers
 	- @Published
 	- objectWillChange
@@ -6073,7 +6079,7 @@ iBeacon
 	- presentation 이용해 띄워진 뷰에 isPresented, dismiss 제공하는 환경 변수
 		- isPresented: 띄워져 있는지
 		- Dismiss: 화면 닫는 메소드
-	- **@Environment(\.presentationMode)
+	- **@Environment(\.presentationMode)**
    ```swift
 	struct PageSheet: View {
 	   @Environment(\.presetationMode) var presentationMode
