@@ -5988,7 +5988,7 @@ iBeacon
 	- .cancel: 취소 버튼, 왼쪽에 위치( 최대 1개만 사용, alert창 닫음)
 	- .destructive: 주의가 필요할 때 사용(빨간색 강조 들어감)
 - 사용 수식어
-	- **alert(isPresented: , content: )
+	- **alert(isPresented: , content: )**
 		- isPresented: alert창 표시될 상황
 - 사용법
    ```swift
