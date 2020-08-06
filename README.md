@@ -4500,8 +4500,8 @@ iBeacon
   </p>
 
 - 
-	- fized
-		- 가로모드 지원 시 Device 가로 모드 크기 지정해서 확인학.
+	- fixed
+		- 가로모드 지원 시 Device 가로 모드 크기 지정해서 확인
 	   ```swift
 		ContentView.previewLayout(.fixed(width: 550, height: 250))
 	   ```	
