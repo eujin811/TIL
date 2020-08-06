@@ -4499,6 +4499,7 @@ iBeacon
   <img src="Assets/SwiftUI/previewSizeThatFits.png" alt="previewSizeThatFits" height="50%" width="50%">
   </p>
 
+- 
 	- fized
 		- 가로모드 지원 시 Device 가로 모드 크기 지정해서 확인학.
 	   ```swift
