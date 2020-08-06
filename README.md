@@ -5161,16 +5161,23 @@ iBeacon
 	   ```swift
 		List { }.listStyle(GroupedListStyle())
 	   ```
+
+
 <p align="center">
   <img src="Assets/SwiftUI/ListGroupedList.png" alt="GroupedList" height="50%" width="50%">
   </p>
+
+
 	
 	- insetGrouped
+
 	   ```swift
 		List {}
 		     .listStyle(GroupedListStyle())
 		     .environment(\.horizontalSizeClass, .regular)
 	   ```
+
+
 <p align="center">
   <img src="Assets/SwiftUI/ListInsetGrouped.png" alt="InsetGrouped" height="50%" width="50%">
   </p>
