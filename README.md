@@ -5338,7 +5338,7 @@ iBeacon
 	   ```
 - **ZStack**
 	- 뎁스 쌓임
-	- 자식 뷰의 크게이 따라 ZStack 함께 변할 수 있어 특정 콘텐츠의 변경 사항이 다른 뷰에 영향을 줄 수 있다.
+	- 자식 뷰의 크기에 따라 ZStack 함께 변할 수 있어 특정 콘텐츠의 변경 사항이 다른 뷰에 영향을 줄 수 있다.
 	   ```swift
 		struct ZStack<Content>: View where Content: View
 	   ```
