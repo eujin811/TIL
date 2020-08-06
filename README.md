@@ -120,7 +120,10 @@ Swift, Xcode, iOS 관련
 			- PageSheet
 			- popover
 		- [Property Wrappers](https://github.com/eujin811/TIL#property-wrappers)
-
+		- [ViewModifier]()
+			- View 커스텀 수식어
+		- [CustomStyle]()
+		- [UIAppearance]()
 
 	- [Combine](https://github.com/eujin811/TIL#Combine)
 		- [Publisher](https://github.com/eujin811/TIL/blob/master/README.md#publisher)
@@ -6331,6 +6334,384 @@ iBeacon
  		    get { _roundedNum.projectedValue }
 		    set { _roundedNum.projectedValue = newValue}
 		}
+	   ```
+## ViewModifier
+- 프로젝트에서 공통으로 사용할 것들 정의할 때 좋을것같다.
+- 활용법
+	- **ViewModifier**
+	- **concat**
+	- **새로운 수식어 추가**
+
+- **ViewModifier**
+	- 구조
+	   ```swift
+		protocol ViewModifier {
+		   Associated type Body: View
+		   func body(content: Self.Content) -> Self.Body
+		   typealias Content 
+		}
+	   ```
+	- 사용방법
+		1. view.modifier(CustomViewModifier(...))
+		2. ModifierContent(content: view, modifier: CustomViewModifier(...))
+		- 반환 타입 modifiedContent
+			- **ModifiedContent<Text, CustomViewModifier>
+			- 기본 수식어의 반환타입은 모두 modifiedContent
+	- 예시
+	   ```swift
+		// 커스텀
+		struct CustomViewModifier: ViewModifier {
+		   var borderColor: Color = .red
+		   func body(content: Content) -> some View {
+		      content
+			.font(.title)
+			.foregroundColor(Color.white)
+			.padding()
+			.background(Rectangle().fill(Color.gray))
+			.border(borderColor, width: 2)
+		   }
+		}
+	   ```
+	   ```swift
+		// 적용 방법
+		
+		// 1.
+		   Text("Custom ViewModifier").modifier(CustomViewModifier(borderColor: .red))
+		// 2.
+		   ModifiedContent(content: Text("ViewModifier"), modifier: CustomViewModifier(borderColor: .black))
+	   ```
+<p align="center">
+  <img src="Assets/SwiftUI/ViewModifier1.png" alt="ViewModifier1" height="50%" width="50%">
+  </p>
+
+
+
+- **concat**
+	- ViewModifier 결합
+	- 반환 타입
+	   ```swift
+		func concat<T>(_ modifier: T) -> ModifiedContent<Self,T>
+	   ```
+	- 예시
+	   ```swift
+		// ViewModifier
+		struct HomeFont: ViewModifier {
+		   func body(content: Content) -> some View {
+			content.font(.title)
+		   }
+		}
+	
+		struct HomeTint: ViewModifier {
+		   func body(content: Content) -> some View {
+			content.foregroundColor(.blue)
+		   }
+		}
+	
+		// 사용
+		Text("concat").modifier(HomeFont().concat(HomeTint()))
+	   ```
+
+- ** 뷰에 새로운 수식어 추가**
+	- extension을 활용해 뷰 프로토콜을 확장해 새로운 수식어 추가 가능
+	- App 공통으로 사용하는 것들 정의할 때 사용한다. (font, style, tintColor)
+	- 사용법
+		1. ViewModifier 지정
+		2. View extension
+		3. 수식어 사용
+	1. ViewModifier 지정
+	   ```swift
+		struct CustomViewModifier: ViewModifier {
+		   var borderColor: Color = .red
+
+		   func body(content: Content) -> some View {
+			content
+			   .font(.title)
+			   .foregroundColor(Color.white)
+			   .padding()
+			   .background(Rectangle().fill(Color.gray))
+			   .border(borderColor. width: 2)
+		   }
+		}
+	   ```
+	2. View extension
+	   ```swift
+		extension View {
+		   func customModifier(borderColor = .red) -> some View {
+			self.modifier(CustomViewModifier(borderColor: borderColor))
+		   }
+		}
+	   ```
+	3. 수식어 사용
+	   ```swift
+		Text("New Modifier").customModifier(borderColor: .yellow)
+	   ```
+
+
+
+## CustomStyle
+- 자주 쓰이는 스타일을 정의해 각각의 뷰에 적용.
+- 사용가능 프로토콜
+	- ListStyle
+	- ButtonStyle
+	- PrimitiveButtonStyle
+	- TextFieldStyle
+	- ToggleStyle
+	- PickerStyle
+	- DatePickerStyle
+	- NavigationViewStyle
+
+- Button, toggle을 뺀 프로토콜은 프레임워크에서 제공하는 스타일만 사용 가능
+- Button, Toggle은 커스텀 스타일이 가능하다.
+
+## Button Custom
+- ButtonStyle
+	- 버튼이 눌리고 있을 때와 아닐 때 구분해 외형 정의.
+- PrimitiveButtonStyle
+	- 버튼의 액션 수행조건이나 시점들을 세세하게 컨트롤할 때 요구된다.
+- ButtonStyle, PrimitiveButtonStyle 모두 makeBody 메서드를 구현해서 사용한다.
+	- configuration 매개 변수를 통해 프레임워크에서 제공해 주는 정보를 바탕으로 뷰를 재구성
+ 
+
+- **ButtonStyle**
+	- 버튼이 눌리고 있을 때와 아닐 때 구분해 외형을 정의하는 프로퍼티
+	- 구조 
+		- label: 버튼 생성 시 정의한 뷰
+		- isPressed: 버튼이 눌린 상태인지 아닌지 여부
+	   ```swift
+		struct ButtonStyleConfiguration {
+		   let label: ButtonStyleConfiguration.label
+		   let isPressed: Bool
+		}
+	   ```
+	- ButtonStyle 프로토콜 이용해 정의
+		- func makeBody(configuration: Configuration) -> some View
+		- configuration.label 을 사용해 뷰에 대한 정보 가져와 커스텀 뷰를 반환한다.
+		- configuration.isPressed: 버튼이 눌리고 있는 상태에 대해 알려준다.
+
+	   ```swift
+		// 커스텀한 버튼 스타일
+		struct CustomButtonStyle: ButtonStyle { 
+		   var backgroundColor: Color = .blue
+		   var cornerRadius: CGFloat = 6
+
+		   func makeBody(configuration: Configuration) -> some View {
+			configuration.label		// 버튼 생성 시 정의한 뷰에 대한 정보
+				.foregroundColr(.white)
+				.padding()
+				.background(RoundedRectanble(cornerRadius: cornerRadius).fill(backgroundColor))
+				// configuration.isPressed 버튼 눌리고 있으면 true, 아니면 false 반환 
+				.scaleEffect(configuration.isPressed ? 0.7 : 1.0) 
+		   }
+		}
+	   ```
+	   ```swift
+		// 사용
+		Button("버튼 스타일(Color)"){ }.buttonStyle(CustmoButtonStyle(backgroundColor: .green))
+		Button("버튼 스타일(cornerRadius)"){ }.buttonStyle(CustomButtonStyle(cornerRadius: 6))
+	   ```
+
+
+- **PrimitiveButtonStyle**
+	- 버튼 동작 자체를 제어할 때 사용
+	- 버튼의 액션 수행 조건이나 그 시점 등 세세한 컨트롤 가능
+   ```swift
+	struct PrimitiveButtonStyleConfiguration {
+	   let label: PrimitiveButtonStyleConfiguration.label
+	   func trigger()
+	}
+   ```
+
+	- PrimitiveButtonStyleConfiguration 프로토콜 이용해 정의
+		- configuration.label 이용해 뷰에 대한 정보 가져와 커스텀 뷰 반환
+		- configuration.trgger: 버튼 이벤트 발생 시점을 직접 결정 가능하다.
+	- 사용예
+	- 일정 시간 이상 눌러야 이벤트 발생
+
+	   ```swift
+		// CustomStyle
+		struct CustomPrimitiveButtonStyle: PrimitiveButtonStyle {
+		   var minimumDuration = 0.5		//기본 값 0.5
+
+		   func makeBody(configuration: Configuration) -> some View {
+			ButtonStyleBody(configuration: configuration, minimumDuration: minimumDuration)
+		   }
+
+		   private struct ButtonStyleBody: View {
+			let configuration: Configuration
+			let minimumDuration: Double
+			@GestureState private var isPressed = false
+
+			var body: some View {
+			   let longPress = LongPressGesture(minimumDuration: minimumDuration)
+						.updating($isPressed) { value, state, _ in
+						   state = value
+						}.onEnded { _ in self.configuration.trigger() }
+			   
+			   return configuration.label
+					.foregroundColor(.white)
+					.padding()
+					.background(RoundedRectangle(cornerRadius: 10).fill(Color.green))
+					.scaleEffect(isPressed ? 0.8 : 1.0)	// 누를 때 발생하는 효과
+					.opacity(isPressed ? 0.6 : 1.0)		// 누를 때 발생하는 효과
+					.gesture(longPress)			// gesture 수식어로 미리 정의한 제스처 추가
+			}
+		   }
+		}
+	
+	   ```
+	   ```swift
+		// 사용
+		HStack(spacing: 20) {
+		   Button("버튼 0.5초") { print("0.5") }.buttonStyle(CustomPrimitiveButtonStyle())
+		   Button("버튼 1초") { print("1") }.buttonStyle(CustomPrimitiveButtonStyle(minimumDuration: 1))
+		}
+
+		// 버튼 클릭 즉시 UI 바뀜
+		// 버튼 클릭 minimum duration 시간이 지나야 버튼의 action 작동
+	   ```
+
+
+
+## Toggle Custom
+- **ToggleStyle**
+- 구조
+   ```swift
+	struct ToggleStyleConfiguration {
+	   let label: ToggleStyleConfiguration.Label
+	   var isOn: Bool { get nonmutating set }
+	   var $isOn: Binding<Bool> { get }
+	}
+   ``` 
+- ToggleStyleConfiguration을 통해 커스텀
+	- label: 토글의 사용용도를 알려준다.
+	- isOn: 토글의 스위치 기능을 하는 뷰 만들 때 사용
+	- $isOn
+
+- 사용 예시
+	- 상하로 움직이는 토글
+   ```swift
+	// 커스텀
+	struct CustomToggleStyle: ToggleStyle {
+	   let size: CGFloat = 30
+	   func makeBody(configuration: Configuration) -> some View {
+		let isOn = configuration.isOn
+		
+		return HStack {
+		   configuration.label		// 토글 사용용도 표시
+		   Spacer()
+		   ZStack(alignment: isOn ? .top:.bottom) {	// on, off에 따른 정렬 방식 바꾸기
+		      Capsule()
+			.fill(isOn ? Color.green : Color.red)
+			.frame(width: size, height: size * 2)	// toggle 사이즈
+
+		      Circle()
+			.frame(width: size - 2, heightL size - 2)
+			.onTapGesture { 
+			   withAnimation {
+			      configuration.isOn.toggle()	// configuration.isOn의 값을 수정해 토글값 변경
+
+			   }
+			}
+		}
+	   }
+	}
+   ```
+   ```swift
+	// 사용
+	@State private var isOn = true
+	var body: some View {
+	   VStack(spacing: 20) {
+	      Toggle("기본 토글", isOn: $isOn)
+
+	      Toggle("커스텀 코글", isOn: $isOn).toggleStyle(CustomToggleStyle())
+	   }
+	   .font(.headline)
+	   .padding()
+	   
+	}
+	
+   ```
+
+
+## UIAppearance
+- SwiftUI에서 UIKit의 기능을 응용해 제어
+- 관련 클래스와 모든 인스턴스에 대한 속성 일괄적으로 변경한다.
+- 한번의 설정으로 전체 인스턴스에 반영
+- UIView 클래스가 이미 해당 프로토콜을 채택하여 UIKit에서 다루는 모든 뷰는 appearance 타입 메서드로 외형 프록시 객체에 메시지 전달해 원하는 값 수정 가능
+- 아직 SwiftUI에서 지원하지 않는 UI 수정사항 다룰 수 있다.
+	- 앱 전체에 동일한 형태로 사용될 UI 혹은 해당 기능이 아니면 구현하지 못할 UI에서만 적용
+- 구조 
+   ```swift
+	Protocol UIAppearance: NSObjectProtocol {
+	   Static func appearace() -> self
+	}
+   ```
+- 사용법 3가지
+	- AppDelegate.swift 혹은 SceneDelegate.swift
+		- 한번의 설정으로 앱 전체에서 지속해서 통일하여 사용하는 경우
+	- 생성자
+		- 뷰가 생성되는 시점에 맞춰 설정
+		- UI 변경 시점을 특정 뷰가 처음 사용되는 때로 지연 시키고자 할 때
+	- onAppear수식어	
+		- 뷰가 화면에 나타날 때마다 반복해서 실행해야 할 코드가 있을 때
+			- 화면 전환 시 매번 다른 설정 필요 시
+			- viewWillAppear 메서드 호출하기 직전 느낌?
+- 예시
+	- **UINavigationBar 폰트 색상**
+	   ```swift
+		init() {
+		   UINavigationBar.appearance().largeTitleTextAttributes = [
+			.foregroundColor: UIColor.systemTeal,
+			.kern: 5
+		   ]
+		}
+	   ```
+	   ```swift
+		// 사용
+		NavigationView {
+		   Text("Hello, World!").navigatonBarTitle("UIAppearance")
+		}
+	   ```
+	- **UINavigationBar inline 모드 폰트, 색상**	
+	   ```swift
+		init() {
+		        UINavigationBar.appearance().titleTextAttributes = [
+		            .foregroundColor: UIColor.systemTeal,
+		            .font: UIFont.italicSystemFont(ofSize: 15)
+		        ]
+		    }
+
+	   ```
+	   ```swift
+		// 사용
+
+		NavigationView {
+	            Text("Hello, World!")
+	                .navigationBarTitle("UIappearance",displayMode: .inline)
+            
+	        }
+
+	   ```
+	- **ToggleButton TintColor**
+	   ```swift
+		 init() {        
+		        UISwitch.appearance().onTintColor = .red
+		        UISwitch.appearance().thumbTintColor = .green
+		    }
+	   ```
+	   ```swift
+		// 사용
+
+		 @State private var isOn = true
+		    var body: some View {
+		        NavigationView {
+	
+		             Toggle(isOn: $isOn) {
+		                 Text("UISwitch 색 변경")
+				}
+		        }
+		    }
+	
 	   ```
 
 # Combine
