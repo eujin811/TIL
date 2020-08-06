@@ -4140,7 +4140,7 @@ iBeacon
 
 - AnyObejct
 	- 참조 타입에 한해 id 프로퍼티에 Obeject Identifier라는 구조체 사용
-	- 임의의 타이보 사용 가능.
+	- 임의의 타입을 사용하는 것 가능.
    ```swift
 	extension Identifiable where Self: AnyObject {
 	   public var id: ObjectIdentifier { get }
