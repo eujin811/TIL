@@ -6367,7 +6367,7 @@ iBeacon
 		1. view.modifier(CustomViewModifier(...))
 		2. ModifierContent(content: view, modifier: CustomViewModifier(...))
 		- 반환 타입 modifiedContent
-			- **ModifiedContent<Text, CustomViewModifier>
+			- **ModifiedContent<Text, CustomViewModifier>**
 			- 기본 수식어의 반환타입은 모두 modifiedContent
 	- 예시
 	   ```swift
@@ -6423,7 +6423,7 @@ iBeacon
 		Text("concat").modifier(HomeFont().concat(HomeTint()))
 	   ```
 
-- ** 뷰에 새로운 수식어 추가**
+- **뷰에 새로운 수식어 추가**
 	- extension을 활용해 뷰 프로토콜을 확장해 새로운 수식어 추가 가능
 	- App 공통으로 사용하는 것들 정의할 때 사용한다. (font, style, tintColor)
 	- 사용법
@@ -6650,14 +6650,17 @@ iBeacon
 - 관련 클래스와 모든 인스턴스에 대한 속성 일괄적으로 변경한다.
 - 한번의 설정으로 전체 인스턴스에 반영
 - UIView 클래스가 이미 해당 프로토콜을 채택하여 UIKit에서 다루는 모든 뷰는 appearance 타입 메서드로 외형 프록시 객체에 메시지 전달해 원하는 값 수정 가능
+
 - 아직 SwiftUI에서 지원하지 않는 UI 수정사항 다룰 수 있다.
 	- 앱 전체에 동일한 형태로 사용될 UI 혹은 해당 기능이 아니면 구현하지 못할 UI에서만 적용
+
 - 구조 
    ```swift
 	Protocol UIAppearance: NSObjectProtocol {
 	   Static func appearace() -> self
 	}
    ```
+
 - 사용법 3가지
 	- AppDelegate.swift 혹은 SceneDelegate.swift
 		- 한번의 설정으로 앱 전체에서 지속해서 통일하여 사용하는 경우
