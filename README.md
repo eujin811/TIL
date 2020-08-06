@@ -4156,7 +4156,7 @@ iBeacon
 	}
    ```
 - SwiftUI
-	- ForEach, List 등 데이터 나열하는 뷰, alert, actionSheet, popover ㅊ럼 화면을 띄울 항목을 정확하게 구별해야 하는 수식어 들에서 Identifiable 프로토콜을 요구한다.
+	- ForEach, List 등 데이터 나열하는 뷰, alert, actionSheet, popover 처럼 화면을 띄울 항목을 정확하게 구별해야 하는 수식어 들에서 Identifiable 프로토콜을 요구한다.
 	- Identifialbe 프로토콜 적용하지 않을 경우 컴파일러가 어느 것을 식별자로 사용할지 알 수 없다.
 
    ```swift
