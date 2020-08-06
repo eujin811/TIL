@@ -4791,11 +4791,11 @@ iBeacon
 			- 첫번째 뷰와 마지막 뷰만 이식		
 			- 두개의 분할된 뷰로 표현되기 때문
 			- regular 사이즈 device만 해당
+			- 네비게이션 뷰에는 여러 개의 자식 뷰를 전달할 수 있지만 Stack일 때는 첫번째 뷰만 인식하고 나머지 무시, DoubleColumn일 때는 첫 번째와 마지막 뷰만 인식
+
 <p align="center">
   <img src="Assets/SwiftUI/NaviDoubleColumn.png" alt="Navigation DoubleColumn" height="50%" width="50%">
   </p>
-
-		- 네비게이션 뷰에는 여러 개의 자식 뷰를 전달할 수 있지만 Stack일 때는 첫 번째 뷰만 인식하고 나머지 무시, DoubleColumn일 때는 첫 번째와 마지막 뷰만 인식
 
 	
    ```swift
