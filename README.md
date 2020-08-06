@@ -6330,7 +6330,7 @@ iBeacon
                 }
 	   ```
 	   ```swift
-		// 외부 접근 위한 처
+		// 외부 접근 위한 처리
 		@propertyWrapper
 		struct RoundedTo<Value: FloatingPoint> {
 		   …
