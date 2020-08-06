@@ -4502,6 +4502,7 @@ iBeacon
 - 
 	- fixed
 		- 가로모드 지원 시 Device 가로 모드 크기 지정해서 확인
+		- Preview 의 크기지정.
 	   ```swift
 		ContentView.previewLayout(.fixed(width: 550, height: 250))
 	   ```	
@@ -4516,7 +4517,7 @@ iBeacon
 		1. 리뷰 컨테이너를 직접 지정해 줄 경우 3에서 선택한 기기 무시하고 해당 기기 형태로 렌더링
 
 - preview 자동갱신
-	- **자동갱신
+	- **자동갱신**
 		- 연산 프로퍼티 입력 값 변경 시	
 		- 단순 문자열, 숫자 같은 리터럴 값 변경 시
 		- 함수나 메서드 범위 안에서 코드 변경 시
@@ -4526,7 +4527,9 @@ iBeacon
 		- View 타입 이름 변경 or 추가
 		- 앱을 수동으로 빌드하는 경우
 		- TopLevel 구조체 / 클래스 범위에서는 키워드, 속성, 프리프로세서 구문에 대한 수정 등 일부 예외 제외한 모든 상황에서 자동갱신 중단.
+
 **EnvironmentValues**
+	- ContentView를 여러개 두고 서로 다른 환경을 적용해 확인해보고 싶을 때 사용
 	- colorScheme, timeZone, locale, calendar, layoutDirection, sizeCategory 등 기존 UITraitCollction을 비롯해 다양한 클래스에서 나뉘어 사용하고 관리되던 속성들을 이제 EnvironmentValues 하나에 모두 담아서 쉽게 접근 관리 가능하다.
 	- 프레임워크에 의해 별도 관리된다. 어떤 뷰에서든 접근 가능
 	- 상위 계층의 뷰가 가진 환경 요소를 그대로 상속받는다.
