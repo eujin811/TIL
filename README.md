@@ -4530,11 +4530,12 @@ iBeacon
 
 **EnvironmentValues**
 
-	- ContentView를 여러개 두고 서로 다른 환경을 적용해 확인해보고 싶을 때 사용
-	- colorScheme, timeZone, locale, calendar, layoutDirection, sizeCategory 등 기존 UITraitCollction을 비롯해 다양한 클래스에서 나뉘어 사용하고 관리되던 속성들을 이제 EnvironmentValues 하나에 모두 담아서 쉽게 접근 관리 가능하다.
-	- 프레임워크에 의해 별도 관리된다. 어떤 뷰에서든 접근 가능
-	- 상위 계층의 뷰가 가진 환경 요소를 그대로 상속받는다.
-		- 단, 하위 계층 뷰에 개별적 환경 구성 시 예외
+- ContentView를 여러개 두고 서로 다른 환경을 적용해 확인해보고 싶을 때 사용
+- colorScheme, timeZone, locale, calendar, layoutDirection, sizeCategory 등 기존 UITraitCollction을 비롯해 다양한 클래스에서 나뉘어 사용하고 관리되던 속성들을 이제 EnvironmentValues 하나에 모두 담아서 쉽게 접근 관리 가능하다.
+- 프레임워크에 의해 별도 관리된다. 어떤 뷰에서든 접근 가능
+- 상위 계층의 뷰가 가진 환경 요소를 그대로 상속받는다.
+	- 단, 하위 계층 뷰에 개별적 환경 구성 시 예외
+
 - **Environment 수식어**
 	- ContentView를 여러개 두고 서로 다른 환경을 적용해 확인해보고 싶을 때사용
 		- 뷰의 환경요소 변경
