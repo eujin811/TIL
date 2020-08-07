@@ -5912,7 +5912,7 @@ iBeacon
 	   var body: some View { ... }
 	}
    ```
-- 부모 뷰가 어떤 값을 갖게될 경우 그 자식 뷰들은 직접 전달받지 않아도 어떤 뷰든지 간에 부모뷰와 동일한 데이터 접근이 가능하다.
+- 부모 뷰가 어떤 값을 갖게될 경우 그 자식 뷰들은 직접 전달받지 않아도 어떤 뷰던  간에 부모뷰와 동일한 데이터 접근이 가능하다.
 
 <p align="center">
   <img src="Assets/SwiftUI/EnvironmentObject.png" alt="EnvironmentObject" height="50%" width="50%">
