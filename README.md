@@ -4706,7 +4706,7 @@ iBeacon
                     Image("image").navigationBarTitle("Title")
    	      }
 	   ```
-	- .navigationBarTitle)title:, displayMode: )
+	- .navigationBarTitle(title:, displayMode: )
 		- automatic: 기본값
 		- .large:
 		- .inline:
@@ -4720,6 +4720,7 @@ iBeacon
   <img src="Assets/SwiftUI/NavigationLarge.png" alt="네비게이션 .large" height="50%" width="50%">
   </p>
 
+- 
 
 	   ```swift
 		// inline
@@ -4765,7 +4766,7 @@ iBeacon
 
 - navigationLink
 	- 화면이동
-	- 특정조건 만족 시 지정 화면으로 이
+	- 특정조건 만족 시 지정 화면으로 이동
 	- pushViewController 기능 수행과 동일
    ```swift
 	NavigationView {
