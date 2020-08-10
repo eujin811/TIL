@@ -6825,11 +6825,15 @@ iBeacon
 	   ```
 
 ## TabView
+
+
 <p align="center">
   <img src="Assets/SwiftUI/tab.png" alt="tab" height="50%" width="50%">
   </p>
 
+
 - 사용법
+
    ```swift
         TabView {
             VStack {
@@ -6856,13 +6860,17 @@ iBeacon
             
         }
    ```
+   
+   
 <p align="center">
   <img src="Assets/SwiftUI/TabViewBasic.png" alt="TabViewBasic" height="50%" width="50%">
   </p>
 
+
 - tabItem
 	- 이미지 or Text, 이미지 + Text 만가능
 	- 연결된 뷰에 1:1 대응 아닌 탭 뷰 포함된 순서에 따라 결정
+	
    ```swift
 	TabView {
             VStack {
@@ -6886,9 +6894,12 @@ iBeacon
             
         }
    ```
+   
+   
 <p align="center">
   <img src="Assets/SwiftUI/TabViewItem.png" alt="TabViewItem" height="50%" width="50%">
   </p>
+
 
 - Tag
 	
