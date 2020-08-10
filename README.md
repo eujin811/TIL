@@ -140,7 +140,7 @@ Swift, Xcode, iOS 관련
 		- [Scheduler](https://github.com/eujin811/TIL/blob/master/README.md#scheduler)
 		- [Cancellable](https://github.com/eujin811/TIL/blob/master/README.md#cancellable)
 		- [@EnvironmentObject](https://github.com/eujin811/TIL#evironmentobject)
-
+		- [TabView]()
 
 
 # Swift
@@ -5646,17 +5646,99 @@ iBeacon
 - aces: 스크롤 방향
 - showIndicators: 스크롤 바 보여줄것인지
 
+- 사용법
    ```swift
-	// items =  [“aa”, “bb”, “cc”, “dd”, “ee”, “ff”, “gg”, “hh”, “ii”, “jj”]
-	
-	ScrollView(.horizontal, howIndicators: flase) {
-	   HStack(alignment: .top, spacing: 0) {
-		ForEach(self.items) {
-		   Text($0)
-		}
-	   }
-	}
+	ScrollView(.horizontal) {
+	   Text("스크롤 뷰").font(.largeTitle).bold().background(Color.gray)
+	}.background(Color.black)
    ```
+<p align="center">
+  <img src="Assets/SwiftUI/ScrollView1.png" alt="ScrollView1" height="50%" width="50%">
+  </p>
+
+- 스크롤 방향으로는 부모 뷰가 제공하는 공간의 최대 차지, 직교 방향은 자식뷰 크기만큼.
+	- 내부 선언된 뷰는 기본적으로 idealWidth 혹은 idealHeight 만큼 할당한다.
+	- 원하는 size 위해 fixedSize 사용해야 한다.
+- 스크롤 뷰 크기지정
+	- frame으로 값 지정 후 fixedSize 사용해야 한다.
+	- 사용
+	   ```swift
+		ScrollView(.horizontal) {
+		   HStack {
+			Color.black.frame(height: 50)
+			Color.gray.frame(width: 100, height: 50)
+			Color.blue.frame(width: 100, height: 100)
+		   }.fixedSize(horizontal: true, vertical: false
+		}
+	   ```
+<p align="center">
+  <img src="Assets/SwiftUI/ScrollViewSize.png" alt="ScrollViewSize" height="50%" width="50%">
+  </p>
+
+- 콘텐츠 위치
+	- ScrollView는 ContentOffset 제공하지 않는다.
+	- PreferenceKey 혹은 GeometryReader 사용해야 한다.
+	- PreferenceKey
+		- 자식 뷰에서 부모 뷰에 데이터 전달하는 기능
+	- GeometryReader
+		- 글로벌 좌표 이용해 값 계산
+
+	- GeometryReader 예시(스크롤할 때 offset에 맞춰 색 바뀌게)
+		- .global: 윈도우의 원점 기준으로 한 상대 좌표 반환해준다.
+		- 해당 코드의 minY -> safeAreaInsets.top 만큼의 값 갖는다.(iPhone 11 pro 기준, safeAreaInsets 높이 44)
+	   ```swift
+		    var body: some View {
+		        ScrollView {
+		            ForEach(0..<10) { _ in
+		                GeometryReader {
+		                    Rectangle().fill(self.color(from: $0))
+                    
+		                }.frame(width: 150, height: 150)
+		            }
+		        }
+        
+		    }
+    
+		    // 스크롤 뷰 기준으로 하는 Geometry
+		    func color(from proxy: GeometryProxy) -> Color {
+		        let yOffset = proxy.frame(in: .global).minY - 44
+		        let color = min(1, 0.2 + Double(yOffset / 1000))    // 0.2~1 사이의 값
+		        return Color(hue: color, saturation: color, brightness: color)
+		    }
+	   ```
+<p align="center">
+  <img src="Assets/SwiftUI/ScrollGeo.png" alt="ScrollGeo" height="50%" width="50%">
+  </p>
+
+
+- **ScrollViewPage**
+	- SwiftUI 스크롤 뷰 페이징 기능 직접 제공 안해서 UIappearance 이용해 UIScrollView 설정 사용
+		- 각 뷰 들을 GeometryReader 사용해 화면 전체 크기로 맞춘다.
+		- UIAppearance 사용해 isPagingEnabled 활성화
+
+	- 사용
+	   ```swift
+	        let colors: [Color] = [.red, .green, .blue]
+        
+	        return GeometryReader { proxy in
+	            ScrollView(.horizontal) {
+	                HStack(spacing: 0) {
+	                    ForEach(colors.indices) { index in
+	                        Circle()
+	                            .fill(colors[index])        // 색 지정
+	                            .overlay(Text("\(index) 페이지"))      // 현재 페이지 표시
+	                            .font(.largeTitle)
+	                            .foregroundColor(.white)
+	                            .padding()
+	                    }
+	                    .frame(width: proxy.size.width, height: proxy.size.height)
+	                }
+                
+	            }   // 페이징 기능 활성화
+	            .onAppear { UIScrollView.appearance().isPagingEnabled = true }
+	            
+	        }
+	   ```
 
 ## 데이터 흐름
 - SwiftUI Tool
@@ -6681,6 +6763,9 @@ iBeacon
 		- 뷰가 화면에 나타날 때마다 반복해서 실행해야 할 코드가 있을 때
 			- 화면 전환 시 매번 다른 설정 필요 시
 			- viewWillAppear 메서드 호출하기 직전 느낌?
+	   ```swift
+		.onAppear { view.appearance().수식어 }
+	   ```
 - 예시
 	- **UINavigationBar 폰트 색상**
 	   ```swift
@@ -6738,6 +6823,77 @@ iBeacon
 		    }
 	
 	   ```
+
+## TabView
+<p align="center">
+  <img src="Assets/SwiftUI/tab.png" alt="tab" height="50%" width="50%">
+  </p>
+
+- 사용법
+   ```swift
+        TabView {
+            VStack {
+                Text("첫 번째 탭").font(.largeTitle)
+                Image("swift")
+            }.tabItem {
+                Image(systemName: "house")
+                Text("아이템 1")
+            }
+            
+            Text("두 번째 탭의 화면")  
+                .font(.title)
+                .padding()
+                .background(Color.yellow)
+                .tabItem {
+                    Image(systemName: "cube")
+                    Text("아이템 2")
+            }
+            
+            SomeView().tabItem {
+                Image(systemName: "person")
+                Text("아이템")
+            }
+            
+        }
+   ```
+<p align="center">
+  <img src="Assets/SwiftUI/TabViewBasic.png" alt="TabViewBasic" height="50%" width="50%">
+  </p>
+
+- tabItem
+	- 이미지 or Text, 이미지 + Text 만가능
+	- 연결된 뷰에 1:1 대응 아닌 탭 뷰 포함된 순서에 따라 결정
+   ```swift
+	TabView {
+            VStack {
+                Text("첫 번째 탭").font(.largeTitle)
+                Image("swift")
+            }
+            
+            Text("두 번째 탭의 화면")
+                .font(.title)
+                .padding()
+                .background(Color.yellow)
+                .tabItem {
+                    Image(systemName: "cube")
+                    Text("아이템 2")
+            }
+            
+            SomeView().tabItem {
+                Image(systemName: "person")
+                Text("아이템")
+            }
+            
+        }
+   ```
+<p align="center">
+  <img src="Assets/SwiftUI/TabViewItem.png" alt="TabViewItem" height="50%" width="50%">
+  </p>
+
+- Tag
+	
+
+
 
 # Combine
 - 선언형 프레임워크, 함수형 프로그래밍, 비동기를 기반으로 한 리액티브
