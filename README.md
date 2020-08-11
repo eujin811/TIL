@@ -127,8 +127,8 @@ Swift, Xcode, iOS 관련
 			- [Toggle Custom](https://github.com/eujin811/TIL#toggle-custom)
 		- [UIAppearance](https://github.com/eujin811/TIL#uiappearance)
 		- [TabView](https://github.com/eujin811/TIL#tabview)
-		- [Animation]()
-		- [Transition]()
+		- [Animation](https://github.com/eujin811/TIL#animation)
+		- [Transition](https://github.com/eujin811/TIL#transition)
 
 	- [Combine](https://github.com/eujin811/TIL#Combine)
 		- [Publisher](https://github.com/eujin811/TIL/blob/master/README.md#publisher)
@@ -7285,7 +7285,7 @@ iBeacon
 	- 단순 상태 변화만 일어나는 것x
 
 **기본**
-- **.transition()
+- **.transition()**
 	- .transition(.opacity) : 불투명도 조절, 인/아웃 효과 (기본 값)
 	- .transition(.scale) : 뷰의 배율 조절해 전환, 
 		- 매개변수에 값을 지정해 Anchor을 변경한 뒤 적용 
