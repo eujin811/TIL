@@ -127,8 +127,8 @@ Swift, Xcode, iOS 관련
 			- [Toggle Custom](https://github.com/eujin811/TIL#toggle-custom)
 		- [UIAppearance](https://github.com/eujin811/TIL#uiappearance)
 		- [TabView](https://github.com/eujin811/TIL#tabview)
-
-
+		- [Animation]()
+		- [Transition]()
 
 	- [Combine](https://github.com/eujin811/TIL#Combine)
 		- [Publisher](https://github.com/eujin811/TIL/blob/master/README.md#publisher)
@@ -5196,6 +5196,49 @@ iBeacon
   <img src="Assets/SwiftUI/ListInsetGrouped.png" alt="InsetGrouped" height="50%" width="50%">
   </p>
 
+- List indicator 제거
+	- view 네비게이션 링크 밖으로, 네비게이션 너비 0 + hidden
+
+   ```swift
+	HStack {
+	   View()
+	   NavigationLink {
+		EmptyView()
+	   }.frame(width: 0)
+	    .hidden()
+	}
+   ```
+
+- List 선지우기 (SeparatorStyle)
+   
+   ```swift
+	.onAppear { UITableView.appearance().separatorStyle = .none }
+   ``` 
+
+- List Row BackgroundColor
+	- List 내에서 ForEach와 함께 사용해야 적용된다.
+
+   ```swift
+	List {
+	   ForEach {
+		...
+	   }.listBackground(Color.background)
+	}
+   ```
+
+- List Background Color
+	- SceneDelegate에서 tableView 색 clear, nil
+	- List에 백그라운드 컬러 지정
+   ```swift
+	//SceneDelegate
+	private func configureAppearance() {
+	   UITableView.appearance().backgroundColor = .clear // or nil
+	}
+   ```
+   ```swift
+	List{}.background(Color.background)
+   ```
+
 
 ## SwiftUI View 위치구성
 - Stack을 제외한 수식어
@@ -6983,6 +7026,339 @@ iBeacon
   <img src="Assets/SwiftUI/TabBarColor.png" alt="TabBarColor" height="50%" width="50%">
   </p>
 
+
+## Animation
+- 애니메이션이 동작하는 상태 3가지
+	- 애니메이션 발생 전
+	- 애니메이션 발생 중
+	- 애니메이션 동작 후
+- 애니메이션 사용 수식어 2가지
+	- **.animation**
+		- 특정 뷰에 한정해 애니메이션 사용
+	- **.withAnimation**
+		- 특정 값이 변하면 관련된 값 사용하는 모든 뷰 애니메이션 적용
+
+**.animation**
+- 특정 뷰에 한정해 애니메이션 사용
+- 수식어 사용전 반영된 수식어에 대해서만 애니메이션 적용
+- 크기, 위치, 배경색, 투명도 등 하나라도 변하면 뷰를 새로 그리면서 애니메이션 수행
+- 특정 값 변경 시 애니메이션 수행
+- 구조
+   ```swift
+	func animation<V>(_ animation: Animation?, value: V) -? some View where V: Equatable
+   ```
+- 사용
+   ```swift
+	@State private var blur: Bool = false
+	@State private var reduction: Bool = false
+
+	var body: some View {
+	    Image("cat")
+		.blur(radius: blur ? 5 : 0)
+		.scaleEffect(reduction ? 0.7 : 1)
+		.onTapGesture {
+		   self.blur.toggle()
+		   self.reduction.toggle()
+		}.animation(.default, value: reduction)
+	}
+   ```
+- 애니메이션 비활성화
+	- Animation 수식어 이후에 적용된 수식어 적용 안된다.
+	   ```swift
+		Image("cat")
+		   .blur(radius: blur ? 5 : 0)
+		   .onTapGesture {
+			self.blur.toggle()
+			self.reduction.toggle()
+		   }.animation(.default)
+		   .scaleEffect(reduction ? 0.7 : 1)
+	   ```
+
+- .animation(nil)
+	-  나중에 적용된 수식어들만 적용할 때.
+	- .animation(nil) 선언 앞부분까지는 추후 animation 사용해도 적용 안된다.
+	- 사용
+ 
+	   ```swift
+		Image("cat")
+		   .blur(radius: blur ? 5 : 0)		// 적용 안됨.
+		   .animation(nil)
+		   .scaleEffect(reduction ? 0.7 : 1)
+		   .onTapGesture {
+			self.blur.toggle()
+			self.reduction.toggle()
+		   }.animation(.default)
+	   ```
+
+**.withAnimation**
+- 특정 값 변경 시 관련된 값 사용하는 모든 뷰에 애니메이션 적용
+- SwiftUI 전역함수로 함수를 실행해 발생한 모든 변화에 대해 애니메이션 동작.
+- 구조
+   ```swift
+	func withAnimation<Result>(_ animation: Animation? = .default, _ body: () throws -> Result) rethrows -> Result
+   ```
+- 사용
+   ```swift
+	@State private var blur: Bool = false
+	@State private var reduction: Bool = false
+	
+	var body: some View {
+	   Image("cat")
+		.blur(radius: blur ? 5 : 0)
+		.scaleEffect(reduction ? 0.7 : 1)
+		.onTapGesture {
+		   withAnimation(.default) {			// blur, reduction 관련 시각적 효과에 애니메이션 적용.
+			self.blur.toggle()
+			self.reduction.toggle()
+		   }
+		}
+	 }
+   ```
+
+- 사용 2
+	- reduction 상태 변경에 관련된 시각적 효과에 애니메이션 적
+   ```swift
+	Image("cat")
+	   .blur(radius: blur ? 5 : 0)
+	   .scaleEffect(reduction ? 0.7 : 1)
+	   .onTapGesture {
+		self.blur.toggle()
+		withAnimation {
+		   self.reduction.toggle()
+		}
+	   }
+   ```
+
+**애니메이션 타이밍**
+- **default**
+	- 기본 적용 애니메이션(easeInOut 유형)
+	- 애니메이션 지속시간 0.35초
+   ```swift
+	.animation(.default)
+
+	.withAnimation(.default) {…}
+   ```
+- **linear**
+	- 처음부터 끝까지 일정한 속도로 애니메이션
+	- 진행 반복되는 애니메이션에 많이 사용
+	- 일반 작업에는 부자연스러운 느낌
+   ```swift
+	.animation(.linear)
+
+	withAnimation(.linear) {…}
+   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/Linear.png" alt="Linear" height="50%" width="50%">
+  </p>
+
+- **easeIn**
+	- 처음에는 느리게 시작했다가 점점 빠르게 진행되는 애니메이션
+	- 화면 밖으로 사라지는 뷰 등에 적합.
+   ```swift
+	.animation(.easeIn)
+
+	withAnimation(.easeIn) {…}
+   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/easeIn.png" alt="easeIn" height="50%" width="50%">
+  </p>
+
+- **easeOut**
+	- 처음에는 빠르게 시작해 끝에는 천천히 진행된다.
+	- 즉각적으로 반응하는 느낌
+   ```swift
+	.animation(.easeOut)
+
+	withAnimation(.easeOut) {…}
+   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/easeOut.png" alt="easeOut" height="50%" width="50%">
+  </p>
+
+- **easeInOut**
+	- 시작과 끝에서 느리게 동작, 중간 지점에 빠르게 동작.
+	- 일반적으로 가장 많이 쓰인다.
+	- easeIn + easeOut
+   ```swift
+	.animation(.easeInOut)
+
+	withAnimation(.easeInOut) {…}
+   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/easeInOut.png" alt="easeInOut" height="50%" width="50%">
+  </p>
+
+- **timingCurve**
+	- 애니메이션 타이밍 직접 조절 가능.
+	- c0: 시작 값
+	- c1: 끝날 타이밍 값
+   ```swift
+	.animation(.timingCurve(c0x: , c0y: , c1x: ,c1y: )
+
+	withAnimationwithAnimation(.timingCurve(c0x: , c0y: , c1x: ,c1y: )) {…}
+   ```
+
+**스프링 애니메이션**
+- **spring**
+	- 애니메이션 타이밍을 진동효과로 주 동적인 느낌 가능
+		- response: 스프링의 강성 및 애니메이션 지속 시간에 대한 근사치
+		- dampingFraction: 스프링 애니메이션의 진동 수준을 결정짓는 값
+			- 1이면 진동 없이 최단 시간 내에 애니메이션 목적 지점에 그대로 멈춤
+			- 1보다 작으면 멈추지 않고 진동
+			- 1보다 크면 애니메이션 목적지 도착 시간 길어짐, 진동x 
+			- 통통 튀는 느낌?, 달랑달랑 거리는 느낌 주고 싶을 때?
+		- blendDuration 스프링 애니메이션이 조합될 때 response 값의 변화를 보간(interpolate)하는 데 사용됨
+			- 현재는 실제로 활용되지 않는다.
+
+   ```swift
+	withAnimation(.spring(response: 0.55, dampingFraction: 0.225, blendDuration: 0)) {
+	    self.blur3.toggle()
+	    self.reduction3.toggle()
+	}
+   ```
+
+- **interactiveSpring**
+	- Spring과 동일
+	- 대화형 방식의 애니메이션에 좀 더 적합하게 Spring 옵션의 기본 값 다르게 정의해 둔 것
+   ```swift
+	withAnimation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25)) 
+   ```
+- **interplotingSpring**
+	- 물리 모델링에 기반한 값을 더욱 세밀하게 다룰 수 있도록 만들어진 옵션
+	- mass: 질량
+		- 작을수록 빠르게 움직임.
+		- 힘의 크기나 반동이 약함.
+		- 클수록 느리고 반동이 커짐
+		- 기본 값 1
+	- stiffness
+		- 스프링의 강성 의미하는 값
+		- 작으면 탄성이 부족
+		- 크면 탄성 크고 빠름
+	- damping
+		- 마찰력과 같은 역할
+		- 작을수록 진동 심하고, 클수록 약함
+		- 일정 이상 수치가 커지면 진동하지 않고 바로 목적지에 멈춤
+		- 0이 되면 마찰력이 없는 것처럼 진동 멈추지 않고 무한 반복
+		- 0보다 작은 값 x
+	- intalVelocity
+		- 애니메이션이 시작할 때 초기에 가해지는 속도
+		- 클수록 애니메이션 진행 방향으로 가해지는 초기 힘이 세진다.
+		- mass, initialVelocity가 높고 stiffness, damping이 작을수록 애니메이션 시간이 길어짐.
+   ```swift
+	withAnimation(.interpolatingSpring(mass: 1, stiffness: 100, damping: 10, initialVelocity: 0))
+   ```
+
+**애니메이션 제어**
+- **delay**
+	- Double 타입
+	- 값에 해당하는 시간만큼 애니메이션 지연시킨 후 수행
+   ```swift
+	.animation(Animation.default.delay(1))
+   ```
+- **speed**
+	- 지정한 배율만큼 곱한 속도로 진행
+	- 0.5배, 2배 등등
+   ```swift
+	.animation(Animation.default.speed(2)
+   ```
+- **repeatCount, repeatForever**
+	- repeatCount: 애니메이션을 일정 횟수만큼만 반복할 때 사용
+	- repeatForever: 애니메이션 무한 실행
+	- autorevers: 매개 변수에 true 값을 전달하며 애니메이션이 수행되기 전과 후의 모습을 오가는 것 확인 가능하다.
+   ```swift
+	.animation(Animation.default.repeatCount(5, autoreverses: true)
+   ```
+
+
+## Transition
+- 뷰 계층 구조에 새로운 뷰가 추가되거나 기존에 있던 것이 제거될 때 적용되는 애니메이션
+- 단독사용 불가.
+- Animation 수식어나 withAnimation 함수 사용시에 함께 사용
+	- 뷰 계층 구조에 새로운 뷰가 삽입되는 과정
+	- 뷰 계층 구조에 이미 추가된 뷰가 제거되는 과정
+	- 삽입과 제거가 동시에 일어나는 과정
+- 뷰 동일하고 내용이 변하는 경우 트랜지션 적용 안된다.
+	- 단순 상태 변화만 일어나는 것x
+
+**기본**
+- **.transition()
+	- .transition(.opacity) : 불투명도 조절, 인/아웃 효과 (기본 값)
+	- .transition(.scale) : 뷰의 배율 조절해 전환, 
+		- 매개변수에 값을 지정해 Anchor을 변경한 뒤 적용 
+		- 기준점 바꾸거나 최대 비율 지정 가능
+	- .transition(.slide) : 뷰가 삽입될 때는 좌측에서부터 나타났다가 제거 시 우측으로 움직임
+	- .transition(.move) : 상하좌우 중에 한가지 방향을 지정해 선택 방향으로 뷰가 나타났다가 사라짐
+		- 나타나는 방향과 사라지는 방향 다름
+	- .transition(.offset) : x,y 좌표 또는 CGSize 값을 전달해 특정 좌표로부터 나타나거나 그 위치로 움직이면 사라지는 뷰 표현
+
+- scale
+   ```swift
+	@State private var showText = false
+
+	var body: some View {
+	   VStack {
+		if showText {
+		   Text("Transition")
+			.font(.largeTitle)
+			.padding()
+			.transition(.scale)
+		}
+		Button("Display Text On / Off") {
+		   withAnimation {
+			self.showText.toggle()
+		   }
+		}.font(.title)
+
+	   }
+	}
+   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/transitionSclae.png" alt="transitionSclae" height="50%" width="50%">
+  </p>
+
+
+- slide
+   ```swift
+	if showText {
+	   Text("Transition Slide")
+		.font(.largeTitle)
+		.padding()
+		.transition(.slide)
+	}
+   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/transitionSlide.png" alt="transitionSlide" height="50%" width="50%">
+  </p>
+
+- move
+   ```swift
+	if showText {
+	   Text("Transition trailing")
+		.font(.largeTitle)
+		.padding()
+		.transition(.move(edge: .top))
+	}
+   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/transitionMove.png" alt="transitionMove" height="50%" width="50%">
+  </p>
+
+- offset
+   ```swift
+	Text("Transition offset")
+	   .font(.largeTitle)
+	   .padding()
+	   .transition(.offset(x: -125, y: -125))
+   ```
+
+**트랜지션 합성**
 
 # Combine
 - 선언형 프레임워크, 함수형 프로그래밍, 비동기를 기반으로 한 리액티브
