@@ -126,6 +126,9 @@ Swift, Xcode, iOS 관련
 			- [Button Custom](https://github.com/eujin811/TIL#button-custom)
 			- [Toggle Custom](https://github.com/eujin811/TIL#toggle-custom)
 		- [UIAppearance](https://github.com/eujin811/TIL#uiappearance)
+		- [TabView](https://github.com/eujin811/TIL#tabview)
+
+
 
 	- [Combine](https://github.com/eujin811/TIL#Combine)
 		- [Publisher](https://github.com/eujin811/TIL/blob/master/README.md#publisher)
@@ -5718,26 +5721,26 @@ iBeacon
 
 	- 사용
 	   ```swift
-	        let colors: [Color] = [.red, .green, .blue]
+		let colors: [Color] = [.red, .green, .blue]
         
-	        return GeometryReader { proxy in
-	            ScrollView(.horizontal) {
-	                HStack(spacing: 0) {
-	                    ForEach(colors.indices) { index in
-	                        Circle()
-	                            .fill(colors[index])        // 색 지정
-	                            .overlay(Text("\(index) 페이지"))      // 현재 페이지 표시
-	                            .font(.largeTitle)
-	                            .foregroundColor(.white)
-	                            .padding()
-	                    }
-	                    .frame(width: proxy.size.width, height: proxy.size.height)
-	                }
+		return GeometryReader { proxy in
+		   ScrollView(.horizontal) {
+			HStack(spacing: 0) {
+			   ForEach(colors.indices) { index in
+				Circle()
+				   .fill(colors[index])        // 색 지정
+				   .overlay(Text("\(index) 페이지"))      // 현재 페이지 표시
+				   .font(.largeTitle)
+				   .foregroundColor(.white)
+				   .padding()
+			   }
+			    .frame(width: proxy.size.width, height: proxy.size.height)
+			}
                 
-	            }   // 페이징 기능 활성화
-	            .onAppear { UIScrollView.appearance().isPagingEnabled = true }
+		   }   // 페이징 기능 활성화
+		    .onAppear { UIScrollView.appearance().isPagingEnabled = true }
 	            
-	        }
+		}
 	   ```
 
 ## 데이터 흐름
@@ -6835,30 +6838,30 @@ iBeacon
 - 사용법
 
    ```swift
-        TabView {
-            VStack {
-                Text("첫 번째 탭").font(.largeTitle)
-                Image("swift")
-            }.tabItem {
-                Image(systemName: "house")
-                Text("아이템 1")
-            }
+	TabView {
+	   VStack {
+		Text("첫 번째 탭").font(.largeTitle)
+		Image("swift")
+	   }.tabItem {
+		Image(systemName: "house")
+		Text("아이템 1")
+	   }
             
-            Text("두 번째 탭의 화면")  
-                .font(.title)
-                .padding()
-                .background(Color.yellow)
-                .tabItem {
-                    Image(systemName: "cube")
-                    Text("아이템 2")
-            }
+	   Text("두 번째 탭의 화면")  
+		.font(.title)
+		.padding()
+		.background(Color.yellow)
+		.tabItem {
+		   Image(systemName: "cube")
+		   Text("아이템 2")
+	   }
             
-            SomeView().tabItem {
-                Image(systemName: "person")
-                Text("아이템")
-            }
+	   SomeView().tabItem {
+		Image(systemName: "person")
+		Text("아이템")
+	   }
             
-        }
+	}
    ```
    
    
@@ -6872,27 +6875,27 @@ iBeacon
 	- 연결된 뷰에 1:1 대응 아닌 탭 뷰 포함된 순서에 따라 결정
 	
    ```swift
-	TabView {
-            VStack {
-                Text("첫 번째 탭").font(.largeTitle)
-                Image("swift")
-            }
+	TabView
+	  VStack {
+		Text("첫 번째 탭").font(.largeTitle)
+		Image("swift")
+	   }
             
-            Text("두 번째 탭의 화면")
-                .font(.title)
-                .padding()
-                .background(Color.yellow)
-                .tabItem {
-                    Image(systemName: "cube")
-                    Text("아이템 2")
-            }
+	   Text("두 번째 탭의 화면")
+		.font(.title)
+		.padding()
+		.background(Color.yellow)
+		.tabItem {
+		   Image(systemName: "cube")
+		   Text("아이템 2")
+	    }
             
-            SomeView().tabItem {
-                Image(systemName: "person")
-                Text("아이템")
-            }
+	    SomeView().tabItem {
+		Image(systemName: "person")
+		Text("아이템")
+	    }
             
-        }
+	}
    ```
    
    
@@ -6902,10 +6905,83 @@ iBeacon
 
 
 - Tag
+	- 어떤 탭 선택한 상태인지 알고 싶은 경우 사용
+	- selectionValue 관리하 생성자 사용해 탭 뷰 만든 뒤 각 탭 아이템별로 tag 수식어 통해 각 탭 아이템과 연관된 값을 지정.
+	- selectionValue Int 타입 아니어도 된다. (Hashable 프로토콜 준수하는 타입이면 무엇이든 가능)
+	- Int 값을 사용해 tag
+	   ```swift
+		@State private var selectedTab = 0
+		var body: some View {
+		   TabView(selection: $selected) {
+		      Text("태그 1")
+			.font(.largeTitle)
+			.fontWeight(.bold)
+			.tag(0)
+			.tabItem {
+			   Image(systemName: self.selectedTab != ? "\(0).square": "\(0).square.fill"
+				.imageScale(.large)
+			}			
+			Text("태그 2")
+			   .font(.largeTitle)
+			   .fontWeight(.bold
+			   .tag(1)
+			   .tabItem {
+				Image(systemName: self.selectedTab != 1 ? "\(1).square" : "\(1).square.fill")
+				   .imageScale(.large)
+			   }
+		   }
+		}
+	   ```
+<p align="center">
+  <img src="Assets/SwiftUI/TabView1,2.png" alt="TabView1,2" height="50%" width="50%">
+  </p>
 	
+- 
+	- String 값을 사용해 tag
+	   ```swift
+		TabView(selection: $selected) {
+		   Text("A View")
+			.tag(TabItems.A).tabItem {
+			    Image(systemName: self.selected == TabItems.A ? "a.circle.fill" : "a.circle" ).imageScale(.large)
+			}
+
+		   Text("B View").tag(TabItems.B).tabItem {
+			Image(systemName: self.selected == TabItems.B ? "b.circle.fill" : "b.circle").imageScale(.large)
+		   }
+		}
+	   ```
+<p align="center">
+  <img src="Assets/SwiftUI/TabViewAB.png" alt="TabViewAB" height="50%" width="50%">
+  </p>
+
+- tabView 선택한 아이템 색상 변경
+	- tintColor
+   ```swift
+	TabView{...}.accentColor(.green)
+   ```
+<p align="center">
+  <img src="Assets/SwiftUI/TabViewTint.png" alt="TabViewTint" height="50%" width="50%">
+  </p>
+
+- tabView 선택하지 않은 아이템 색상변경
+	- 아직 SwiftUI에 없음, UIAppearance 사용
+   ```swift
+	.onAppear { UITabBar.appearance().unselectedItemTintColor = UIColor.white }
+   ```
+<p align="center">
+  <img src="Assets/SwiftUI/TabBarUnselectColor.png" alt="TabBarUnselectColor" height="50%" width="50%">
+  </p>
 
 
 
+- tabView Bar 색상변경
+	- 아직 SwiftUI에 없음, UIAppearance 사용
+   ```swift
+	.onAppear { UITabBar.appearance().backgroundColor = UIColor.red }
+   ```
+<p align="center">
+  <img src="Assets/SwiftUI/TabBarColor.png" alt="TabBarColor" height="50%" width="50%">
+  </p>
 # Combine
 - 선언형 프레임워크, 함수형 프로그래밍, 비동기를 기반으로 한 리액티브
 	- Reactive Programming (반응형 프로그래밍)
