@@ -5722,7 +5722,7 @@ iBeacon
 	- 사용
 	   ```swift
 		let colors: [Color] = [.red, .green, .blue]
-        
+			        
 		return GeometryReader { proxy in
 		   ScrollView(.horizontal) {
 			HStack(spacing: 0) {
@@ -5736,10 +5736,10 @@ iBeacon
 			   }
 			    .frame(width: proxy.size.width, height: proxy.size.height)
 			}
-                
+			                
 		   }   // 페이징 기능 활성화
 		    .onAppear { UIScrollView.appearance().isPagingEnabled = true }
-	            
+				            
 		}
 	   ```
 
@@ -6846,7 +6846,7 @@ iBeacon
 		Image(systemName: "house")
 		Text("아이템 1")
 	   }
-            
+		            
 	   Text("두 번째 탭의 화면")  
 		.font(.title)
 		.padding()
@@ -6855,12 +6855,12 @@ iBeacon
 		   Image(systemName: "cube")
 		   Text("아이템 2")
 	   }
-            
+		            
 	   SomeView().tabItem {
 		Image(systemName: "person")
 		Text("아이템")
 	   }
-            
+		            
 	}
    ```
    
@@ -6880,7 +6880,7 @@ iBeacon
 		Text("첫 번째 탭").font(.largeTitle)
 		Image("swift")
 	   }
-            
+		            
 	   Text("두 번째 탭의 화면")
 		.font(.title)
 		.padding()
@@ -6889,12 +6889,12 @@ iBeacon
 		   Image(systemName: "cube")
 		   Text("아이템 2")
 	    }
-            
+		            
 	    SomeView().tabItem {
 		Image(systemName: "person")
 		Text("아이템")
 	    }
-            
+		            
 	}
    ```
    
@@ -6982,6 +6982,8 @@ iBeacon
 <p align="center">
   <img src="Assets/SwiftUI/TabBarColor.png" alt="TabBarColor" height="50%" width="50%">
   </p>
+
+
 # Combine
 - 선언형 프레임워크, 함수형 프로그래밍, 비동기를 기반으로 한 리액티브
 	- Reactive Programming (반응형 프로그래밍)
