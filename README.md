@@ -129,6 +129,9 @@ Swift, Xcode, iOS 관련
 		- [TabView](https://github.com/eujin811/TIL#tabview)
 		- [Animation](https://github.com/eujin811/TIL#animation)
 		- [Transition](https://github.com/eujin811/TIL#transition)
+		- [Gesture]()
+		- [Context Menu]()
+
 
 	- [Combine](https://github.com/eujin811/TIL#Combine)
 		- [Publisher](https://github.com/eujin811/TIL/blob/master/README.md#publisher)
@@ -7359,6 +7362,410 @@ iBeacon
    ```
 
 **트랜지션 합성**
+- combined
+	- 2개 이상의 서로 다른 전환 효과 하나로 합성
+   ```swift
+	.transition(AnyTransition.(..).combined(with: .))
+   ```
+
+	- 사용
+	   ```swift
+		@State private var showView = false
+
+		var body: some View {
+		   VStack {
+		      if showView {
+			Text("Transition Combined")
+			   .font(.largeTitle)
+			   .padding()
+			   .transition(AnyTransition.slide.combined(with: .scale))
+		      }
+		      Button("Display Text On / Off") {
+			withAnimation {
+			   self.showView.toggle()
+			}
+		      }.font(.title)
+		   }
+		}
+	   ```
+
+
+- asymmetric
+	- 뷰 삽입 시점과 제거 시점 서로 다른 효과 줄 때 사용
+	- 애니메이션의 시작과 끝에서 insertion, removal 두개의 매개 변수 값 차이만큼 전환 효과 발생
+   ```swift	
+	.asymmetric(insertion: , removal:)
+   ```
+	- 사용
+		- 0과 1값의 차이만큼 트랜지션 반영
+		- 뷰 사라질 때 1에서 0으로 점점 주렁듬
+		- 뷰 나타날 때 0에서부터 1로 점점 증가
+
+	   ```swift
+		var myTransition: AnyTransition {
+		   let insertion = AnyTransition.offset(x: 300, y: -300)
+			.combined(with: .scale)
+		   let removal = AnyTransition.move(edge: .leading)
+		   return .asymmetric(insertion: insertion, removal: removal)
+		}
+	   ```
+	   ```swift
+		// 적용
+		@State private var showView = false
+
+		var body: some View {
+		   if showView {
+			Text("Transition asymmetric").transition(myTransition)
+		   }
+		   Button("Display Text On/Off") {
+			withAnimation {
+			   self.showView.toggle()
+			}
+		   }.font(.title)
+		}
+	   ```
+	
+- modifier
+	- 애니메이션의 시작과 끝에서 두개의 매개변수 값 차이만큼 전환효과 발생
+	- .modifier(active: , identity: )
+		- active: 뷰 제거 직전 상태
+		- identity: 뷰 삽입 되어 보이게 될 상태
+	- 사용
+	   ```swift
+		// Customm Modifier
+
+		struct CustomScaleModifier: View Modifier {
+		   let scale: CGFloat
+		   func body(content: Content) -> some View {
+			content.scaleEffect(scale)
+		   }
+		}
+	   ```
+	   ```swift
+		// 사용
+		if showView {
+		   Text("Transition Modifier")
+			.transition(.modifier(
+				activie: CustomScaleModifier(scale: 0),
+				identity: CustomScaleModifier(scale: 1)))
+		}
+		Button("Display Text On/Off") {
+		   withAnimation {
+			self.showView.toggle()
+		   }
+		}.font(.title)
+	   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/transitionModifier.png" alt="transitionModifier" height="50%" width="50%">
+  </p>
+
+- 수식어로 추가
+	- 사용
+	   ```swift
+		extension AnyTransition {
+		   static var customScale: AnyTransition {
+			AnyTransition.modifier(
+			   active: CustomScaleModifier(scale: 0),	//상단 modifier	 참고
+			   identity: CustomScaleModifier(scale: 1)
+			)
+		   }
+		}
+	   ```
+	   ```swift
+		Text("Transition Modifier").transition(.customScale)
+	   ```
+
+- 커스텀 뷰 애니메이션
+
+## Gesture
+- 제스처 종류 5가지
+	- TopGesture
+	- LongPressGesture
+	- DragGesture
+	- MagnificationGesture
+	- RotationGesture
+- 제스처 조합 혹은 onTapGseture, onLongPressGesture 이외의 제스처 사용 시 gesture 수식어 필요하다.
+   ```swift
+	view.gesture(...)
+   ```
+
+- **onTapGesture**
+	- 정해진 횟수만큼 탭 했을 때 지정한 동작 수행하는 제스처
+	- onEnded 콜백만 사용한다.
+		- onTapGesture는 이벤트 발생 이외의 어떤 값도 사용하지 않기 때문
+   ```swift
+	Circle().onTapGesture { print(“tapped”) }			// 1번 탭했을 때
+   ```
+
+   ```swift
+	Circle().onTapbGesture(count: 2) { print(“tapped”) }		// 2번 탭했을 때
+   ```
+
+   ```swift
+	// 따로 지정해 사용할 때
+	let tapGesture = TapGesture(count: 2).onEnded { print(“tapped”) }
+
+	return Circle().gesture(tapGesture) 
+   ```
+
+- **onLongPressGesture**
+	- 일정시간 이상 화면 누르고 있을 때 지정한 동작 수행(기본 0.5초)
+	- 터치한 채로 움직였을 때 이벤트 발생하지 않는다.
+		- 단일 이벤트로 처리
+   ```swift
+	.onLongPressGesture{}
+	.onLongPressGesture(minimumDuration: ,maximumDistance: , pressing: , perform: )
+   ```
+- 
+	- minimumDuration: 인식 필요시간
+	- maximumDistance: 처음 누른 위치에서 지정한 거리 이상 떨어지면 인식 실패로 간주
+	- pressing: 뷰 눌렀을 때, 인식 성공/실패시 호출
+	- perform: 인식 성공 시 수행할 동작.
+
+	- 사용가능 콜백	
+		- onChanged, onEnded
+
+   ```swift
+	Circle().onLongPressGesture { print(“LogPressed”) }
+   ```
+
+   ```swift
+	Circle().onLongPressGesture(
+		   minimumDuration: 0.5
+		   maximumDistance: 10,
+		   pressing: { pressing in print(pressing) },
+		   perform: { print("Recognized") }
+		)
+
+	let longPressGesture = LongPressGesture()
+				   .onChanged({ pressing in print(pressing) })
+				   .onEnded({_ in print("Long Pressed!") })
+
+	return Circle().gesture(longPressGesture)
+   ```
+
+
+- **dragGesture**
+
+<p align="center">
+  <img src="Assets/SwiftUI/Drag.png" alt="Drag" height="50%" width="50%">
+  </p>
+
+- 
+	- 화면 터치 이후 손을 땔 때까지 그 움직임에 따라 인식된 정보를 전달
+	- 일정 거리 이상 드래그 해야만 인식하거나, 특정 좌표계 기준으로 설정 가능하다.
+	- 구조
+	   ```swift
+		struct value: Equatable {
+		   struct Value: Equatable {
+			var time: Date
+			var location: CGPoint
+		   }
+		}
+
+		init(minimumDistance: CGFloat = 10, coordinateSpace: CoordinateSpace = .local)
+	   ```
+	- 사용
+		- 제스처 사용 중일 때 변화하는 제스처의 현재 상태 임시저장
+	   ```swift
+		@GestureState private var translation: CGSize = .zero
+
+		var body: some View {
+		   let dragGesture = DragGesture()
+			.updating($translation) { (value, state, _) in
+				state = value.translation      // translation 프로퍼티에 지금까지 움직인 위치정보 저장.
+			}
+		   return Circle().frame(width: 100, height: 100)
+				   .offset(translation)
+				   .gesture(dragGesture)
+
+		//드래그 제스처 인식 종료 시 translation 초기화	
+		}
+	   ```
+
+- **magnificationGesture**
+<p align="center">
+  <img src="Assets/SwiftUI/Magnificatioin.png" alt="Magnificatioin" height="50%" width="50%">
+  </p>
+- 
+	- 두 손가락 터치해 오므리거나 벌리는 정도에 따라 그 변화된 값 반환하는 제스처
+	- CGFloat 값 전달하므로 이것을 그대로 scaleEffect 수식어에 적용해 간단하게 줌인 / 줌아웃 효과 준다.
+	   ```swift
+		init(minimumScaleDelta: CGFloat = 0.01)
+	   ```
+- 
+	- 
+		- minimumScale 값 이상의 비율로 확대 축소해야 제스쳐 반응한다.
+
+	- 뷰 확대, 축소한 것 즉각 반영, 제스처 종료되어도 상태 저장해서 보여준다.
+
+   ```swift
+	@GestureState private var scale: CGFloat = 1    // 제스처 사용중 변화하는 값 임시 저장
+	@State private var latestScale: CGFloat = 1     // 제스처 마지막 상태 저장
+
+	var body: some View {
+	   let magnificationiGesture = MagnificationGesture()
+		.updating($scale) { (value, state, _) in
+			state = value
+		   }.onEnded { scale in
+			self.latestScale *= scale 	// 제스쳐 종료 시 최종 배울 계산해 저장
+		   }
+
+	    return Circle()
+		.scaleEffect(latestScale * scale)   // 마지막으로 적용된 배율과 현재 변화하는 배율의 곱
+		.gesture(magnificationiGesture)
+	}
+   ``` 
+
+
+- **rotationGesture**
+
+<p align="center">
+  <img src="Assets/SwiftUI/RotationGesture.png" alt="RotationGesture" height="50%" width="50%">
+  </p>
+
+- 
+	- 두 손가란 터치한 뒤 회전 시킨 정도에 따라 그 회전 각도를 반환하는 제스쳐,
+	- 반환되는 Angle 타입의 값 ratationEffect 수식어에 활용해 뷰 회전 효과를 즐길 수 있다.
+	   ```swift
+		init(minimumAngleDelta: Angle = .degress(1))	
+	   ```
+- 
+	- 
+		- minimumAngleDelta: 해당 각도 이상을 회전해야만 제스처 인식한다.( 기본 값 1도)
+
+   ```swift
+	@GestureState private var angle: Angle = .zero
+	var body: some View {
+	   let rotationGesture = RotationGesture()
+		.updating($angle) { (value, state, _) in
+			state = value
+		   }
+
+	    return Capsule()
+		.rotationEffect(angle)
+		.gesture(rotationGesture)
+	}
+   ```
+ 
+**제스처 콜백**
+- 
+	- @GestureState를 사용해 제스처 동작 중 일때만 활용될 임시 값 저장해서 사용한다.
+		- 제스처 종료 시 초깃값으로 되돌아간다.
+- **updating**
+	- SwiftUI는 제스처 인식 즉시 updating 콜백 호출(단, TapGesture 제외)
+	- 제스처가 다루는 값 변화할 때 마다 호출, 제스처 동작이 종료될 때나 취소 될때는 호출되지 않는다.
+	- 일시적 상태 변화 다룰때 사용 
+		- 현재 제스처 작동하는 동안 다룸, 제스처 끝나면 원래 상태로
+   ```swift
+	@Gesture private var translation: CGSize = .zero
+	let dragGesture = DragGesture()
+			   .updating($translation) { (value, state, _) in
+				state = value.translation
+			   }
+   ```
+
+- **onChanged**
+	- 제스처가 가진 값이 새로운 것으로 변경되었을 때 호출
+	- updating 이후 시점
+	- 상태를 영구적으로 저장 시에 사용
+		- 제스처 끝나도 사용해야 될 때
+		- 줌인한 값 그대로 view의 크기 설정 등
+   ```swift
+	@State private var translation: CGSize = .zero
+	let dragGesture = DragGesture()
+				.onChanged({ self.translation = $0.translation })
+   ```
+
+- **onEnded**
+	- 제스처가 인식이 종료되었을 때 호출
+	- 제스처가 마지막 순간에 가진 값을 전달해 준다.
+
+   ```swift
+	let longPressGesture = LongPressGesture()
+				.onEnded({ _ in print("Long Pressed!") })
+   ```
+
+**제스처 수식어**
+- gesture
+	- 제스처 사용할 때
+- highPriorityGesture
+	- 제스처에 우선순위를 갖는다.
+   ```swift
+	let tapGesture = TapGesture().onEnded {
+	   print("사각형 탭")
+	}
+	return VStack {
+	   Rectangle().frame(width: 100, height: 100)
+
+	   Circle().frame(width: 100, height: 100)
+		.onTapGesture {
+		   print("원형 탭")
+		}
+	}.highPriorityGesture(tapGesture)		// 원, 사각형 tab 모두 사각형 탭만 프린트 된다. 
+	//.gesture(tapGesture)				// 원형 tab -> 원형 탭 프린트, 사각형 tab -> 사각형 탭 프린트
+   ```
+
+<p align="center">
+  <img src="Assets/SwiftUI/HightPriorityGestureView.png" alt="HightPriorityGestureView" height="50%" width="50%">
+  </p>
+
+<p align="center">
+  <img src="Assets/SwiftUI/HightPriorityGestureResult.png" alt="HightPriorityGestureResult" height="50%" width="50%">
+  </p>
+
+- simultaneousGesture
+	- 2개 이상의 제스처 동시에 인식하고 싶을 때
+
+   ```swift
+	let longPressGesture = LongPressGesture()
+				.onChanged { _ in print("LongPress began") }
+				.onEnded { _ in print("LongPressed!") } 
+	let tapGesture = TabGesture().onEnded {
+			   print("Tapped!")
+			}
+	return Circle().gesture(longPressGesture).simultaneousGesture(tapGesture)
+   ```
+
+**GestureMask**
+- gesture
+	- 자식 뷰에 포함된 제스쳐 무시하고 해당 수식어로 추가하는 제스처 사용
+   ```swift
+	.simultaneousGesture(tapGesture, including: .gesture)
+   ```
+
+- subviews
+	- 해당 수식어 추가하는 제스처 무시되고 자식 뷰에 포함된 제스처 사용
+   ```swift
+	.simultaneousGesture(tapGesture, including: .subviews)
+   ```
+
+- none
+	- 해당 뷰와 자식 뷰에 포함된 모든 제스처 무시
+   ```swift
+	.simultaneousGesture(tapGesture, including: .none)
+   ```
+
+- all
+	- GestureMask의 기본값 [.gesture, .subviews]를 함께 적용한 것과 동일
+	- 해당 뷰와 자식 뷰에 포함된 모든 제스처 인식.
+
+   ```swift
+	.simultaneousGesture(tapGesture, including: .all)
+   ```
+
+- 사용
+ 
+   
+
+## 컨텍스트 메뉴
+
+
+## Context Menu
+
+
+
 
 # Combine
 - 선언형 프레임워크, 함수형 프로그래밍, 비동기를 기반으로 한 리액티브
