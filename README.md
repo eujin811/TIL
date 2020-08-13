@@ -6982,6 +6982,7 @@ iBeacon
   <img src="Assets/SwiftUI/TabView1,2.png" alt="TabView1,2" height="50%" width="50%">
   </p>
 	
+
 - 
 	- String 값을 사용해 tag
 	   ```swift
