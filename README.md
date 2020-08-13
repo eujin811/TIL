@@ -7588,12 +7588,16 @@ iBeacon
 <p align="center">
   <img src="Assets/SwiftUI/Magnificatioin.png" alt="Magnificatioin" height="50%" width="50%">
   </p>
+
+
 - 
 	- 두 손가락 터치해 오므리거나 벌리는 정도에 따라 그 변화된 값 반환하는 제스처
 	- CGFloat 값 전달하므로 이것을 그대로 scaleEffect 수식어에 적용해 간단하게 줌인 / 줌아웃 효과 준다.
+
 	   ```swift
 		init(minimumScaleDelta: CGFloat = 0.01)
 	   ```
+
 - 
 	- 
 		- minimumScale 값 이상의 비율로 확대 축소해야 제스쳐 반응한다.
