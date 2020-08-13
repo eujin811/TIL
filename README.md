@@ -129,8 +129,8 @@ Swift, Xcode, iOS 관련
 		- [TabView](https://github.com/eujin811/TIL#tabview)
 		- [Animation](https://github.com/eujin811/TIL#animation)
 		- [Transition](https://github.com/eujin811/TIL#transition)
-		- [Gesture]()
-		- [Context Menu]()
+		- [Gesture](https://github.com/eujin811/TIL#gesture)
+		- [Context Menu](https://github.com/eujin811/TIL#context-menu)
 
 
 	- [Combine](https://github.com/eujin811/TIL#Combine)
@@ -7757,12 +7757,67 @@ iBeacon
 
 - 사용
  
-   
-
-## 컨텍스트 메뉴
-
+   ```swift
+	let longPressGesture = LongPressGesture()
+				   .onChanged { _ in print("LongPress beaga!") }
+				   .onEnded{ _ in print("LongPressed!") }
+	let tapGesture = TapGesture().onEnded {
+	   print("Tapped!")
+	}
+	
+	return VStack {
+	   Circle().gesture(longPressGesture)
+	}.simultaneousGesture(tapGesture, including: .all)
+   ```  
+ 
 
 ## Context Menu
+
+- 특정 뷰를 길게 눌렀을 때 해당 뷰와 관련된 메뉴를 보여주는 기능
+- iOS13 이상의 모든 기기에서 사용 가능
+- 현재 화면 그리고 컨텍스트 메뉴를 사용하는 뷰와 관련된 행동만 수행하도록 적절한 메뉴 아이템 제공
+	- 세부적 사항 포함하는 것 좋지 않음.
+
+- 사용 수식어
+	- **contextMenu(_:): ContextMenu**라는 컨테이너 타입을 전달하여 메뉴 아이템 구성, 컨텍스트 메뉴를 출력하 않아야 하는 상호아에서는 nil 전달
+	- **contextMenu(menuItems:):** 뷰 빌더를 이용해 바로 메뉴 아이템을 정의 한다. 조건문 이용해 메뉴 아이템 구성을 제어한다.
+
+- 사용
+
+   ```swift
+	struct ToDo {
+	   let id: Int
+	   let title: String = "To Do"
+	   var isCompleted: Bool = false
+	   
+	   init(id: Int) { self.id = id }
+	}
+
+	struct ContextMenu: View {
+	   @State private var toDoList = Array(1...10).map(ToDo.init(id:))
+	   var body: some View {
+		List(Array(toDoList.enumerated()), id: \.offset) { (index, toDo) in
+		   HStsck {
+			Text("\(toDo.title) \(toDo.id)
+			Spacer()
+			Text(toDo.isCompleted ? "v" : "")
+		   }
+		   .font(.title)
+		   .frame(height: 50)
+		   .contextMenu {
+			Button("완료") { self.toDoList[index].isCompeted = true }
+			Button("삭제") { self.toDoList.remove(at: index) }
+		   }
+		}
+	   }
+	}
+   ```
+
+
+<p align="center">
+  <img src="Assets/SwiftUI/Context.png" alt="Context" height="50%" width="50%">
+  </p>
+
 
 
 
