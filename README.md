@@ -7650,9 +7650,11 @@ iBeacon
    ```
  
 **제스처 콜백**
+
 - 
 	- @GestureState를 사용해 제스처 동작 중 일때만 활용될 임시 값 저장해서 사용한다.
 		- 제스처 종료 시 초깃값으로 되돌아간다.
+
 - **updating**
 	- SwiftUI는 제스처 인식 즉시 updating 콜백 호출(단, TapGesture 제외)
 	- 제스처가 다루는 값 변화할 때 마다 호출, 제스처 동작이 종료될 때나 취소 될때는 호출되지 않는다.
@@ -7661,9 +7663,9 @@ iBeacon
    ```swift
 	@Gesture private var translation: CGSize = .zero
 	let dragGesture = DragGesture()
-			   .updating($translation) { (value, state, _) in
-				state = value.translation
-			   }
+				.updating($translation) { (value, state, _) in
+				   state = value.translation
+				}
    ```
 
 - **onChanged**
