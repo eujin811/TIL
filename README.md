@@ -6952,7 +6952,7 @@ iBeacon
 
 - Tag
 	- 어떤 탭 선택한 상태인지 알고 싶은 경우 사용
-	- selectionValue 관리하 생성자 사용해 탭 뷰 만든 뒤 각 탭 아이템별로 tag 수식어 통해 각 탭 아이템과 연관된 값을 지정.
+	- selectionValue 관리하는  생성자 사용해 탭 뷰 만든 뒤 각 탭 아이템별로 tag 수식어 통해 각 탭 아이템과 연관된 값을 지정.
 	- selectionValue Int 타입 아니어도 된다. (Hashable 프로토콜 준수하는 타입이면 무엇이든 가능)
 	- Int 값을 사용해 tag
 	   ```swift
