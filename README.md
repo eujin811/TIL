@@ -73,7 +73,10 @@ Swift, Xcode, iOS 관련
 	
 	- [Window 교체](https://github.com/eujin811/TIL#window-%EA%B5%90%EC%B2%B4)
 
-	  
+
+- [RxSwift]()
+	- [Observable]()
+	- [Operators]()  
 	
 - SwiftUI & Combine
 	- [SwiftUI](https://github.com/eujin811/TIL#SwiftUI)
@@ -4205,6 +4208,29 @@ iBeacon
 		// Animal(id: 1, name: “토리”, age: 5)
 		// Animal(id: 1, name: “토리”, age: 5)
 	   ```
+
+# RxSwift
+- **observable**
+	- [공식문서](http://reactivex.io/documentation/ko/observable.html)
+
+- **Operators**
+	- [공식문서](http://reactivex.io/documentation/ko/operators.html)
+
+- **scheduler**
+	- [공식문서](http://reactivex.io/documentation/ko/scheduler.html)
+
+- [Marbles](http://reactivex.io/documentation/ko/observable.html)
+	- 단순 그림으로 용어 이해하기 좋음.
+
+- **관련영상**
+	- [RxSwift 4시간에 끝내기1](https://www.youtube.com/watch?v=w5Qmie-GbiA)
+
+
+## Observable
+
+## Operators
+
+
 
 # SwiftUI & Combin
 
