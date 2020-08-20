@@ -11,6 +11,14 @@
 
 - **관련영상**
 	- [RxSwift 4시간에 끝내기1](https://www.youtube.com/watch?v=w5Qmie-GbiA)
+	- [RxSwift 4시간에 끝내기2](https://www.youtube.com/watch?v=iHKBNYMWd5I)
+
+- **관련 사이트**
+	- [공식사이트](http://reactivex.io/)
+
+- **관련 블로그**
+	- [RxSwift 실제 서비스에 적용하기- NerdFactory](https://blog.nerdfactory.ai/2019/03/12/rx-swift-service.html)
+
 
 # RxSwift
 
