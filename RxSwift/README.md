@@ -396,3 +396,21 @@
 - [공식문서](http://reactivex.io/documentation/single.html)
 
 
+## other
+
+**RxCocoa**
+- pod 'RxCocoa'
+- UIKit의 view에 좋을만한 extension등 들어있음
+
+**Optional unwrapping**
+- 기본
+   ```swift
+	.filter{ $0 != nil }
+	   .map { $0! }
+   ```
+- RxCocoa Extension 사용
+   ```swift
+	.orEmpty
+   ```
+
+
