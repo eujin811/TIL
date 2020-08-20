@@ -1,16 +1,10 @@
 # RxSwift Contents
 
-- [Observable](https://github.com/eujin811/TIL#observable)
-- [Operators](https://github.com/eujin811/TIL#operators)  
-
-- **observable**
-	- [공식문서](http://reactivex.io/documentation/ko/observable.html)
-
-- **Operators**
-	- [공식문서](http://reactivex.io/documentation/ko/operators.html)
-
-- **scheduler**
-	- [공식문서](http://reactivex.io/documentation/ko/scheduler.html)
+- [Observable](https://github.com/eujin811/TIL/tree/master/RxSwift#observable)
+- [Operators](https://github.com/eujin811/TIL/tree/master/RxSwift#operators)  
+- [Scheduler](https://github.com/eujin811/TIL/tree/master/RxSwift#scheduler)
+- [Subject](https://github.com/eujin811/TIL/tree/master/RxSwift#subject)
+- [other](https://github.com/eujin811/TIL/tree/master/RxSwift#other)
 
 - [Marbles](http://reactivex.io/documentation/ko/observable.html)
 	- 단순 그림으로 용어 이해하기 좋음.
