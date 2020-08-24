@@ -8,7 +8,7 @@
 - [Scheduler](https://github.com/eujin811/TIL/tree/master/Combine#scheduler)
 - [Cancellable](https://github.com/eujin811/TIL/tree/master/Combine#cancellable)
 
-- [Operator]()
+- [Operator](https://github.com/eujin811/TIL/tree/master/Combine#operator)
 
 
 - [공식문서](https://developer.apple.com/documentation/combine)
@@ -62,7 +62,8 @@
 	- @Published
 		- PropertyWrapper 통해 Publisher로 사용가능
 	- Framework 내장제공
-		- Provider: 개발자가 subscribe만 구현하여 손쉽게 사용할 수 있음.		- ObservableObject는 SwiftUI 내에서 발생하는 이벤트들을 Combine을 이용해 처리할 수 있도록 도와준다.
+		- Provider: 개발자가 subscribe만 구현하여 손쉽게 사용할 수 있음
+		- ObservableObject는 SwiftUI 내에서 발생하는 이벤트들을 Combine을 이용해 처리할 수 있도록 도와준다.
 
 | Publisher |   |
 |:----:|:----:|
@@ -250,6 +251,7 @@
    ```swift
 	protocol Subject: AnyObject, Publisher
    ```
+
 - send(_:) 메소드 통해 스트림에 값 주입
 
 | 종류 |  |
@@ -257,6 +259,7 @@
 | send(input:) | 스트림에 값 주입 |
 | send(completion:) | completion에 signal 보내는 메소드(failure, finished) |
 | send(subscription:) |   |
+
 
 
 **PassthroughSubject**
@@ -385,6 +388,7 @@
 	// false
    ```
 - 종류
+
 | receive(on:) | subscribe(on:) |
 |:----:|:----:|
 | publisher로 부터 element를 수신할 scheduler 지정 | Subscribe, cancel,request operation 수행할 scheduler 지정 |
@@ -422,6 +426,90 @@
 
 
 ## Cancellable
+- Activity 또는 action이 취소됨을 지원한다.
+- 데이터 발행 중 cancel() 메서드 호출 시 모든 파이프라인 멈추고 끝난다.
+- 스트림 중단 시 사용
+- cancel() 호출 시 할당 된 모든 리소스 해제
+	- 호출 이후 더이상 데이터 발행되지 않는다.
+- 구독을 취소하거나 Subscription이 item을 요청할 수 없게 할 수 있다.
+- deinit 될 때 자동으로 cancel 된다.
+- AnyCancellable
+	- **cancel()**
+		- 기본 nil 반
+	- **store(in:)**
+		- cancellable instance 저장하는 것.
+		- Set<AnyCancellable> 만들어서 store(in: )에 넘기면 된다.
+- cancel() 사용
+   ```swift
+	let subject = PassthroughSubject<Int, Never>()
+	let subscriber = subject.sink(receiveValue: { value in
+					print(value)
+				})
 
+	subject.send(0)
+	subject.send(1)
+	subscriber.cancel()		// 구독 취소
+	subject.send(2)
 
+	// 0
+	// 1
+   ```
+
+- store(in:) 사용
+   ```swift
+	var bag = Set<AnyCancellable>()
+	let subject2 = PassthroughSubject<Int, Never>()
+
+	subject2.sink(receiveValue: { value in
+	   print(value)
+	}).store(in: &bag)
+	
+   ```
+
+- custom 사용
+   ```swift
+	final class CustomSubscription: Subscription {
+	   private let cancellable: Cancellable
+
+	   init(_ cancel: @escaping () -> Void) {
+		self.cancellable = AnyCancellable(cancel)
+	   }
+
+	   func request(_ demand: Subscribers.Demand) { }
+
+	   func cancel() { self.cancellable.cancel() }
+	}
+
+	let subject = PassthroughSubject<String, Never>()
+	let subscriber = JinSubscriber()
+	subject.print("Combine Test").subscribe(subscriber)
+	
+	subscriber.subscription = CustomSubscription({ print("cancel") })
+	
+	subject.send("야호")
+	subject.send("야채호빵")
+
+	subscriber.subscription?.cancel()
+	
+	/*
+	 Combine Test: receive subscription: (PassthroughSubject)
+	 Combine Test: request unlimited
+	 Combine Test: receive value: (야호)
+	 Combine Test: request unlimited (synchronous)
+	 Combine Test: receive value: (호호호)
+	 Combine Test: request unlimited (synchronous)
+	 cancel!
+	
+	 // 결국 구독 취소되서 cancel만 나온 것!
+	*/
+   ```
 ## Operator
+- Publisher와 subscriber 중간에서 데이터 스트림 가공해주는 역할
+
+| Operator |   |
+|:----:|:----:|
+| Mapping Element | 주로 데이터를 다른 데이터 타입으로 변형하는 역할 | 
+| Filtering Element | 조건에 맞는 데이터만 허용 |
+| Reduce Element | 데이터 스트림을 모아 출력 |
+| Mathematic operations on elements | 숫자 시퀀스 값과 관련된 스트림 제어 |
+| Sequence Elements | 데이터 시퀀스 변형 시 사용 |
