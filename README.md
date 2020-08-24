@@ -139,18 +139,18 @@ Swift, Xcode, iOS 관련
 
 
 	- [Combine](https://github.com/eujin811/TIL/tree/master/Combine)
-		- [Publisher]()
+		- [Publisher](https://github.com/eujin811/TIL/tree/master/Combine#publisher)
 			- Future
 			- Just
 			- Deferred
 			- Empty
 			- Fail
 			- Record
-		- [Subscriber]()
-		- [Subject]()
-		- [Scheduler]()
-		- [Cancellable]()
-
+		- [Subscriber](https://github.com/eujin811/TIL/tree/master/Combine#subscriber)
+		- [Subject](https://github.com/eujin811/TIL/tree/master/Combine#subject)
+		- [Scheduler](https://github.com/eujin811/TIL/tree/master/Combine#scheduler)
+		- [Cancellable](https://github.com/eujin811/TIL/tree/master/Combine#cancellable)
+		- [Operator](https://github.com/eujin811/TIL/tree/master/Combine#operator)
 
 # Swift
 
@@ -7832,141 +7832,5 @@ iBeacon
 
 
 
-
-
-# Combine
-- 선언형 프레임워크, 함수형 프로그래밍, 비동기를 기반으로 한 리액티브
-	- Reactive Programming (반응형 프로그래밍)
-		- 데이터의 흐름을 먼저 정의하고 데이터가 변경되었을 때 연관되는 함수나 수식이 업데이트 된다.
-		- 관찰(Observer)하고 있다가 데이터 변경 시 반응, 변한 이벤트를 가지고 관련된 업데이트로 로직이 수행된다.
-		- 필요한 이유
-			- callback -> 데이터를 다 받고 나서 UI 업데이트, 변경사항 발생 시 명시적으로 UI 한번 더 업데이트 해야한다.
-			- Reactive Programming -> 데이터 변경시 관찰자(observe)가 알아서 캐치해서처리한다.
-	- 시간의 흐름에 따라 발생하는 이벤트를 처리하기 위한 API
-- 프로토콜로 이루어져있다.
-- Combine 이루는 3가지
-	- Publisher
-		- 이벤트 발생
-		- Operator에 데이터 전달
-		- 데이터 전달 타입
-			- Output : 정상 수행 시 전달하는 타입
-			- Failure : 에러 발생 시 전달하는 타입
-	- Operator
-		- 이벤트 가공
-		- Publisher에 데이터 요청
-		- Subscriber에 데이터 전달
-		- 데이터 요청 타입
-			- input : 정상 수행 시 전달받는 타입
-			- Failure : 에러 발생 시 전달받는 타입
-		- 데이터 전달 타입 
-		
-	- Subscriber
-		- 이벤트 소비
-		- Operator에 데이터 요청
-- 프로토콜5가지
-	- **Publisher**
-	- **Subsribe**
-	- **Subject**
-	- **Scheduler**
-	- **Cancellable**
-
-- 파이프라인
-	- 데이터를 전달하는 과정
-	- 성공 타입과 실패 타입을 함계 명시해야 한다. (생성자와 소비자의 타입 다를시 에러 발생)
-	   ```swift
-		func recevie<S>(subscriber: S) where S : Subscriber, Self.Failure == S.Failure, Self.Output == S.Input
-
-	   ```
-## Publisher
-- 이벤트 발생
-- 시간의 흐름에 따 일련의 값을 전송(transmit)하는 **프로토콜**
-- 하나 이상의 Subscriber 인스턴스에게 element를 제공한다.
-- recevie(subscriber:) 메소드를 구현해 subscriber를 받아주게 한다.
-- 전달 데이터 타입
-	- output: subscriber에 전달할 값, 데이터
-	- Failure: 에러 종류
-- Publisher를 만들어주는 메소드 6가지
-	- Future
-	- Just
-	- Deferred
-	- Empty
-	- Fail
-	- Record
-
-- Just
-	- subscriber에게 output을 한번만 출력한 다음 완료하는 publisher
-	- subscriber에서 받는 메소드sink
-	- publisher의 값을 subscribe하는 방법 3가지
-        	- subscribe 메소드
-        	- sink : subscriber를 만들어주는 메소드 
-       	 	-  assign(to: ,on:)
-   ```swift
-	let publisher = Just("jinjin")
-
-	let subscriber = publisher.sink { print($0) }
-   ```
-
-## Subscriber
-- 이벤트 가공
-- Pulisher로 부터 input을 받을 수 있는 타입을 선언하는 프로토콜
-- 변경사항을 설명하는 life cycle 이벤트를 받는다.
-- 받는 데이터 타입
-	- input 
-		- Publisher에게 받은 값의 종류
-	- Failure
-		- 에러종류
-- Sink
-	- Publisher에서 Just메소드로 만든 Publisher를 받는 Subscriber메소드
-	- subscriber를 만들고 subscriber를 리턴하기 전에 즉시 unlimited number of values를 요청한다.
-
-   ```swift
-	let subscriber = pulisher.sink(recevieCompletio: { (result) in
-	   switch result {
-	   case .finished:
-		print("finished")
-	   case .failure(let error):
-		print(error.localizedDescription)
-	   }
-	}, recevieValue: { (value) in
-	   print(value)
-	})
-	
-	// jinjin
-	// finished
-   ```
-- 
-
-
-## Subject
-
-## Scheduler
-
-## Cancellable
-
-
-## @EvironmentObject
-- 전체 앱의 모든 뷰에서 공유되는 데이터의 경우 SwiftUI에서 제공하는 방식
-- 필요한 곳 어디에서든 모델 데이터 변경을 공유
-- 데이터가 변경될 때 뷰가 자동적으로 업데이트를 유지하는 것을 보장한다.
-- 뷰에서 데이터를 만들고 encironment에 넣어서 여러 뷰에서 자동으로 사용 가능
-	
-	- 하나의 뷰에서 데이터를 만들고 여러 뷰에 전달-> 전달 하지 않을 수 있게 된다.
-- 어떤 뷰에서 environment를 바꿀 때, 모든 뷰는 자동으로 갱신되어 동기상태를 유지한다.
-- 반드시 루트뷰에 제공되어야 한다.
-	- 해당 인스턴스를 컨텐츠 뷰에서 사용 가능하며 모든 뷰에서 가져오거나 표시 가능하다.
-	   ```swift
-		//SceneDelegate
-
-		var userData = UserData()
-
-		window.rootViewController = UIHostingController(rootView: ContentView().environmentObject(userData))
-	   ```
-	- Preview에도 적용해야 미리보기가 가능하다.
-		- canvas에 에러 (Landmarks.app may have crashed. Check ~/Library/Logs/DiagnosticReports for any crash logs from your application.)
-	   ```swift
-		// Preview
-
-		ContentView().environmentObject(Data())
-	   ```
 
 
