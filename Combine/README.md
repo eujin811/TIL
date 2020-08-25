@@ -10,8 +10,10 @@
 
 - [Operator](https://github.com/eujin811/TIL/tree/master/Combine#operator)
 
-- [Combine Network]()
+- [Combine Network](https://github.com/eujin811/TIL/tree/master/Combine#combine-network)
 
+- [SwiftUI](https://github.com/eujin811/TIL#SwiftUI)
+- [SwiftUI 데이터 흐름](https://github.com/eujin811/TIL#%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%9D%90%EB%A6%84)
 **참고**
 
 - [공식문서](https://developer.apple.com/documentation/combine)
@@ -23,6 +25,9 @@
 	- [Combine 입문하기](https://medium.com/harrythegreat/swift-combine-%EC%9E%85%EB%AC%B8%ED%95%98%EA%B8%B0-%EA%B0%80%EC%9D%B4%EB%93%9C-1-525ccb94af57)
 	- [Combine 네트워크 요청](https://medium.com/harrythegreat/swift-combine-%EC%9E%85%EB%AC%B8%ED%95%98%EA%B8%B03-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EC%9A%94%EC%B2%AD-f36d6a32af14)
 		- 해리의 유목코딩
+
+- 예시 플젝
+	- [2019 Let's Swift Combine MVVM] (https://github.com/fimuxd/BringMyOwnBeer-Combine)
 
 ## Combine
 - 시간의 흐름에 따라 발생하는 이벤트를 처리하기 위한 API
@@ -524,9 +529,9 @@
 	- Publisher 작업 완료 시 데이터 발행, 실패 시 error + 종료
 - **.decode(type: , decoder: )**
 	- 업스트림에서의 출력 디코딩 해준다.
-- **replace Error(with: )
+- **replace Error(with: )**
 	- 업스트림에서 에러나면 바꿀 
-- **assign(to: , on: )
+- **assign(to: , on: )**
 	- 할당한다	
 	- publisher의 요소를 객체의 프로퍼티에 할당
 	- 가져온 data 디코딩한 것 저장하는 역할
