@@ -138,6 +138,39 @@
 	*/
    ```
 
+**AnyPublisher**
+- 다른 퍼블리셔를 포장해 타입을 지우는 퍼블리셔
+- Subscriber나 다른 Publisher에게 Publisher의 상세 타입을 노출하고 싶지 않을 때 특정 Publisher를 AnyPublisher에 래핑해서 사용한다.
+	- upstream에 타입 지우고 싶은 publisher
+- Combine에서는 각각의 Publisher가 Just, Fail, Publisher.Map과 같은 별도의 타입을 갖고, 각 오퍼레이터 또한 별도의 타입을 반환한다. 때문에 최종 결과는 타입을 지워서 외부에 노출할 필요가 있다.
+	- AnyPublisher를 사용하면 API 외부, 다른 모듈 등에 공개하고 싶지 않을 때 publisher를 랩할 수 있다.
+	- subject를 AnyPublisher로 래핑하면, 발신자가 send(:) 메소드에 접근 할 수 없게 된다.
+		- 이와 같이 type erasurer 사용 시, 기존의 클라이언트에 영향을 주지 않고, 기본적인 publisher 구현 변경 가능
+- eraseToAnyPublisher 오퍼레이터와 관련이 있다.
+	- Combine의 eraseToAnyPublisher() operator를 사용해 AnyPublisher를 Publisher로 감쌀 수 있다.
+	
+   ```swift
+	func combinePublisher() -> AnyPublisher<Void, Never> {
+	   Just(Void()).eraseToAnyPublisher()
+	}
+	
+	CombinePublisher()
+		.sink(receiveCompletion: { completion in
+		   switch completion {
+		      case .failure:
+		         print("Combine AnyPublisher Error")
+		      case .finished:
+		      	 print("Combine AnyPublisher Finish")
+		   }
+		}, receiveValue: {
+			print("Combine AnyPublisher")
+		})
+		.store(in: &cancellables)
+		
+		// Combine AnyPublisher
+		// Combine AnyPublisher Finish
+   ```
+
 
 
 
