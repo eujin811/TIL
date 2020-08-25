@@ -10,6 +10,8 @@
 
 - [Operator](https://github.com/eujin811/TIL/tree/master/Combine#operator)
 
+- [Combine Network]()
+
 **참고**
 
 - [공식문서](https://developer.apple.com/documentation/combine)
@@ -514,3 +516,129 @@
 | Reduce Element | 데이터 스트림을 모아 출력 |
 | Mathematic operations on elements | 숫자 시퀀스 값과 관련된 스트림 제어 |
 | Sequence Elements | 데이터 시퀀스 변형 시 사용 |
+
+
+## Combine Network
+- **URLSession.shared.dataTaskPublisher(for:)**
+	- 내가 준 URL에 대한 URL세션 데이터 작업(ULR session data task)를 래핑하는 publisher 리턴
+	- Publisher 작업 완료 시 데이터 발행, 실패 시 error + 종료
+- **.decode(type: , decoder: )**
+	- 업스트림에서의 출력 디코딩 해준다.
+- **replace Error(with: )
+	- 업스트림에서 에러나면 바꿀 
+- **assign(to: , on: )
+	- 할당한다	
+	- publisher의 요소를 객체의 프로퍼티에 할당
+	- 가져온 data 디코딩한 것 저장하는 역할
+	- 에러 생길 확률 있으면 호출 불가. (replaceError 짝꿍)
+	- **to:** 내가 할당할 프로퍼티의 keypath
+	- **on:** 값을 할당할 객체
+	- **.assgin(to: \.data, on: self)**
+	- **.assgin(to: \.data, on: ViewController())**
+- **store()**
+
+- Combine으로 데이터 불러오기
+   ```swift
+	import Combine
+	import Foundation
+
+	enum HTTPError: LocalizedError {
+	   case statusCode
+	   case post
+	}
+
+	let cancellable = URLSession.shared.dataTaskPublisher(for: url)
+		.map { $0.data }
+		.decode(type: [Post].self, decoder: JSONDecoder())
+		.replaceError(with: [])
+		.eraseToAnyPublisher()
+		.sink(receiveValue: { posts in
+		   print("전달받은 데이터는 총 \(posts.count)개 입니다.")
+		})
+
+	cancellable.cancel()	// 스트림 중단
+
+	// 전달받은 데이터는 총 100개 
+   ```
+- Combine + UIKit
+
+   ```swift
+	// Model
+	enum HTTPError: LocalizedError {
+	   case statusCode
+	   case post
+	}
+
+	struct Post: Codable, Identifiable {
+	   let id: Int
+	   let title: String
+	   let body: String
+	   let userId: Int
+	}
+
+	let urlString = "https://jsonplaceholder.typicode.com/posts"
+   ```
+
+   ```swift
+	// ViewModel
+	class ViewModel: ObservableObject {
+	   @Published var posts: [Post] = []
+	   var cancelBag = Set<AnyCancellable>()
+	   
+	   func request() {
+		let url = URL(string: urlString)!
+
+		URLSession.shared.dataTaskPublisher(of: url)
+			.map(\.data)
+			.decode(
+			   type: [Post].self,
+			   decoder:JSONDecoder())
+			.replaceError(with: [])
+			.assign(to: \.posts, on: self)
+			.store(in: &self.cancelBag)
+	   }
+	}	
+   ```
+
+   ```swift
+	// ViewController
+	class ViewController: UIViewController {
+	   var tableView = UITableView()
+
+	   @ObservedObject var viewModel = ViewModel()
+
+	   var cancelBag = Set<AnyCancelable>()
+
+	   ovverride func viewDidLoad() {
+		super.viewDidLoad()
+
+		print(viewModel.posts)
+
+		self.tableView.dataSource = self
+		self.viewModel.request()
+
+		tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellID")
+		tableView.fram = view.frame
+		view.addSubView(tableView)
+
+		self.viewModel.$posts.receive(on: DispatchQueue.main).sink(receiveValue: { [weak self] _ in
+		   self?.tableView.reloadData()
+		}).store(in: &self.cancelBag)
+	   }
+	}
+
+	extension ViewController: UITableViewDataSource {
+	   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return self.viewModel.posts.count
+	   }
+
+	   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "CellID", for: indexPath)
+		cell.textLabel?.text = self.viewModel.posts[indexPath.row].title
+		return cell
+	   }
+	}
+   ```
+
+**eraseToAnyPublisher**
+
