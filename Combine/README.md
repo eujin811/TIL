@@ -27,7 +27,14 @@
 		- 해리의 유목코딩
 
 - 예시 플젝
-	- [2019 Let's Swift Combine MVVM] (https://github.com/fimuxd/BringMyOwnBeer-Combine)
+	- Network
+		- [Combine networking with a hint_Nodes](https://engineering.nodesagency.com/categories/ios/2020/03/16/Combine-networking-with-a-hint-of-swiftUI)
+	- MVVM
+		- [2019 Let's Swift Combine MVVM] (https://github.com/fimuxd/BringMyOwnBeer-Combine)
+		- [CombineBookrSearch](https://github.com/PPacie/CombineBookSearch)
+		- [kitasuke](https://github.com/kitasuke/SwiftUI-MVVM)
+		
+	
 
 ## Combine
 - 시간의 흐름에 따라 발생하는 이벤트를 처리하기 위한 API
