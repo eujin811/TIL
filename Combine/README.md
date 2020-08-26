@@ -685,5 +685,68 @@
 	}
    ```
 
+- SwiftUI + Combine Network
+   ```swift
+	// SceneDelegate
+	let contentView = ContentView().environmentObject(ViewModel())
+   ```	
+
+   ```swift
+	// Model
+
+	enum HTTPError: LocalizedError {
+	   case statusCode
+	   case post
+	}
+	
+	struct Post: Codable: Identifiable {
+	   let id: Int
+	   let title: String
+	   let body: String
+	   let userId: Int
+	}
+
+	let urlString = "https://jsonplaceholder.typicode.com/posts"
+   ```
+
+   ```swift
+	// ViewModel
+	class ViewModel: ObservableObject {
+	   @Published var posts: [Post] = []
+	   var cancelBag = Set<AnyCancellable>()
+	}
+
+	extension ViewModel {
+	   func request() {
+		let url = URL(string: urlString)!
+
+		URLSession.shared.dataTaskPublisher(for: url)
+			.receive(on: DispatchQueue.main)
+			.map(\.data)
+			.decode(type: [Post].self, decoder: JSONDecoder())
+			.replaceError(with: [])
+			.assign(to: \.posts, on: self)
+			.store(in: &self.cancelBag)
+	   }
+	}
+   ```
+
+   ```swift
+	@EnvironmentObject private var viewModel: ViewModel
+
+	var cancelBag = Set<AnyCancellable>()
+	
+	var body: some View {
+	   viewModel.request()
+
+	   return List(viewModel.posts) {
+		Text($0.title)
+	   }
+	}
+
+	
+   ```
+
+
 **eraseToAnyPublisher**
 
