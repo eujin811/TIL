@@ -54,6 +54,12 @@
 | output, Failure 타입 |   | Input, Failure 타입 |
 | Publisher, subject |   |   |
 
+
+<p align="center">
+  <img src="Assets/Combine/Combine.png" alt="Combine" height="50%" width="50%">
+  </p>
+
+
 **파이프라인**
 - Publisher에서 Subscriber로 데이터 전달하는 과정 파이프라인이라 한다.
 	- 파이프라인에서는 성공타입과 실패 타입을 함께 명시해줘야 한다.
@@ -108,8 +114,9 @@
    ```
 
 - ConnectionPublisher 프로토콜 준수하는 Publisher는 autoconnext를 이용 subscriber 연결 여부와 상관없이 미리 데이터 발생 가능
-	- **미리 데이터 발생**
-   
+  
+
+- 데이터 스트림 발행 
    ```swift
 	// let publisher = Just("just")
 	let provider = (1...10).publisher
@@ -209,7 +216,7 @@
 - 구현 방법
 	- Subscriber 상속받아 직접구현
 	- sink 이용해 결과 값 받기
-	- asggin 이용해 스트림 값 전달
+	- assign 이용해 스트림 값 전달
 
 **sink**
 - 클로저 형태 구독
@@ -221,8 +228,35 @@
 	publisher.sink { print($0) }
    ```
 
+**assign(to: ,on: )
+- publisher의 데이터를 프로퍼티에 할당
+- 불러온 데이터 저장하는 역할
+- 에러 생길확률 있으면 호출 불가능
+- **.assign(to: ,on: )**
+	- **to:** 내가 할당할 프로퍼티의 keypath
+	- **on:** 값을 할당할 객체
+
+   ```swift
+	@Published var posts: [Post] = []
+	var cancelBag = Set<AnyCancellable>()
+
+	func request() {
+	   let url = URL(string: urlString)!
+
+	   URLSession.shared.dataTaskPublisher(of: url)
+		.map(\.data)
+		.decode(
+		   type: [Post].self,
+		   decoder: JSONDecoder())
+		.replaceError(with: [])
+		.assign(to: \.posts, on: self)
+		.store(in: &self.cancelBag)
+	}
+   ``` 
+
+
 **Subscriber 직접 구현**
-- 모든 라이프 사이클 확인 가
+- 모든 라이프 사이클 확인 가능
 - **func receive(subscription: Subscription)**
 	- 구독수
 	- 구독했음을 알리고 item 요청
@@ -314,6 +348,12 @@
 
 
 ## Subject
+
+<p align="center">
+  <img src="Assets/Combine/Subject.png" alt="Subject" height="50%" width="50%">
+  </p>
+
+
 - Publisher의 일종, 파이프라인 외부에서도 파이프라인 안으로 데이터 보낼 수 있다.
 	- 외부 발신자가 element 값 publish 할 수 있는 방법 제공하는 publisher
 	- PUblisher 프로토콜 채택
@@ -510,7 +550,7 @@
 - deinit 될 때 자동으로 cancel 된다.
 - AnyCancellable
 	- **cancel()**
-		- 기본 nil 반
+		- 기본 nil 반환
 	- **store(in:)**
 		- cancellable instance 저장하는 것.
 		- Set<AnyCancellable> 만들어서 store(in: )에 넘기면 된다.
@@ -597,7 +637,7 @@
 - **.decode(type: , decoder: )**
 	- 업스트림에서의 출력 디코딩 해준다.
 - **replace Error(with: )**
-	- 업스트림에서 에러나면 바꿀 
+	- 업스트림에서 에러나면 바꿀 것
 - **assign(to: , on: )**
 	- 할당한다	
 	- publisher의 요소를 객체의 프로퍼티에 할당
@@ -605,8 +645,8 @@
 	- 에러 생길 확률 있으면 호출 불가. (replaceError 짝꿍)
 	- **to:** 내가 할당할 프로퍼티의 keypath
 	- **on:** 값을 할당할 객체
-	- **.assgin(to: \.data, on: self)**
-	- **.assgin(to: \.data, on: ViewController())**
+	- **.assign(to: \.data, on: self)**
+	- **.assign(to: \.data, on: ViewController())**
 - **store()**
 
 - Combine으로 데이터 불러오기
@@ -775,5 +815,4 @@
    ```
 
 
-**eraseToAnyPublisher**
 
