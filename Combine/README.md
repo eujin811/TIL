@@ -56,7 +56,7 @@
 
 
 <p align="center">
-  <img src="Assets/Combine/Combine.png" alt="Combine" height="50%" width="50%">
+  <img src="../Assets/Combine/Combine.png" alt="Combine" height="50%" width="50%">
   </p>
 
 
@@ -350,7 +350,7 @@
 ## Subject
 
 <p align="center">
-  <img src="Assets/Combine/Subject.png" alt="Subject" height="50%" width="50%">
+  <img src="../Assets/Combine/Subject.png" alt="Subject" height="50%" width="50%">
   </p>
 
 
