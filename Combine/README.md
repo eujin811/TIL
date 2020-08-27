@@ -14,6 +14,7 @@
 
 - [SwiftUI](https://github.com/eujin811/TIL#SwiftUI)
 - [SwiftUI 데이터 흐름](https://github.com/eujin811/TIL#%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%9D%90%EB%A6%84)
+
 **참고**
 
 - [공식문서](https://developer.apple.com/documentation/combine)
@@ -25,12 +26,13 @@
 	- [Combine 입문하기](https://medium.com/harrythegreat/swift-combine-%EC%9E%85%EB%AC%B8%ED%95%98%EA%B8%B0-%EA%B0%80%EC%9D%B4%EB%93%9C-1-525ccb94af57)
 	- [Combine 네트워크 요청](https://medium.com/harrythegreat/swift-combine-%EC%9E%85%EB%AC%B8%ED%95%98%EA%B8%B03-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%EC%9A%94%EC%B2%AD-f36d6a32af14)
 		- 해리의 유목코딩
+	- [ErrorHandling](https://www.hohyeonmoon.com/blog/swift-error-handling/)
 
 - 예시 플젝
 	- Network
 		- [Combine networking with a hint_Nodes](https://engineering.nodesagency.com/categories/ios/2020/03/16/Combine-networking-with-a-hint-of-swiftUI)
 	- MVVM
-		- [2019 Let's Swift Combine MVVM] (https://github.com/fimuxd/BringMyOwnBeer-Combine)
+		- [2019 Let's Swift Combine MVVM](https://github.com/fimuxd/BringMyOwnBeer-Combine)
 		- [CombineBookrSearch](https://github.com/PPacie/CombineBookSearch)
 		- [kitasuke](https://github.com/kitasuke/SwiftUI-MVVM)
 		
@@ -640,7 +642,7 @@
 	- 업스트림에서 에러나면 바꿀 것
 - **assign(to: , on: )**
 	- 할당한다	
-	- publisher의 요소를 객체의 프로퍼티에 할당
+	- publisher에서 가져온 데이터를 프로퍼티에 할당
 	- 가져온 data 디코딩한 것 저장하는 역할
 	- 에러 생길 확률 있으면 호출 불가. (replaceError 짝꿍)
 	- **to:** 내가 할당할 프로퍼티의 keypath
