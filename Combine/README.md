@@ -65,6 +65,7 @@
 **파이프라인**
 - Publisher에서 Subscriber로 데이터 전달하는 과정 파이프라인이라 한다.
 	- 파이프라인에서는 성공타입과 실패 타입을 함께 명시해줘야 한다.
+- 파이프라인 깨졌을 경우 try, error 등의 operator로 처리한다.
 
 
 | Publisher | Subscriber | Subject | Scheduler | Cancellable |
@@ -546,6 +547,7 @@
 - Activity 또는 action이 취소됨을 지원한다.
 - 데이터 발행 중 cancel() 메서드 호출 시 모든 파이프라인 멈추고 끝난다.
 - 스트림 중단 시 사용
+- 데이터 로딩 하다가 취소할때, 뒤로가기, 첨부파일 받기 취소, 화면전환시 메모리 헤제등에서
 - cancel() 호출 시 할당 된 모든 리소스 해제
 	- 호출 이후 더이상 데이터 발행되지 않는다.
 - 구독을 취소하거나 Subscription이 item을 요청할 수 없게 할 수 있다.
