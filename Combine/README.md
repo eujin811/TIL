@@ -804,8 +804,6 @@
 
    ```swift
 	@EnvironmentObject private var viewModel: ViewModel
-
-	var cancelBag = Set<AnyCancellable>()
 	
 	var body: some View {
 	   viewModel.request()
