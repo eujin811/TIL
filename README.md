@@ -4703,6 +4703,18 @@ iBeacon
  
 
 ## NavigationView (SwiftUI)
+- scrollEdgeAppearance : largeTitle
+- standardAppearance : inline
+
+   ```swift
+   let appearance = UINavigationBarAppearance()
+   appearance.configureWithOpaqueBackground()
+   appearance.backgroundColor = .red
+   
+   UINavigationBar.appearance().scrollEdgeAppearance = appearance
+   UINavigationBar.appearance().standardAppearance = appearance
+   ```
+
 - UINavigationController역할 혹은 UISplitViewController의 역할 수행.
    ```swift
 	var body: some View {
@@ -5434,6 +5446,9 @@ iBeacon
 - 자식 뷰 하나만 있을 경우 중앙 정렬된다.
 - 자식 뷰 여러개일 경우 좌측 상단 배치
 - 크기 미지정 시 공간 최대 크기.
+
+- 내부에 view 없으면 좌표 안받아지는뎅..? + EmptyView() 포함 -> Color.clear 같은걸로..(**)
+- List 감싸면 List 내부 짜부러짐..
 
    ```swift
 	GeometryReader { geometry in
