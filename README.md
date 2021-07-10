@@ -3817,17 +3817,17 @@ v 13.0 부터 가능
 
 
 ## ScrollView
-**scrollViewDidScroll
+**scrollViewDidScroll**
 - 델리게이트는 스크롤뷰에게 콘텐츠 오프셋의 변경사항을 얻는다.
 - 콘텐츠 뷰의 영향을 받는 부분을 그리기 위해 사용된다.
   ```swift
     Optional func scrollViewDidScrol(_ scrollView: UIScrollView)
   ```
 
-**scrollViewWillBeginDragging(UIScrollView)
+**scrollViewWillBeginDragging(UIScrollView)**
 - 스크롤을 시작하려고 할 때
 
-**scrollViewWillEndDragging(UIScrollView, withVelocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
+**scrollViewWillEndDragging**(UIScrollView, withVelocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>)
 - 사용자가 스크롤을 완료한 후
 
 **scrollViewDidEndDragging**
