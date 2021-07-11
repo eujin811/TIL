@@ -71,6 +71,7 @@
     - 데이터와 동기화되어 일관성 있게 보인다.
     - 데이터 변경 즉시 UI 자동으로 갱신됨 (UI 동기화를 수동으로 직접하지 않아도 된다.)
 - 기존 vs SwiftUI
+
 |          <span style="color:blue">기존</span>           |   <span style="color:blue">SwiftUI</span>   |
 | :-----------------------------------------------------: | :-----------------------------------------: |
 |                       **명령형**                        |                 **선언형**                  |
@@ -78,9 +79,11 @@
 | ex) 계란을 깨서 후라이팬에 기름을 두르고 중불에 익힌다. |           ex) 계란 후라이 주세요.           |
 |                   **UI (autoLayout)**                   |                                             |
 |                        직접 설정                        |           프레임워크가 처리해줌.            |
+
 - **some**
 	- 어떤 상태가 들어올지 모를 때 사용한다.
 - 뷰 구성
+
 | **UIKit**                      | **SwiftUI**              |
 | ------------------------------ | ------------------------ |
 | UILabel                        | Text                     |
@@ -101,7 +104,9 @@
 | UITableView          | List                         |
 | UITableView(Grouped) | List(GroupedLsitStyle)       |
 | UICollectionView     | .                            |
+
 - Controller 구성
+
 | **UIKit**                      | **SwiftUI**    |
 | ------------------------------ | -------------- |
 | UIViewController               | View           |
@@ -165,6 +170,7 @@
   <p align="center">
   <img src="Assets/SwiftUI/TextBackground1.png" alt="수식어순서1" height="50%" width="50%">
   </p>
+
      ```swift
   	Text("ø˚¬©").font(.largeTitle).padding().background(Color.yellow)
      ```
@@ -191,6 +197,7 @@
 			1. background 수식어 사용.
 			2. clipped 수식어 사용 (or 이를 포함한 cornerRadius 사용) + compositing
 			3. shadow 적용
+
 |                      | 수식어                                                       |
 | -------------------- | ------------------------------------------------------------ |
 | 여백                 | padding()                                                    |
@@ -287,6 +294,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/PreviewName.png" alt="PreviewName" height="50%" width="50%">
   </p>
+
 - **레이아웃 변경** (크기변경)
 	- sizeThatFits
 		- view가 갖는 크기와 컨테이너 크기 일치
@@ -326,7 +334,9 @@
 		- View 타입 이름 변경 or 추가
 		- 앱을 수동으로 빌드하는 경우
 		- TopLevel 구조체 / 클래스 범위에서는 키워드, 속성, 프리프로세서 구문에 대한 수정 등 일부 예외 제외한 모든 상황에서 자동갱신 중단.
+
 **EnvironmentValues**
+
 - ContentView를 여러개 두고 서로 다른 환경을 적용해 확인해보고 싶을 때 사용
 - colorScheme, timeZone, locale, calendar, layoutDirection, sizeCategory 등 기존 UITraitCollction을 비롯해 다양한 클래스에서 나뉘어 사용하고 관리되던 속성들을 이제 EnvironmentValues 하나에 모두 담아서 쉽게 접근 관리 가능하다.
 - 프레임워크에 의해 별도 관리된다. 어떤 뷰에서든 접근 가능
@@ -441,6 +451,7 @@
 ## Image
 - 기본적으로 주어진 공간과 관계없이 그 고유의 크기를 유지한다.
 - resizable()없이 frame 수식어 적용 시 이미지 크기는 그대로 차지하는 공간만 늘어난다.
+
 | 수식어                                          |                                                              |
 | ----------------------------------------------- | ------------------------------------------------------------ |
 | .frame                                          | resizable없이 사용시 이미지 크기는 그대로, 차지하는 공간만 커짐 |
@@ -500,17 +511,16 @@
 	   
 	   ```
 	   
-	   ```
 	- .navigationBarTitle(title:, displayMode: )
 		- automatic: 기본값
 		- .large:
   	- .inline:
-     ```swift
+     	  ```swift
 		// large
 		NavigationView {
 	                  Image("image").navigationBarTitle("Title", displayMode: .large)
 	           	 }	 
-	   ```
+	  ```
 <p align="center">
   <img src="Assets/SwiftUI/NavigationLarge.png" alt="네비게이션 .large" height="50%" width="50%">
   </p>
@@ -524,6 +534,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/NavigationInline.png" alt="네비게이션 .inline" height="50%" width="50%">
   </p>
+
 - .navigationBarItems(trailing: 정의해둔 UI)
 	
 	- 네비게이션 상단에 아이템 추가
@@ -551,6 +562,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/NavigationItem.png" alt="NavigationItem" height="50%" width="50%">
   </p>
+
 - navigationLink
 	- 화면이동
 	- 특정조건 만족 시 지정 화면으로 이동
@@ -635,12 +647,14 @@
 <p align="center">
   <img src="Assets/SwiftUI/ImageButton.png" alt="SwiftUI ImageButton" height="50%" width="50%">
   </p>
+
 - 수식어
 | buttonStyle                        |                                                              |
 | ---------------------------------- | ------------------------------------------------------------ |
 | .buttonStyle(DeafultButtonStyle()) | 버튼이 사용된 환경에 따라 시스템이 알아서 적절한 버튼 스타일을 반영한다. |
 | .buttonStyle(BorderButtonStyle())  | 콘텐츠에 미리 지정된 시각적 효과 적용 (	iOS에서 대부분 사용되는 경우) |
 | .buttonStyle(PlainButtonStyle())   | 버튼의 콘텐츠에 어떠한 시각적 요소도 적용하지 않음           |
+
 ## onTapGesture
 	- Image 혹은 text와 같은 view에 tab 했을 때 지정된 동작을 수행하는 수식어
 	- 단, 하이라이트 혹은 애니메이션 등의 기본효과 혹은 커스텀 버튼 스타일 사용 불가
@@ -651,6 +665,7 @@
 			print("onTapGesture") 
 		  }
    ```
+
 ## TextField (SwiftUI)
    ```swift
 	TextField(_ title: , text: )
@@ -906,6 +921,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/List.png" alt="List" height="50%" width="50%">
   </p>
+
 - ListStyle
 	- DeafultlistStyle
 		
@@ -926,6 +942,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/ListGroupedList.png" alt="GroupedList" height="50%" width="50%">
   </p>
+
 - 	
 	- insetGrouped
 	   ```swift
@@ -936,6 +953,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/ListInsetGrouped.png" alt="InsetGrouped" height="50%" width="50%">
   </p>
+
 - List indicator 제거
 	- view 네비게이션 링크 밖으로, 네비게이션 너비 0 + hidden
    ```swift
@@ -1004,6 +1022,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/SpacerOtherView.png" alt="SpacerOtherView" height="50%" width="50%">
   </p>
+
 - **Overlay**
 	- SwiftUI의 addSubView
 	- view 위에 새로운 뷰를 중첩하여 쌓는 기능
@@ -1019,6 +1038,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/overlay.png" alt="overlay" height="50%" width="50%">
   </p>
+
 - **Background**
 	- 뷰 원본의 공간을 기준으로 뷰를 아래 방향으로 중첩
    ```swift
@@ -1032,6 +1052,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/background1.png" alt="background1" height="50%" width="50%">
   </p>
+
 - **Alignment**
 	- 정렬
    ```swift
@@ -1052,6 +1073,7 @@
 		   .trailing
 	   )
    ```
+
 - **EmptyView**
 	- 어떤 내용도 표현하지 않고 공간도 차지하지 않는 뷰
 	- 스택 내부에 반드시 하나 이상의 뷰를 넣아햐 하므로 빈 스택 원할때 사용
@@ -1060,6 +1082,7 @@
 	   EptyView()
 	}
    ```
+
 - **Padding**
 	- 전체 적용
 	   ```swift
@@ -1198,6 +1221,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/GeometryReader1.png" alt="GeometryProxy" height="50%" width="50%">
   </p>	
+
 ## frame
 - 자식 뷰가 활용 가능한 크기, 정렬, 위치 결정
 - 자식 뷰는 그 자신의 성질에 따라 크기가 결정된다.
@@ -1216,6 +1240,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/frame1.png" alt="frame1" height="50%" width="50%">
   </p>
+
 - 크기 제약조건
    ```swift
 	func frame(minWidth: , idealWidth: , maxWidth: , minHeight: , idealHeight: , maxHeight: , alignment: ) -> some View
@@ -1244,6 +1269,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/frame2.png" alt="frame2" height="50%" width="50%">
   </p>
+
 - ideal
 	- 부모 뷰의 공간과 관계 없이 자신에게 이상정인 크기의 값을 갖는 것.
 	- ideal 적용 후 fixedSize 적용하면 그 부분은 고정되고 나머지 부분 이상적 크기로 적
@@ -1266,6 +1292,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/idealFrame.png" alt="idealFrame" height="50%" width="50%">
   </p>
+
 - **fixedSize()**
 	- 이상적인 크기정보 적용! 
 	- fizedSize 사용 전 idealWidth, idealHeight 지정 시 원하는 크기로 설정 가능
@@ -1286,6 +1313,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/fixedSize.png" alt="fixedSize" height="50%" width="50%">
   </p>
+
 - **Layout Priority**
 	- view의 frame에서 우선순위(비중..?)
 	- 우선순위가 높으면 부모뷰의 크기 변화에 더 큰 영향을 받는다.
@@ -1324,6 +1352,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/LayoutPriorityFrame.png" alt="LayoutPriorityFrame" height="50%" width="50%">
   </p>
+
 ## Path
 - 그리기
 - .move
@@ -1391,6 +1420,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/ScrollView1.png" alt="ScrollView1" height="50%" width="50%">
   </p>
+
 - 스크롤 방향으로는 부모 뷰가 제공하는 공간의 최대 차지, 직교 방향은 자식뷰 크기만큼.
 	- 내부 선언된 뷰는 기본적으로 idealWidth 혹은 idealHeight 만큼 할당한다.
 	- 원하는 size 위해 fixedSize 사용해야 한다.
@@ -1409,6 +1439,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/ScrollViewSize.png" alt="ScrollViewSize" height="50%" width="50%">
   </p>
+
 - 콘텐츠 위치
 	- ScrollView는 ContentOffset 제공하지 않는다.
 	- PreferenceKey 혹은 GeometryReader 사용해야 한다.
@@ -1445,6 +1476,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/ScrollGeo.png" alt="ScrollGeo" height="50%" width="50%">
   </p>
+
 - **ScrollViewPage**
 	- SwiftUI 스크롤 뷰 페이징 기능 직접 제공 안해서 UIappearance 이용해 UIScrollView 설정 사용
 		- 각 뷰 들을 GeometryReader 사용해 화면 전체 크기로 맞춘다.
@@ -1542,6 +1574,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/SwiftUIData.png" alt="SwiftUIData" height="50%" width="50%">
   </p>
+
 - 
 	- **단일 원천 자료**
 		- 동일한 데이터 요소가 여러 곳으로 나뉘어 중복되지 않고 한 곳에서 다루어지고 수정되어야 한다.
@@ -1585,6 +1618,7 @@
 	   }
 	}
    ```
+
 **@Binding**
 - 상위 뷰가 가진 상태를 하위 뷰에서 사용하고 수정할 수 있게 해준다.
 - 전달받은 데이터를 읽거나 직접 변경할 수 있도록 만들어진 타입
@@ -1604,6 +1638,7 @@
 	   }
 	}	
    ```
+
 **ObservableObject, @ObservedObject**
 - 뷰의 외부 모델이 갖는 원천 자료를 다루기 위한 도구
 - 참조타입을 사용하는 경우에 사용된다.
@@ -1618,9 +1653,11 @@
 <p align="center">
   <img src="Assets/SwiftUI/ObservedObject.png" alt="ObservedObject" height="50%" width="50%">
   </p>
+
 <p align="center">
   <img src="Assets/SwiftUI/ObservedObject2.png" alt="ObservedObject2" height="50%" width="50%">
   </p>
+
 - 뷰 갱신을 알리는 property wrappers
 	- @Published
 	- objectWillChange
@@ -1707,9 +1744,11 @@
 <p align="center">
   <img src="Assets/SwiftUI/EnvironmentObject.png" alt="EnvironmentObject" height="50%" width="50%">
   </p>
+
 <p align="center">
   <img src="Assets/SwiftUI/EnvironmentObject2.png" alt="EnvironmentObject2" height="50%" width="50%">
   </p>
+
 - 사용예시
    ```swift
 	// Model
@@ -1738,6 +1777,7 @@
 	   }
 	}
    ```
+
 |                     @ObservedObject                     |                      @EnvironmentObject                      |
 | :-----------------------------------------------------: | :----------------------------------------------------------: |
 |               모델에 대한 직접적인 의존성               |                 모델에 대한 간접적인 의존성                  |
@@ -1820,6 +1860,7 @@
 	   }
 	}
    ```
+
 ## Present
 - 새로운 뷰 컨트롤러로 전환하고 프레젠테이션 스타일을 변경할 수 있다.
 |                     UIKit                      |      SwiftUI       |
@@ -2460,6 +2501,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/tab.png" alt="tab" height="50%" width="50%">
   </p>
+
 - 사용법
    ```swift
 	TabView {
@@ -2492,6 +2534,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/TabViewBasic.png" alt="TabViewBasic" height="50%" width="50%">
   </p>
+
 - tabItem
 	- 이미지 or Text, 이미지 + Text 만가능
 	- 연결된 뷰에 1:1 대응 아닌 탭 뷰 포함된 순서에 따라 결정
@@ -2524,6 +2567,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/TabViewItem.png" alt="TabViewItem" height="50%" width="50%">
   </p>
+
 - Tag
 	- 어떤 탭 선택한 상태인지 알고 싶은 경우 사용
 	- selectionValue 관리하는  생성자 사용해 탭 뷰 만든 뒤 각 탭 아이템별로 tag 수식어 통해 각 탭 아이템과 연관된 값을 지정.
@@ -2556,6 +2600,7 @@
   <img src="Assets/SwiftUI/TabView1,2.png" alt="TabView1,2" height="50%" width="50%">
   </p>
 ​	
+
 - 
 	- String 값을 사용해 tag
 	   ```swift
@@ -2572,6 +2617,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/TabViewAB.png" alt="TabViewAB" height="50%" width="50%">
   </p>
+
 - tabView 선택한 아이템 색상 변경
 	- tintColor
    ```swift
@@ -2580,6 +2626,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/TabViewTint.png" alt="TabViewTint" height="50%" width="50%">
   </p>
+
 - tabView 선택하지 않은 아이템 색상변경
 	- 아직 SwiftUI에 없음, UIAppearance 사용
    ```swift
@@ -2588,6 +2635,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/TabBarUnselectColor.png" alt="TabBarUnselectColor" height="50%" width="50%">
   </p>
+
 - tabView Bar 색상변경
 	- 아직 SwiftUI에 없음, UIAppearance 사용
    ```swift
@@ -2596,6 +2644,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/TabBarColor.png" alt="TabBarColor" height="50%" width="50%">
   </p>
+
 ## Animation
 - 애니메이션이 동작하는 상태 3가지
 	- 애니메이션 발생 전
@@ -2710,6 +2759,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/Linear.png" alt="Linear" height="50%" width="50%">
   </p>
+
 - **easeIn**
 	- 처음에는 느리게 시작했다가 점점 빠르게 진행되는 애니메이션
 	- 화면 밖으로 사라지는 뷰 등에 적합.
@@ -2720,6 +2770,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/easeIn.png" alt="easeIn" height="50%" width="50%">
   </p>
+
 - **easeOut**
 	- 처음에는 빠르게 시작해 끝에는 천천히 진행된다.
 	- 즉각적으로 반응하는 느낌
@@ -2730,6 +2781,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/easeOut.png" alt="easeOut" height="50%" width="50%">
   </p>
+
 - **easeInOut**
 	- 시작과 끝에서 느리게 동작, 중간 지점에 빠르게 동작.
 	- 일반적으로 가장 많이 쓰인다.
@@ -2741,6 +2793,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/easeInOut.png" alt="easeInOut" height="50%" width="50%">
   </p>
+
 - **timingCurve**
 	- 애니메이션 타이밍 직접 조절 가능.
 	- c0: 시작 값
@@ -2856,6 +2909,7 @@
    ```
 <p align="center">
   <img src="Assets/SwiftUI/transitionSclae.png" alt="transitionSclae" height="50%" width="50%">
+
   </p>
 - slide
    ```swift
@@ -2869,6 +2923,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/transitionSlide.png" alt="transitionSlide" height="50%" width="50%">
   </p>
+
 - move
    ```swift
 	if showText {
@@ -2881,6 +2936,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/transitionMove.png" alt="transitionMove" height="50%" width="50%">
   </p>
+
 - offset
    ```swift
 	Text("Transition offset")
@@ -2978,6 +3034,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/transitionModifier.png" alt="transitionModifier" height="50%" width="50%">
   </p>
+
 - 수식어로 추가
 	- 사용
 	   ```swift
@@ -2994,6 +3051,7 @@
 		Text("Transition Modifier").transition(.customScale)
 	   ```
 - 커스텀 뷰 애니메이션
+
 ## Gesture
 - 제스처 종류 5가지
 	- TopGesture
@@ -3054,6 +3112,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/Drag.png" alt="Drag" height="50%" width="50%">
   </p>
+
 - 
 	- 화면 터치 이후 손을 땔 때까지 그 움직임에 따라 인식된 정보를 전달
 	- 일정 거리 이상 드래그 해야만 인식하거나, 특정 좌표계 기준으로 설정 가능하다.
@@ -3086,6 +3145,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/Magnificatioin.png" alt="Magnificatioin" height="50%" width="50%">
   </p>
+
 - 
 	- 두 손가락 터치해 오므리거나 벌리는 정도에 따라 그 변화된 값 반환하는 제스처
 	- CGFloat 값 전달하므로 이것을 그대로 scaleEffect 수식어에 적용해 간단하게 줌인 / 줌아웃 효과 준다.
@@ -3115,6 +3175,7 @@
 <p align="center">
   <img src="Assets/SwiftUI/RotationGesture.png" alt="RotationGesture" height="50%" width="50%">
   </p>
+
 - 
 	- 두 손가란 터치한 뒤 회전 시킨 정도에 따라 그 회전 각도를 반환하는 제스쳐,
 	- 반환되는 Angle 타입의 값 ratationEffect 수식어에 활용해 뷰 회전 효과를 즐길 수 있다.
@@ -3192,9 +3253,11 @@
 <p align="center">
   <img src="Assets/SwiftUI/HightPriorityGestureView.png" alt="HightPriorityGestureView" height="50%" width="50%">
   </p>
+
 <p align="center">
   <img src="Assets/SwiftUI/HightPriorityGestureResult.png" alt="HightPriorityGestureResult" height="50%" width="50%">
   </p>
+
 - simultaneousGesture
 	- 2개 이상의 제스처 동시에 인식하고 싶을 때
    ```swift
@@ -3241,6 +3304,7 @@
 	   Circle().gesture(longPressGesture)
 	}.simultaneousGesture(tapGesture, including: .all)
    ```
+
 ## Context Menu
 - 특정 뷰를 길게 눌렀을 때 해당 뷰와 관련된 메뉴를 보여주는 기능
 - iOS13 이상의 모든 기기에서 사용 가능
@@ -3282,3 +3346,4 @@
 <p align="center">
   <img src="Assets/SwiftUI/Context.png" alt="Context" height="50%" width="50%">
   </p>
+
