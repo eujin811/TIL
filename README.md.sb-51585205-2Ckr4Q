@@ -339,11 +339,11 @@ type(of: firstIndex)
 - 연관된 값의 그룹에 대해 공통 타입을 정의한 뒤 type-safe하게 해당 값들 사용
 - 주 사용상황	
 	> 원치 않는 값이 잘못 입력되는 것을 막고 싶을 때.
-	> ->사용자의 직접 입력을 열거형 선택으로 선택을 강제 가능.
+	  ->사용자의 직접 입력을 열거형 선택으로 선택을 강제 가능.
 	> 입력받을 값을 미리 특정할 수 있을 때	
-	> -> 성별: 여성, 남성, 제3의 성	
-	> -> 국가: 한국, 중국, 일본, 미국 ..
-	> -> 색상: 빨강, 파랑, 노랑 ..
+	  -> 성별: 여성, 남성, 제3의 성	
+	  -> 국가: 한국, 중국, 일본, 미국 ..
+	  -> 색상: 빨강, 파랑, 노랑 ..
 	> 제한된 값 중에서만 선택할 수 있도록 강제하고 싶을 때.
 - 첫 글자만대문자 (구조체나 클래스 정의시 적용 규칙과 같다.)
 - 불연속된 값들의 집합
@@ -1888,7 +1888,7 @@ student =  nil	// " 	student count 0
 - safeArea: 노치랑 하단바 부분 제외한 영역
 
 **Frame으로 위치 잡을 떄**
-
+​
 ```swift
 viewDidLoad() -> print(safeAreaInsets) 0,0,0,0
 ```
@@ -3202,8 +3202,7 @@ public enum UIDeviceBatteryState: Int {
  }
 ```
 - 배터리 모니터링
- (기기 확인하는 작읍들은 추가 작업이 필요해서 배터리나 cpu소모가 많아진다. 필요할 때 만 사용해야 한다.)
-
+ (기기 확인하는 작읍들은 추가 작업이 필요해서 배터리나 cpu소모가 많아진다. 필요할 때ㅐ 만 사용해야 한다.)
 ```swift
  isBatteryMonitoringEnabled
 ```
@@ -3818,7 +3817,6 @@ v 13.0 부터 가능
 
 
 ## ScrollView
-
 **scrollViewDidScroll**
 - 델리게이트는 스크롤뷰에게 콘텐츠 오프셋의 변경사항을 얻는다.
 - 콘텐츠 뷰의 영향을 받는 부분을 그리기 위해 사용된다.
@@ -3891,15 +3889,15 @@ iBeacon
 		- iOS 11 이상: NSLocationAlwaysAndWhenInUserUsageDescription 키 등록
 		- iOS 10 이하: NSLocationAlwaysUsageDescription 키 등록
 
-|                                  | when-in-use | Always |
-| -------------------------------- | ----------- | ------ |
-| 기본 위치 서비스                 | Y           | Y      |
-| 상당한 위치 변화 서비스          | N           | Y      |
-| 방문                             | N           | Y      |
-| 지역 모니터링(Region monitoring) | N           | Y      |
-| iBeacon ranging                  | Y           | Y      |
-| Heading service                  | Y           | Y      |
-| Geocoding service                | Y           | Y      |
+|   | when-in-use | Always |
+|-----|------|-----|
+| 기본 위치 서비스 | Y | Y |
+| 상당한 위치 변화 서비스 | N | Y |
+| 방문 | N | Y |
+| 지역 모니터링(Region monitoring) | N | Y |
+| iBeacon ranging | Y | Y |
+| Heading service | Y | Y |
+| Geocoding service | Y | Y |
 
 ## CLAuthorization Status
 - 위치 서비스를 사용할 수 있는 앱의 권한을 나타내는 상수
@@ -3941,16 +3939,16 @@ iBeacon
 - 기존 클로저
 
      ```swift
-    	let sum = { $0 + $1 }
-   ```
+  	let sum = { $0 + $1 }
+     ```
 
 - Omit Return
 
      ```swift
-    	func sum(lhs: Int, rhs: Int) -> Int {
+  	func sum(lhs: Int, rhs: Int) -> Int {
 	    lhs + res
-    	}
-   ```
+  	}
+     ```
 
 - 삼항연산자도 가능하다.
 
@@ -3978,9 +3976,8 @@ iBeacon
 
 	// 불투명 반환타입
 	var body: some View
-   ```
+   ```  
 - 제네릭의 반대개념, 호출 된 코드가 호출한 코드의 타입을 결정한다.
-	
 	- 제네릭: 호출하는 축에서 호출되는 축의 타입을 결정
 - concrete type(특정 실체 타입)을 반환하는 대신 타입 정보를 숨기고 프로토콜에 대한 정보만 남긴 채 특정 프로토콜 유형을 따라르는 API라는 것만 전달하고 싶을 때 사용
 - 프로토콜을 준수하는 어떤 타입이든 반환할 수 있다. 하지만 함수를 호출할 때마다 서로 다른 타입이 반환되는 단점을 갖는다.
@@ -4005,7 +4002,6 @@ iBeacon
 **@ViewBuilder**
 - 함수로 정의된 매개 변수에 뷰를 전달받아 하나 이상의 자식뷰를 만들어낸다.
 - 커스텀 뷰 제작이 가능하다.
-	
 	- @ViewBuilder 속성 적용하고, vody에서 원하는 기본값 갖는 컨테이너뷰 만든 뒤 content에 전달
 - 최대개수 유의사항
 	- ViewBUilder는 buildBlock이라는 타입 메서드에 값 전달, 2개 이상의 뷰 일때는 TupleView 타입을 반환한다.
@@ -4089,7 +4085,7 @@ iBeacon
 		   self.annotatedParameter { 1; 2; 3; 4; }
 		}
 	
-	   ```
+	   ```	
 
 	   ```swift
 		// 2.
@@ -4308,7 +4304,7 @@ iBeacon
    ```swift
   	Text("Hello").font(.largeTitle).forgroundColor(.red)
   
-   ```
+    ```
 
 - 수식어 적용 시 유의사항
 
@@ -4361,7 +4357,7 @@ iBeacon
      ```swift
   	Text("ø˚¬©").font(.largeTitle).padding().background(Color.yellow)
      ```
-  
+     
 
   - padding 적용되고 색이 적용되서 padding 부분까지 컬러 적용
 
@@ -4375,10 +4371,10 @@ iBeacon
 - 내부구조 반환 타입 some View
 
      ```swift
-    	public func font(_ font: Font?) -> some View {
+  	public func font(_ font: Font?) -> some View {
           <code>
       	}
-   ```
+     ```
 
 - 각 뷰의 수식어는 이전뷰를 감싼 새로운 뷰 형태로 적용순서에 따라 결과가 달라질 수 있다.
 
@@ -4395,21 +4391,21 @@ iBeacon
 			2. clipped 수식어 사용 (or 이를 포함한 cornerRadius 사용) + compositing
 			3. shadow 적용
 
-|                      | 수식어                                                       |
-| -------------------- | ------------------------------------------------------------ |
-| 여백                 | padding()                                                    |
-| 폰트                 | Font                                                         |
-| background           | 뷰 원본의 공간 기준으로 아래 방향으로 중첩, 컬러 바꿀때도 사용 |
-| overlay              | SwiftUI의 addSubView 느낌, view 위에 새로운 뷰 중첩으로 쌓음 |
-| opacit(rkqt)         | SwiftUI의 alpha값                                            |
-| edgesIgnorigSafeArea | SafeArea 영역까지 적용 시                                    |
-| .primary             | 다크모드 위해 나온 컬러 (다크모드: 흰색, 라이트모드: 검정색) |
-| .colorInvert         | 색반전 효과 (.primary 같은 곳에서 사용)                      |
-|                      | Return 타입 some View (background 사용가능)                  |
-| .cornerRadius        | 뷰 모서리 둥글게, UIKit과 다라르게 clipToBound 별도 활성화 하지 않아도 해당 효과 적용 |
-| .shadow              | 그림자 효과, 불투명한 상태의 뷰에 모두 금자 효과를 부여한다. |
-| .accentColor         | tintColor 역할                                               |
-| .position            | 뷰의 센터를 지정하는 역할                                    |
+|      | 수식어    |
+|------ | --------- |
+| 여백 | padding() |
+| 폰트 | Font      |
+| background | 뷰 원본의 공간 기준으로 아래 방향으로 중첩, 컬러 바꿀때도 사용 |
+| overlay | SwiftUI의 addSubView 느낌, view 위에 새로운 뷰 중첩으로 쌓음 |
+| opacit(rkqt) | SwiftUI의 alpha값 |
+| edgesIgnorigSafeArea | SafeArea 영역까지 적용 시 |
+| .primary | 다크모드 위해 나온 컬러 (다크모드: 흰색, 라이트모드: 검정색) |
+| .colorInvert | 색반전 효과 (.primary 같은 곳에서 사용)|
+|  | Return 타입 some View (background 사용가능)  |
+| .cornerRadius | 뷰 모서리 둥글게, UIKit과 다라르게 clipToBound 별도 활성화 하지 않아도 해당 효과 적용 |
+| .shadow | 그림자 효과, 불투명한 상태의 뷰에 모두 금자 효과를 부여한다. |
+| .accentColor | tintColor 역할 |
+| .position | 뷰의 센터를 지정하는 역할 |
 
 
 - **shadow**
@@ -4426,19 +4422,19 @@ iBeacon
 ## UIHostingController
 
 - UIViewController를 상속받고 뷰 프로토콜을 준수하는 제네릭 매개 변수 Content를 전달받는 제네릭 클래스
-  
+   
 - SwiftUI를 이용해 만들어진 뷰를 UIKit의 개발 환경에서 사용해야 할 때 사용한다.
-  
+   
 - 구성
-  
+   
 	```swift
 	   // UIHostingController 
    	   
 	   class UIHostingController<Content> : UIViewController where Content: View
 	```
-  
    
-  
+   
+   
 - 사용법: SwiftUI를 인자로 받아 ViewController를 만들어준다.
 
    ```swift
@@ -4525,7 +4521,7 @@ iBeacon
 		- Preview 의 크기지정.
 	   ```swift
 		ContentView.previewLayout(.fixed(width: 550, height: 250))
-	   ```
+	   ```	
 <p align="center">
   <img src="Assets/SwiftUI/previewLayout.png" alt="previewLayout" height="50%" width="50%">
   </p>
@@ -4554,9 +4550,8 @@ iBeacon
 - colorScheme, timeZone, locale, calendar, layoutDirection, sizeCategory 등 기존 UITraitCollction을 비롯해 다양한 클래스에서 나뉘어 사용하고 관리되던 속성들을 이제 EnvironmentValues 하나에 모두 담아서 쉽게 접근 관리 가능하다.
 - 프레임워크에 의해 별도 관리된다. 어떤 뷰에서든 접근 가능
 - 상위 계층의 뷰가 가진 환경 요소를 그대로 상속받는다.
-	
-- 단, 하위 계층 뷰에 개별적 환경 구성 시 예외
-	
+	- 단, 하위 계층 뷰에 개별적 환경 구성 시 예외
+
 - **Environment 수식어**
 	- ContentView를 여러개 두고 서로 다른 환경을 적용해 확인해보고 싶을 때사용
 		- 뷰의 환경요소 변경
@@ -4579,13 +4574,12 @@ iBeacon
 
 - **@Environment**	
 	- EnvironmentValues의 특정 요소를 읽어와 뷰 구성에 반영해야 할 때 사용
-		
 		- LTR(Left to Right)언어 사용하는 환경과 아랍어, 히브리어와 같은 RTL언어 환경에서 뷰를 서로 다르게 보이고 싶을 때
 	- 읽기전용
 	   ```swift
 		// LTR, RTL
-	 var environmentView: some View {
-	 	           if layoutDirection == .leftToRight {
+		 var environmentView: some View {
+ 	           if layoutDirection == .leftToRight {
 	              return Text("Left to Right")
 	           } else {
 	               return Text("Right to Left")
@@ -4657,7 +4651,7 @@ iBeacon
 
      ```swift
   public func bold() -> Text
-  ```
+     ```
 
   |                                | 수식어                                               |
   | ------------------------------ | ---------------------------------------------------- |
@@ -4680,35 +4674,35 @@ iBeacon
 - 기본적으로 주어진 공간과 관계없이 그 고유의 크기를 유지한다.
 - resizable()없이 frame 수식어 적용 시 이미지 크기는 그대로 차지하는 공간만 늘어난다.
 
-| 수식어                                          |                                                              |
-| ----------------------------------------------- | ------------------------------------------------------------ |
-| .frame                                          | resizable없이 사용시 이미지 크기는 그대로, 차지하는 공간만 커짐 |
-| .resizable()                                    | 이미지 크기 제정의                                           |
-|                                                 | resizable().frame                                            |
-| .resizable(capInsets: )                         | 특정영역 크기 제정의                                         |
-| .resizable(resizeMode: )                        | .title, Slicing 등 타일형식, 부분 영역 늘리기                |
-| **ContentMode**                                 |                                                              |
-| -> .scaleToFit()                                | Default, 비율과 관계없이 이미지 늘려줌                       |
-| -> .aspectFit()                                 | 원본비율 유지한 상태에서 최대 크기까지 늘려줌(너비와 높이중 작은값 기준) |
-| -> .aspectFillt()                               | 원본의 비율 유지한 상태에서 최대 크기 늘려줌(너비와 높이중 큰 값 기준) |
-| .clipped()                                      | 프레임 벗어나는 이미지 제거 (clipsToBounds 활성화 효과 비슷) |
-| .aspectRatio                                    | 이미지 세부적 조정                                           |
-| .clipShape()                                    | 이미지 원하는 모습만 남기고 자르기                           |
-| ->  .clipShape(Circle())                        | 이미지 원으로 자름                                           |
-| ->  .clipShape(rectanble().inset(by: 값))       | 사각형으로 값만큼 줄인                                       |
-| ->  .clipshape(Ellipse())                       | 타원만큼                                                     |
-| .renderingMode(.original)                       | 원본 이지미 색상 유지                                        |
-|                                                 | 뷰 다루다가 이미지 색상 변했을 때 사용                       |
-| .renderingMode(.template).foregroundColor(.red) | 이미지에 색상 적용                                           |
-| **SF Symbols**                                  |                                                              |
-| Image(systemName: )                             | SF Symbols 적용                                              |
-| .imageScale(.~)                                 | SF Symbols 크기 적용                                         |
-| ->  .imageScale(.small)                         |                                                              |
-| ->  .imageScale(.mdeium)                        |                                                              |
-| ->  .imageScale(.large)                         |                                                              |
-| Image(systemName: ).font                        | 심볼의 크기, 선굵기 지정 가능                                |
-| shadow()                                        | 그림자                                                       |
-
+|수식어| |
+|---|---|
+| .frame | resizable없이 사용시 이미지 크기는 그대로, 차지하는 공간만 커짐 |
+| .resizable() | 이미지 크기 제정의 |
+| | resizable().frame|
+| .resizable(capInsets: ) | 특정영역 크기 제정의 | 
+| .resizable(resizeMode: ) | .title, Slicing 등 타일형식, 부분 영역 늘리기 |
+| **ContentMode** |  |
+| -> .scaleToFit() | Default, 비율과 관계없이 이미지 늘려줌 | 
+| -> .aspectFit() | 원본비율 유지한 상태에서 최대 크기까지 늘려줌(너비와 높이중 작은값 기준) |
+| -> .aspectFillt() | 원본의 비율 유지한 상태에서 최대 크기 늘려줌(너비와 높이중 큰 값 기준) | 
+| .clipped() | 프레임 벗어나는 이미지 제거 (clipsToBounds 활성화 효과 비슷) |
+| .aspectRatio | 이미지 세부적 조정 |
+| .clipShape() | 이미지 원하는 모습만 남기고 자르기 | 
+| ->  .clipShape(Circle()) | 이미지 원으로 자름 | 
+| ->  .clipShape(rectanble().inset(by: 값)) | 사각형으로 값만큼 줄인 |
+| ->  .clipshape(Ellipse()) | 타원만큼 |
+| .renderingMode(.original) | 원본 이지미 색상 유지|
+| | 뷰 다루다가 이미지 색상 변했을 때 사용 | 
+| .renderingMode(.template).foregroundColor(.red) | 이미지에 색상 적용 | 
+| **SF Symbols** | |
+| Image(systemName: ) | SF Symbols 적용 | 
+| .imageScale(.~) | SF Symbols 크기 적용 |
+| ->  .imageScale(.small) | |
+| ->  .imageScale(.mdeium) | |
+| ->  .imageScale(.large) | | 
+| Image(systemName: ).font | 심볼의 크기, 선굵기 지정 가능 | 
+| shadow() | 그림자 | 
+ 
 
 ## NavigationView (SwiftUI)
 - scrollEdgeAppearance : largeTitle
@@ -4733,31 +4727,28 @@ iBeacon
    ```
 - .navigationBarTitle : 
 	- NavigationView 내부에서 사용해야 한다.
-		
 		- (preference 기능) 하위 뷰에서 상위 뷰에 데이터 전달하는 방식 사용
-  - .navigationBarTitle(title:)
+	- .navigationBarTitle(title:)
    	   ```swift
    	      NavigationView {
                     Image("image").navigationBarTitle("Title")
-	 	      }
-	   
-	   ```
-	   
+   	      }
 	   ```
 	- .navigationBarTitle(title:, displayMode: )
 		- automatic: 기본값
 		- .large:
-  	- .inline:
-     ```swift
+		- .inline:
+	   ```swift
 		// large
 		NavigationView {
-	                  Image("image").navigationBarTitle("Title", displayMode: .large)
-	           	 }	 
+                    Image("image").navigationBarTitle("Title", displayMode: .large)
+             	 }	 
 	   ```
 <p align="center">
   <img src="Assets/SwiftUI/NavigationLarge.png" alt="네비게이션 .large" height="50%" width="50%">
   </p>
- 
+
+- 
 
 	   ```swift
 		// inline
@@ -4765,7 +4756,6 @@ iBeacon
 			Image("image").navigationBarTitle("Title", displayMode: .inline)
 		}
 	   ```
-
 <p align="center">
   <img src="Assets/SwiftUI/NavigationInline.png" alt="네비게이션 .inline" height="50%" width="50%">
   </p>
@@ -4832,7 +4822,7 @@ iBeacon
 		destination: Text("Destination View").navigationBarBackButtonHidden(true))
 
    ```
-
+ 
 - Style
 	- navigationViewStyle
 		- Default : 환경에 따라 자동으로 결정
@@ -4847,7 +4837,7 @@ iBeacon
   <img src="Assets/SwiftUI/NaviDoubleColumn.png" alt="Navigation DoubleColumn" height="50%" width="50%">
   </p>
 
-​	
+	
    ```swift
 	NaviagtionView {...}.naviagtionViewStyle(StackNavigationViewStyle())
    ```
@@ -4887,7 +4877,7 @@ iBeacon
 			Button(action: {...}) { 
 			   Image("image").renderingMode(.orginal)
 			}
-		   ```
+		   ```	
 		- ButtonStyle
 		   ```swift
 			Button {...}.buttonStyle(playinButtonStyle())
@@ -4900,11 +4890,11 @@ iBeacon
 
 - 수식어
 
-| buttonStyle                        |                                                              |
-| ---------------------------------- | ------------------------------------------------------------ |
+| buttonStyle | |
+| ---- | ---- |
 | .buttonStyle(DeafultButtonStyle()) | 버튼이 사용된 환경에 따라 시스템이 알아서 적절한 버튼 스타일을 반영한다. |
-| .buttonStyle(BorderButtonStyle())  | 콘텐츠에 미리 지정된 시각적 효과 적용 (	iOS에서 대부분 사용되는 경우) |
-| .buttonStyle(PlainButtonStyle())   | 버튼의 콘텐츠에 어떠한 시각적 요소도 적용하지 않음           |
+| .buttonStyle(BorderButtonStyle()) | 콘텐츠에 미리 지정된 시각적 효과 적용 (	iOS에서 대부분 사용되는 경우) |
+| .buttonStyle(PlainButtonStyle()) | 버튼의 콘텐츠에 어떠한 시각적 요소도 적용하지 않음 | 
 
 ## onTapGesture
 	- Image 혹은 text와 같은 view에 tab 했을 때 지정된 동작을 수행하는 수식어
@@ -5101,9 +5091,8 @@ iBeacon
 	   ```
 ## List (SwiftUI TableView)
 - SwiftUI의 TableView
-	
-- DataSource, Delegate를 구현하지 않고 간단하게 구현 가능!
-	
+	- DataSource, Delegate를 구현하지 않고 간단하게 구현 가능!
+
 - basic
    ```swift
 	List {
@@ -5199,17 +5188,15 @@ iBeacon
 
 - ListStyle
 	- DeafultlistStyle
-		
 		- 리스트 기본 스타일
 	- PlainListStyle
-		
 		- UiTableView의 기본 스타일
 	- GroupedListStyle
 		- 각 섹션으로 분리된 그룹으로 묶어 표현하는 스타일
 		- compeact Device 일 때 grouped 스타일로 나타남
-	- regular Device 일 때 insetGrouped 스타일 적용
+		- regular Device 일 때 insetGrouped 스타일 적용
 			- device를 regular 사이조 지정해 강제지정 가능
-	
+
 	- grouped
 	   ```swift
 		List { }.listStyle(GroupedListStyle())
@@ -5248,10 +5235,10 @@ iBeacon
    ```
 
 - List 선지우기 (SeparatorStyle)
-  
+   
    ```swift
 	.onAppear { UITableView.appearance().separatorStyle = .none }
-   ```
+   ``` 
 
 - List Row BackgroundColor
 	- List 내에서 ForEach와 함께 사용해야 적용된다.
@@ -5293,7 +5280,7 @@ iBeacon
 		- **ZStack**
 			- 자식 뷰의 크기에 따라 ZStack이 함께 변할 수 있어 특정 콘텐츠 변경 시 다른 뷰에 영향을 줄 수 있다.
 		- 상대적으로 직접적인 연관성이 없는 뷰들을 계층 구조로 나열해 구성 할 때 사용
-	
+		
 - **Spacer**
 	- 부모 뷰 내부에서 사용될 경우
 		- 공간 차지를 위한 기능
@@ -5399,9 +5386,8 @@ iBeacon
 ## Stack
 - 뷰를 배치하는데 사용하는 컨테이너뷰
 - 여러개의 view를 묶을 때에도 필요하다.
-	
-- Body는 하나의 값만 반환하기 때문에 하나의 뷰로 반환해 줄 컨테이너 뷰가 필요하기 때문
-	
+	- Body는 하나의 값만 반환하기 때문에 하나의 뷰로 반환해 줄 컨테이너 뷰가 필요하기 때문
+
 - **HStack**
 	- 가로
 	- 구조
@@ -5448,7 +5434,7 @@ iBeacon
 - spacing: 내부 간격
    ```swift
 	HStack(spacing: 20) { ... }
-   ```
+   ``` 
 - alignment : 내부정렬
    ```swift
 	HStack(alignment: .leading) { ... }
@@ -5557,7 +5543,7 @@ iBeacon
 	- **ideal**
 		- 부모 뷰의 공간과 관계 없이 자신에게 이상적인 크기의 값을 갖는 것.
 
-
+  
    ```swift
 	HStack {
 	   Rectangle().fill(Color.red).frame(minWidth: 100)
@@ -5569,7 +5555,7 @@ iBeacon
 	}.frame(width: 300, height: 150)
    ```
 		- .infinity : 설정 시 기기나 뷰에 따라 높이가 변해도 항상 최대로 정
-
+		
 <p align="center">
   <img src="Assets/SwiftUI/frame2.png" alt="frame2" height="50%" width="50%">
   </p>
@@ -5767,12 +5753,10 @@ iBeacon
 	- ScrollView는 ContentOffset 제공하지 않는다.
 	- PreferenceKey 혹은 GeometryReader 사용해야 한다.
 	- PreferenceKey
-		
 		- 자식 뷰에서 부모 뷰에 데이터 전달하는 기능
 	- GeometryReader
-	
-	- 글로벌 좌표 이용해 값 계산
-		
+		- 글로벌 좌표 이용해 값 계산
+
 	- GeometryReader 예시(스크롤할 때 offset에 맞춰 색 바뀌게)
 		- .global: 윈도우의 원점 기준으로 한 상대 좌표 반환해준다.
 		- 해당 코드의 minY -> safeAreaInsets.top 만큼의 값 갖는다.(iPhone 11 pro 기준, safeAreaInsets 높이 44)
@@ -5780,15 +5764,15 @@ iBeacon
 		    var body: some View {
 		        ScrollView {
 		            ForEach(0..<10) { _ in
-  	                GeometryReader {
+		                GeometryReader {
 		                    Rectangle().fill(self.color(from: $0))
-	                  
+                    
 		                }.frame(width: 150, height: 150)
-  	            }
+		            }
 		        }
         
 		    }
-	  
+    
 		    // 스크롤 뷰 기준으로 하는 Geometry
 		    func color(from proxy: GeometryProxy) -> Color {
 		        let yOffset = proxy.frame(in: .global).minY - 44
@@ -5809,24 +5793,24 @@ iBeacon
 	- 사용
 	   ```swift
 		let colors: [Color] = [.red, .green, .blue]
-			        
+			        
 		return GeometryReader { proxy in
-		   ScrollView(.horizontal) {
+		   ScrollView(.horizontal) {
 			HStack(spacing: 0) {
-			   ForEach(colors.indices) { index in
+			   ForEach(colors.indices) { index in
 				Circle()
-				   .fill(colors[index])        // 색 지정
-				   .overlay(Text("\(index) 페이지"))      // 현재 페이지 표시
+				   .fill(colors[index])        // 색 지정
+				   .overlay(Text("\(index) 페이지"))      // 현재 페이지 표시
 				   .font(.largeTitle)
 				   .foregroundColor(.white)
 				   .padding()
 			   }
 			    .frame(width: proxy.size.width, height: proxy.size.height)
 			}
-			                
-		   }   // 페이징 기능 활성화
+			                
+		   }   // 페이징 기능 활성화
 		    .onAppear { UIScrollView.appearance().isPagingEnabled = true }
-				            
+				            
 		}
 	   ```
 
@@ -5850,7 +5834,6 @@ iBeacon
 	- **@GestureState**
 - 프로퍼티 값 수정
 	- view의 body 밖에서 선언된 일반 프로퍼티 body 내부에서 수정이 불가능
-		
 		- 구조체 연산 프로퍼티의 getter 기본 속성이 nonmutating이기 때문
 	- 상태값을 지닌 프로퍼티 사용해야지 body 내부에서 수정이 가능하다.
 	   ```swift
@@ -5860,8 +5843,8 @@ iBeacon
 	           Button(framework) {
 	               self.framework = "SwiftUI"
 	           }
-       }
-	
+	       }
+
 	   ```
 	   ```swift
 		@State var framework: string = "UIKit"
@@ -5924,11 +5907,9 @@ iBeacon
 **@State**
 - @State가 선언된 framework 프로퍼티는 항상 초깃 값을 유지하고 변경 발생 시 SwiftUI에서 제공하는 저장소에 값을 전달하고 참조하는 형태로 작동
 - 뷰 자체에서 가져야할 상태 프로퍼티이자 원천 자료
-	
 	- 뷰의 상태를 저장하고 다룬다.
 - 데이터에 대한 영속적인 상태를 저장, 관할하는 역할을 수행한다.
 - private 사용하는 것이 좋다.
-	
 	- 뷰 자신이 UI 상태를 저장하기 위한 데이터로 설계되었으므로, 해당 뷰가 소유하고 관리한다는 개념을 명시적으로 나타내기 위해
 - view의 body 밖에서 사용하는 프로퍼티 body 내부에서 수정하고 싶을 때 사용
 	- body 내에서 프로퍼티 사용 시 $ 사용
@@ -5983,7 +5964,6 @@ iBeacon
 		protocol ObservableObject: AnyObject{ ... }
 	   ```
 - 외부 모델에 대한 직접적인 의존성을 갖고 그 데이터를 만드는데 사용됨.
-	
 	- 뷰의 서브트리에서 해당 모델을 사용하지 않는 뷰가 있어도 또 다른 자식 뷰가 사용해야 한다면 모델을 꼭 전달받아 넘겨주어야 한다.
 <p align="center">
   <img src="Assets/SwiftUI/ObservedObject.png" alt="ObservedObject" height="50%" width="50%">
@@ -6130,19 +6110,18 @@ iBeacon
 	}
    ```
 
-|                     @ObservedObject                     |                      @EnvironmentObject                      |
-| :-----------------------------------------------------: | :----------------------------------------------------------: |
-|               모델에 대한 직접적인 의존성               |                 모델에 대한 간접적인 의존성                  |
-|                 자식뷰에 모델 직접 전달                 | 부모 뷰 특정 값 갖을 때 자식뷰는 데이터 직접전달 받지 않도록 데이터 접근가능 |
-| 서브트리에 해당 모델 사용하지 않는 뷰 있어도 전달해야함 |             일부 뷰 에서 띄엄띄엄 사용 가능하다              |
+| @ObservedObject | @EnvironmentObject |
+|:----:|:----:|
+| 모델에 대한 직접적인 의존성 | 모델에 대한 간접적인 의존성 |
+| 자식뷰에 모델 직접 전달 | 부모 뷰 특정 값 갖을 때 자식뷰는 데이터 직접전달 받지 않도록 데이터 접근가능|
+| 서브트리에 해당 모델 사용하지 않는 뷰 있어도 전달해야함 | 일부 뷰 에서 띄엄띄엄 사용 가능하다 |
 
 
 
 ## Alert
 - 버튼 최대 2개	
-	
-- UIKit에서는 여러개 가능했음
-	
+	- UIKit에서는 여러개 가능했음
+
 - **Alert(title: , message: )**
 	- 버튼 추가 안해도 확인 버튼 자동 생성
    ```swift
@@ -6191,7 +6170,6 @@ iBeacon
 	Action(title: Text, message: Text?, button: [ActionSheet.Button])
    ```
 - 불러낼 수식어
-	
 	- **actionSheet(isPresented: , content: )**
 - 버튼 스타일
 	- .default: 기본 스타일
@@ -6224,11 +6202,11 @@ iBeacon
 ## Present
 - 새로운 뷰 컨트롤러로 전환하고 프레젠테이션 스타일을 변경할 수 있다.
 
-|                     UIKit                      |      SwiftUI       |
-| :--------------------------------------------: | :----------------: |
-|        fullScreen, pageSheet, automatic        | pageSheet, popover |
-|          iOS13 이전 기본값 fullScreen          | 기본 값 pageSheet  |
-| iOS13 이후 부터는 automatic (대부분 pageSheet) |         .          |
+| UIKit | SwiftUI |
+|:----:|:----:|
+| fullScreen, pageSheet, automatic | pageSheet, popover |
+| iOS13 이전 기본값 fullScreen | 기본 값 pageSheet  |
+| iOS13 이후 부터는 automatic (대부분 pageSheet) | . |
 
 - prsentStyle
 	- **PageSteet**
@@ -6380,7 +6358,7 @@ iBeacon
 		@propertyWrapper
 		struct UserDefault<Value> {
 		    let key: String
-      
+    
 		    var wrappedValue: Value? {
 		        get { UserDefaults.standard.object(forKey: key) as? Value }
 		        set { UserDefaults.standard.set(newValue, forKey: key)}
@@ -6418,7 +6396,7 @@ iBeacon
 		struct RoundedToTwo {
 		    private var vlaue = 0.0
 		    private var multiplier = 100.0
-      
+    
 		    var wrappedValue: Double {
 		        get { value }
 		        set { value = (newValue * multiplier).rounded() / multiplier }
@@ -6456,13 +6434,13 @@ iBeacon
 		    private var multiplier: Value {
 		        (0..<precision).reduce(1) { (sum, _) in sum * 10 }
 		    }
-      
+    
 		    init(wrappedValue: Value, _ precision: Int) {
 		        assert(precision >= 0)
 		        self.precision = precision
 		        self.wrappedValue = wrappedValue
 		    }
-      
+    
 		    var wrappedValue: Value {
 		        get { value }
 		        set { value = (newValue * multiplier).rounded() / multiplier }
@@ -6496,7 +6474,7 @@ iBeacon
 		   get { return _roundedNum.wrappedValue }
 		   nonmutating set { _roundedNum.wrappedValue = newValue }
 		}
-	   ```
+	   ```	
 
 	3. 2.을 외부에서 접근하는 방법
 	   ```swift
@@ -6513,12 +6491,12 @@ iBeacon
 		@propertyWrapper
 		struct RoundedTo<Value: FloatingPoint> {
 		   …
-      
+    
 		    var projectedValue: Self {
 		        get { self }
 		        set { self = newValue }
 		    }
-      
+    
 		}
 
 		var $roundedNum: RoundedTo<Double> {
@@ -6670,7 +6648,7 @@ iBeacon
 	- 버튼의 액션 수행조건이나 시점들을 세세하게 컨트롤할 때 요구된다.
 - ButtonStyle, PrimitiveButtonStyle 모두 makeBody 메서드를 구현해서 사용한다.
 	- configuration 매개 변수를 통해 프레임워크에서 제공해 주는 정보를 바탕으로 뷰를 재구성
-
+ 
 
 - **ButtonStyle**
 	- 버튼이 눌리고 있을 때와 아닐 때 구분해 외형을 정의하는 프로퍼티
@@ -6781,7 +6759,7 @@ iBeacon
 	   var isOn: Bool { get nonmutating set }
 	   var $isOn: Binding<Bool> { get }
 	}
-   ```
+   ``` 
 - ToggleStyleConfiguration을 통해 커스텀
 	- label: 토글의 사용용도를 알려준다.
 	- isOn: 토글의 스위치 기능을 하는 뷰 만들 때 사용
@@ -6840,9 +6818,8 @@ iBeacon
 - UIView 클래스가 이미 해당 프로토콜을 채택하여 UIKit에서 다루는 모든 뷰는 appearance 타입 메서드로 외형 프록시 객체에 메시지 전달해 원하는 값 수정 가능
 
 - 아직 SwiftUI에서 지원하지 않는 UI 수정사항 다룰 수 있다.
-	
-- 앱 전체에 동일한 형태로 사용될 UI 혹은 해당 기능이 아니면 구현하지 못할 UI에서만 적용
-	
+	- 앱 전체에 동일한 형태로 사용될 UI 혹은 해당 기능이 아니면 구현하지 못할 UI에서만 적용
+
 - 구조 
    ```swift
 	Protocol UIAppearance: NSObjectProtocol {
@@ -6852,7 +6829,6 @@ iBeacon
 
 - 사용법 3가지
 	- AppDelegate.swift 혹은 SceneDelegate.swift
-		
 		- 한번의 설정으로 앱 전체에서 지속해서 통일하여 사용하는 경우
 	- 생성자
 		- 뷰가 생성되는 시점에 맞춰 설정
@@ -6941,7 +6917,7 @@ iBeacon
 		Image(systemName: "house")
 		Text("아이템 1")
 	   }
-		            
+		            
 	   Text("두 번째 탭의 화면")  
 		.font(.title)
 		.padding()
@@ -6950,12 +6926,12 @@ iBeacon
 		   Image(systemName: "cube")
 		   Text("아이템 2")
 	   }
-		            
+		            
 	   SomeView().tabItem {
 		Image(systemName: "person")
 		Text("아이템")
 	   }
-		            
+		            
 	}
    ```
    
@@ -6971,11 +6947,11 @@ iBeacon
 	
    ```swift
 	TabView
-	  VStack {
+	  VStack {
 		Text("첫 번째 탭").font(.largeTitle)
 		Image("swift")
 	   }
-		            
+		            
 	   Text("두 번째 탭의 화면")
 		.font(.title)
 		.padding()
@@ -6984,15 +6960,15 @@ iBeacon
 		   Image(systemName: "cube")
 		   Text("아이템 2")
 	    }
-		            
+		            
 	    SomeView().tabItem {
 		Image(systemName: "person")
 		Text("아이템")
 	    }
-		            
+		            
 	}
    ```
-  
+   
    
 <p align="center">
   <img src="Assets/SwiftUI/TabViewItem.png" alt="TabViewItem" height="50%" width="50%">
@@ -7030,7 +7006,7 @@ iBeacon
 <p align="center">
   <img src="Assets/SwiftUI/TabView1,2.png" alt="TabView1,2" height="50%" width="50%">
   </p>
-​	
+	
 
 - 
 	- String 값을 사용해 tag
@@ -7131,7 +7107,7 @@ iBeacon
 	-  나중에 적용된 수식어들만 적용할 때.
 	- .animation(nil) 선언 앞부분까지는 추후 animation 사용해도 적용 안된다.
 	- 사용
-
+ 
 	   ```swift
 		Image("cat")
 		   .blur(radius: blur ? 5 : 0)		// 적용 안됨.
@@ -7670,7 +7646,7 @@ iBeacon
 		.scaleEffect(latestScale * scale)   // 마지막으로 적용된 배율과 현재 변화하는 배율의 곱
 		.gesture(magnificationiGesture)
 	}
-   ```
+   ``` 
 
 
 - **rotationGesture**
@@ -7702,7 +7678,7 @@ iBeacon
 		.gesture(rotationGesture)
 	}
    ```
-
+ 
 **제스처 콜백**
 
 - 
@@ -7745,7 +7721,6 @@ iBeacon
 
 **제스처 수식어**
 - gesture
-	
 	- 제스처 사용할 때
 - highPriorityGesture
 	- 제스처에 우선순위를 갖는다.
@@ -7813,7 +7788,7 @@ iBeacon
    ```
 
 - 사용
-
+ 
    ```swift
 	let longPressGesture = LongPressGesture()
 				   .onChanged { _ in print("LongPress beaga!") }
@@ -7825,17 +7800,16 @@ iBeacon
 	return VStack {
 	   Circle().gesture(longPressGesture)
 	}.simultaneousGesture(tapGesture, including: .all)
-   ```
-
+   ```  
+ 
 
 ## Context Menu
 
 - 특정 뷰를 길게 눌렀을 때 해당 뷰와 관련된 메뉴를 보여주는 기능
 - iOS13 이상의 모든 기기에서 사용 가능
 - 현재 화면 그리고 컨텍스트 메뉴를 사용하는 뷰와 관련된 행동만 수행하도록 적절한 메뉴 아이템 제공
-	
-- 세부적 사항 포함하는 것 좋지 않음.
-	
+	- 세부적 사항 포함하는 것 좋지 않음.
+
 - 사용 수식어
 	- **contextMenu(_:): ContextMenu**라는 컨테이너 타입을 전달하여 메뉴 아이템 구성, 컨텍스트 메뉴를 출력하지  않아야 하는 상황에서는 nil 전달
 	- **contextMenu(menuItems:):** 뷰 빌더를 이용해 바로 메뉴 아이템을 정의 한다. 조건문 이용해 메뉴 아이템 구성을 제어한다.
@@ -7875,3 +7849,8 @@ iBeacon
 <p align="center">
   <img src="Assets/SwiftUI/Context.png" alt="Context" height="50%" width="50%">
   </p>
+
+
+
+
+
