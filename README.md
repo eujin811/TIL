@@ -86,24 +86,24 @@ Swift, Xcode, iOS 관련
 	- 관련 사이트
 		- [customList](https://medium.com/@karaiskc/first-learnings-from-adopting-swiftui-be2ee4289007)
 
-	- [SwiftUI](https://github.com/eujin811/TIL#SwiftUI)
-		- [UIHostingController](https://github.com/eujin811/TIL#uihostingcontroller)
-		- [View](https://github.com/eujin811/TIL#view-swiftui)
-		- [공통 수식어](https://github.com/eujin811/TIL/blob/master/README.md#%EA%B3%B5%ED%86%B5-%EC%88%98%EC%8B%9D%EC%96%B4)
-		- [Modifier (수식어)](https://github.com/eujin811/TIL/blob/master/README.md#modifier%EC%88%98%EC%8B%9D%EC%96%B4)
+	- [SwiftUI](https://github.com/eujin811/TIL/tree/master/SwiftUI/README.md)
+		- [UIHostingController](https://github.com/eujin811/TIL/tree/master/SwiftUI#uihostingcontroller)
+		- [View](https://github.com/eujin811/TIL/tree/master/SwiftUI#view-swiftui)
+		- [공통 수식어](https://github.com/eujin811/TIL/tree/master/SwiftUI#%EA%B3%B5%ED%86%B5-%EC%88%98%EC%8B%9D%EC%96%B4)
+		- [Modifier (수식어)](https://github.com/eujin811/TIL/tree/master/SwiftUI#modifier%EC%88%98%EC%8B%9D%EC%96%B4)
 		  - 수식어 유의사항
 		  - 수식어 적용순서 
-		- [Preview](https://github.com/eujin811/TIL#prieview)
-		- [Text](https://github.com/eujin811/TIL#text-swiftui)
-		- [Image](https://github.com/eujin811/TIL#image)
-		- [Layout](https://github.com/eujin811/TIL#text-swiftui)
-		- [NavigationView](https://github.com/eujin811/TIL#navigationview-swiftui)
-		- [Button](https://github.com/eujin811/TIL#button-swiftui)
-		- [TextField](https://github.com/eujin811/TIL#textfield-swiftui)
-		- [Picker](https://github.com/eujin811/TIL#picker-swiftui)
-		- [MapView](https://github.com/eujin811/TIL#mapview)
-		- [List -> SwiftUI의 TableView](https://github.com/eujin811/TIL#list-swiftui-tableview)
-		- [Stack](https://github.com/eujin811/TIL#stack)
+		- [Preview](https://github.com/eujin811/TIL/tree/master/SwiftUI#prieview)
+		- [Text](https://github.com/eujin811/TIL/tree/master/SwiftUI#text-swiftui)
+		- [Image](https://github.com/eujin811/TIL/tree/master/SwiftUI#image)
+		- [Layout](https://github.com/eujin811/TIL/tree/master/SwiftUI#text-swiftui)
+		- [NavigationView](https://github.com/eujin811/TIL/tree/master/SwiftUI#navigationview-swiftui)
+		- [Button](https://github.com/eujin811/TIL/tree/master/SwiftUI#button-swiftui)
+		- [TextField](https://github.com/eujin811/TIL/tree/master/SwiftUI#textfield-swiftui)
+		- [Picker](https://github.com/eujin811/TIL/tree/master/SwiftUI#picker-swiftui)
+		- [MapView](https://github.com/eujin811/TIL/tree/master/SwiftUI#mapview)
+		- [List -> SwiftUI의 TableView](https://github.com/eujin811/TIL/tree/master/SwiftUI#list-swiftui-tableview)
+		- [Stack](https://github.com/eujin811/TIL/tree/master/SwiftUI#stack)
 		- [SwiftUI View 위치구성](https://github.com/eujin811/TIL#swiftui-view-%EC%9C%84%EC%B9%98%EA%B5%AC%EC%84%B1)
 			- Overlay
 				- SwiftUI의 addSubView
@@ -112,35 +112,35 @@ Swift, Xcode, iOS 관련
 			- Alignment
 			- EmptyView
 			- Padding
-		- [GeometryReader](https://github.com/eujin811/TIL#geometryReader)
-		- [frame](https://github.com/eujin811/TIL#frame)
-		- [Path](https://github.com/eujin811/TIL#path)
-		- [Gradient](https://github.com/eujin811/TIL#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
-		- [Animation](https://github.com/eujin811/TIL#animation-swiftui)
-		- [ScrollView](https://github.com/eujin811/TIL#scrollview-swiftui)
-		- [데이터 흐름](https://github.com/eujin811/TIL#%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%9D%90%EB%A6%84)
+		- [GeometryReader](https://github.com/eujin811/TIL/tree/master/SwiftUI#geometryReader)
+		- [frame](https://github.com/eujin811/TIL/tree/master/SwiftUI#frame)
+		- [Path](https://github.com/eujin811/TIL/tree/master/SwiftUI#path)
+		- [Gradient](https://github.com/eujin811/TIL/tree/master/SwiftUI#gradient%EA%B7%B8%EB%9D%BC%EB%8D%B0%EC%9D%B4%EC%85%98--swiftui)
+		- [Animation](https://github.com/eujin811/TIL/tree/master/SwiftUI#animation-swiftui)
+		- [ScrollView](https://github.com/eujin811/TIL/tree/master/SwiftUI#scrollview-swiftui)
+		- [데이터 흐름](https://github.com/eujin811/TIL/tree/master/SwiftUI#%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%9D%90%EB%A6%84)
 			- @State
 			- @Binding
 			- ObservableObject
 			- @ObservedObject
 			- ... 
-		- [Alert](https://github.com/eujin811/TIL#alert)
-		- [ActionSheet](https://github.com/eujin811/TIL#actionsheet)
-		- [Present](https://github.com/eujin811/TIL#present)
+		- [Alert](https://github.com/eujin811/TIL/tree/master/SwiftUI#alert)
+		- [ActionSheet](https://github.com/eujin811/TIL/tree/master/SwiftUI#actionsheet)
+		- [Present](https://github.com/eujin811/TIL/tree/master/SwiftUI#present)
 			- PageSheet
 			- popover
-		- [Property Wrappers](https://github.com/eujin811/TIL#property-wrappers)
-		- [ViewModifier](https://github.com/eujin811/TIL#viewmodifier)
+		- [Property Wrappers](https://github.com/eujin811/TIL/tree/master/SwiftUI#property-wrappers)
+		- [ViewModifier](https://github.com/eujin811/TIL/tree/master/SwiftUI#viewmodifier)
 			- View 커스텀 수식어
-		- [CustomStyle](https://github.com/eujin811/TIL#customstyle)
-			- [Button Custom](https://github.com/eujin811/TIL#button-custom)
-			- [Toggle Custom](https://github.com/eujin811/TIL#toggle-custom)
-		- [UIAppearance](https://github.com/eujin811/TIL#uiappearance)
-		- [TabView](https://github.com/eujin811/TIL#tabview)
-		- [Animation](https://github.com/eujin811/TIL#animation)
-		- [Transition](https://github.com/eujin811/TIL#transition)
-		- [Gesture](https://github.com/eujin811/TIL#gesture)
-		- [Context Menu](https://github.com/eujin811/TIL#context-menu)
+		- [CustomStyle](https://github.com/eujin811/TIL/tree/master/SwiftUI#customstyle)
+			- [Button Custom](https://github.com/eujin811/TIL/tree/master/SwiftUI#button-custom)
+			- [Toggle Custom](https://github.com/eujin811/TIL/tree/master/SwiftUI#toggle-custom)
+		- [UIAppearance](https://github.com/eujin811/TIL/tree/master/SwiftUI#uiappearance)
+		- [TabView](https://github.com/eujin811/TIL/tree/master/SwiftUI#tabview)
+		- [Animation](https://github.com/eujin811/TIL/tree/master/SwiftUI#animation)
+		- [Transition](https://github.com/eujin811/TIL/tree/master/SwiftUI#transition)
+		- [Gesture](https://github.com/eujin811/TIL/tree/master/SwiftUI#gesture)
+		- [Context Menu](https://github.com/eujin811/TIL/tree/master/SwiftUI#context-menu)
 
 
 	- [Combine](https://github.com/eujin811/TIL/tree/master/Combine)
