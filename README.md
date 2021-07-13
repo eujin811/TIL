@@ -49,7 +49,8 @@ Swift, Xcode, iOS 관련
 	- [Fuction Builders](https://github.com/eujin811/TIL#functionbuilders)
 		- @ViewBuilder
 	- [identifiable Protocol](https://github.com/eujin811/TIL/blob/master/README.md#identifiable-protocol)
-	
+
+	- [CostumeButton]()
 - iOS
 	- [iOS App구조](https://github.com/eujin811/TIL#ios-app-%EA%B5%AC%EC%A1%B0)
 	- [Life Cycle](https://github.com/eujin811/TIL#life-cycle)
@@ -4217,3 +4218,59 @@ iBeacon
 		// Animal(id: 1, name: “토리”, age: 5)
 		// Animal(id: 1, name: “토리”, age: 5)
 	   ```
+
+## Costume Button
+
+- **위아래 Text, Image**
+
+   ```swift
+	extension UIButton {
+	   func alignTextUnderImage(spacing: CGFloat) {
+		guard let image = imageView?.image,
+		      let label = titleLabel,
+		      let string = label.text else { return }
+
+		titleEdgeInsets = UIEdgeInsets(
+		 top: spacing,
+		 left: -image.size.width,
+		 bottom: -mage.size.height,
+		 right: 0.0)
+
+		imageEdgeInsets = UIEdgeInsets(
+		 top: -(titleSize.height * spacing),
+		 left: 0.0,
+		 bottom: 0.0,
+		 right: -titleSize.width)
+	   }
+	}
+   ```
+
+- **왼쪽 오른쪽 Text, Image**
+
+   ```swift
+	extension UIButton {
+	   func alignTextImage(spacing: CGFloat, verticalSpacing: CGFloat = 12) {
+		guard let image = imageView?.image,
+		      let label = titleLabel,
+		      let string = label.text else { return }
+
+		let titleSize = string.size(withAttributes: [NSAttributedString.Key.font: label.font as Any])
+		let titleRightSpacing = frame.width - (titleSize.width + (verticalSpacing * 2) + image.size.width)
+
+		titleEdgeInsets = UIEdgeInsets(
+		 top: spacing,
+		 left: -verticalSpacing,
+		 bottom: spacing,
+		 right: titleRightSpacing)
+
+		let imageTopSpacing = (frame.height - image.size.height) / 2
+		let imageLeftSpacing = frame.width - (image.size.width + verticalSpacing)
+
+		imageEdgeInsets = UIEdgeInsets(
+		 top: imageTopSpacing,
+		 left: imageLeftSpacing,
+		 bottom: imageTopSpacing,
+		 right: verticalSpacing)
+	   }
+	}
+   ```
