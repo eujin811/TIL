@@ -51,6 +51,7 @@ Swift, Xcode, iOS 관련
 	- [identifiable Protocol](https://github.com/eujin811/TIL/blob/master/README.md#identifiable-protocol)
 
 	- [CostumeButton](https://github.com/eujin811/TIL/blob/master/README.md#costume-button)
+	- [Mirror]()
 - iOS
 	- [iOS App구조](https://github.com/eujin811/TIL#ios-app-%EA%B5%AC%EC%A1%B0)
 	- [Life Cycle](https://github.com/eujin811/TIL#life-cycle)
@@ -4274,3 +4275,61 @@ iBeacon
 	   }
 	}
    ```
+
+## Mirror
+
+**Reflection**
+- 런타임에 동적으로 타입의 멤버를 검사하고 작업할 수 있음.
+- swift 같이 정적으로 타입이 지정된 언어에서는 사용하지 않음
+- Swift reflection 지월을 하지만 적이다.
+
+**Mirror**
+- swift에서 사용하는 reflection
+- child, parent 에도 접근 가능
+- stored property(저장 프로퍼티)만 나옴
+- type property(타입 프로퍼티), computed property(연산 프로퍼티) 나오지 않음
+  ```swift
+	let structMirror = Mirror(reflecting: testStruct)
+        let classMirror = Mirror(reflecting: testClass)
+
+	structMirror.children.forEach {
+	   print("struct child", $0)
+	}
+
+	/*
+	child (label: Optional("address"), value: "서울시")
+	child (label: Optional("age"), value: 3)
+	*/
+
+	enumMirror.children.forEach {
+            print("enum child", $0)
+        }
+
+	/*
+	case만으로 이루어질 경우 나오지 않음.
+	*/
+  ```
+
+- **description**
+  ```swift
+        print(structMirror.description)       // Mirror for TestMain
+        print(classMirror.description)        // Mirror for TestClass
+        print(enumMirror.description)        // Mirror for TestEnum
+        print("야호!".customMirror.description)   // Mirror for String
+        print(1.customMirror.description)       // Mirror for Int
+  ```
+
+- **displayStyle**
+	- class, struct, enum만 나오고 기본 타입은 nil로 나옴
+  ```swift
+        print(structMirror.displayStyle)    // Optional(Swift.Mirror.DisplayStyle.struct)
+        print(classMirror.displayStyle)     // Optional(Swift.Mirror.DisplayStyle.class)
+        print(enumMirror.displayStyle)        // Optional(Swift.Mirror.DisplayStyle.enum)
+        print("야호".customMirror.displayStyle) // nil
+  ```
+- 부모 정보도 가져올 수 있음.
+  ```swift
+        print(classMirror.superclassMirror?.description)
+
+	// Optional("Mirror for ParentTest")
+  ```
