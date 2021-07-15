@@ -51,7 +51,7 @@ Swift, Xcode, iOS 관련
 	- [identifiable Protocol](https://github.com/eujin811/TIL/blob/master/README.md#identifiable-protocol)
 
 	- [CostumeButton](https://github.com/eujin811/TIL/blob/master/README.md#costume-button)
-	- [Mirror]()
+	- [Mirror](https://github.com/eujin811/TIL/blob/master/README.md#mirror)
 - iOS
 	- [iOS App구조](https://github.com/eujin811/TIL#ios-app-%EA%B5%AC%EC%A1%B0)
 	- [Life Cycle](https://github.com/eujin811/TIL#life-cycle)
@@ -4275,7 +4275,6 @@ iBeacon
 	   }
 	}
    ```
-
 ## Mirror
 
 **Reflection**
@@ -4337,3 +4336,5 @@ iBeacon
 	- AnyForwardCollection으로 각 속성 이름, 값 갖는다.
 
 - [Mirror 사용해 json 데이터 만들기](http://minsone.github.io/mac/ios/how-to-make-json-data-using-mirror-in-swift2)
+
+
