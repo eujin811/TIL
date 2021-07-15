@@ -4333,3 +4333,7 @@ iBeacon
 
 	// Optional("Mirror for ParentTest")
   ```
+- children
+	- AnyForwardCollection으로 각 속성 이름, 값 갖는다.
+
+- [Mirror 사용해 json 데이터 만들기](http://minsone.github.io/mac/ios/how-to-make-json-data-using-mirror-in-swift2)
