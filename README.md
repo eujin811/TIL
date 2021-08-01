@@ -27,6 +27,7 @@ Swift, Xcode, iOS 관련
 	- [UIStackView](https://github.com/eujin811/TIL#uistackview)
 	- [UITableView](https://github.com/eujin811/TIL#uitableview)
 	- [NavigationController](https://github.com/eujin811/TIL#navigationcontroller)
+		- [NavigationBar Custom]()
 	- [TabBarController](https://github.com/eujin811/TIL#tabbarcontroller)
 	- [defer](https://github.com/eujin811/TIL#defer%EB%B8%94%EB%A1%9D)
 	- [일급 객체로서의 함수](https://github.com/eujin811/TIL#%EC%9D%BC%EA%B8%89-%EA%B0%9D%EC%B2%B4%EB%A1%9C%EC%84%9C%EC%9D%98-%ED%95%A8%EC%88%98)
@@ -2422,6 +2423,26 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 	}
   ```
+
+## NavigationBar Custom
+- **Item spacing**
+	- customButton 만들어 BarbuttonItem CustomView에 적용
+   ```swift
+	let firstButton = UIButton(type: .custom).then {
+	   $0.setImage(UIImage(named: "first"), for: .normal)
+	   $0.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
+	}
+	let secondButton = UIButton(type: .custom).then {
+           $0.setImage(UIImage(named: "second"), for: .normal)
+           $0.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
+        }
+
+	let firstItem = UIBarButtonItem()
+	firstItem.customView = firstButton
+
+	let secondItem = UIBarButtonItem()
+	secondItem.customView = secondItem
+   ```
 
 ## TabBarController
 - 하나 이상의 버튼을 이용해 서로 다른 작업이나 뷰 모델 등 선택해 제어하기 위한 바
