@@ -72,6 +72,7 @@ Swift, Xcode, iOS 관련
 		- [CLAuthorizationStatus](https://github.com/eujin811/TIL#clauthorization-status)
 		- [Determining the Availability](https://github.com/eujin811/TIL#determining-the-availability)
 		- [Getting the User's Location Data](https://github.com/eujin811/TIL#getting-the-users-location-data)
+	- [Label 두가지 폰트]()
 	
 - XCode
 	- [OAuth Login](https://github.com/eujin811/TIL#oauth-login)
@@ -4358,4 +4359,14 @@ iBeacon
 
 - [Mirror 사용해 json 데이터 만들기](http://minsone.github.io/mac/ios/how-to-make-json-data-using-mirror-in-swift2)
 
+## Label 두가지 폰트
+- Label의 Text 부분적으로 font, 색상 변경
+   ```swift
+	let text = "여기저기"
+	let pointText = "저기"
 
+	let attributed = NSMutableAttributedString(string: text)
+	attributed.addAttribute(.font, value: .customFont, rage: (text as NSString).rage(of: pointText))
+
+	label.attributedText = attributed
+   ```
