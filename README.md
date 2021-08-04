@@ -73,6 +73,8 @@ Swift, Xcode, iOS 관련
 		- [Determining the Availability](https://github.com/eujin811/TIL#determining-the-availability)
 		- [Getting the User's Location Data](https://github.com/eujin811/TIL#getting-the-users-location-data)
 	- [Label 두가지 폰트]()
+	- [Label 한글 줄바꿈]()
+	- [selector없이 addTarget]()
 	
 - XCode
 	- [OAuth Login](https://github.com/eujin811/TIL#oauth-login)
@@ -4370,3 +4372,50 @@ iBeacon
 
 	label.attributedText = attributed
    ```
+
+## Label LineBreakStartegy
+- LineBreakStrategh : iOS 9 이상
+- **label 한글 단어기준 줄바꿈**
+	- iOS 14 이상
+   ```swift
+	// hangulWordPriority rawValue = 2
+
+	label.lineBreakStrategy = .hangulWordPriority
+   ```
+
+## UIAction
+- action에 클로저를 바로 넣을 수 있다.
+- iOS 13이상
+   ```swift
+	let refreshAction = UIAction(title: "Refresh") { action in
+	   print("refresh the data")
+	}
+   ```
+
+## UIAction AddTarget
+- AddTarget selector 없이 사용하기
+- iOS 14 이상
+- 클로저로 target action
+	- primaryAction은 UIAction 타입 받음
+
+   ```swift
+	let button = UIButton(type: .custom, primaryAction: UIAction(handler: { _ in
+	print("action")
+	}))
+
+   ```
+
+   ```swift
+	let action = UIAction { _ in
+		print("action")
+	}
+
+	let button = UIButton(type: .custom, primaryAction: action)
+   ```
+
+   ```swift
+	let button = UIButton(type: .custom)
+	button.addAction(action, for: .touchUpInside)
+   ```
+
+
