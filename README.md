@@ -27,7 +27,7 @@ Swift, Xcode, iOS 관련
 	- [UIStackView](https://github.com/eujin811/TIL#uistackview)
 	- [UITableView](https://github.com/eujin811/TIL#uitableview)
 	- [NavigationController](https://github.com/eujin811/TIL#navigationcontroller)
-		- [NavigationBar Custom]()
+		- [NavigationBar Custom](https://github.com/eujin811/TIL#navigationbar-custom)
 	- [TabBarController](https://github.com/eujin811/TIL#tabbarcontroller)
 	- [defer](https://github.com/eujin811/TIL#defer%EB%B8%94%EB%A1%9D)
 	- [일급 객체로서의 함수](https://github.com/eujin811/TIL#%EC%9D%BC%EA%B8%89-%EA%B0%9D%EC%B2%B4%EB%A1%9C%EC%84%9C%EC%9D%98-%ED%95%A8%EC%88%98)
@@ -72,9 +72,9 @@ Swift, Xcode, iOS 관련
 		- [CLAuthorizationStatus](https://github.com/eujin811/TIL#clauthorization-status)
 		- [Determining the Availability](https://github.com/eujin811/TIL#determining-the-availability)
 		- [Getting the User's Location Data](https://github.com/eujin811/TIL#getting-the-users-location-data)
-	- [Label 두가지 폰트]()
-	- [Label 한글 줄바꿈]()
-	- [selector없이 addTarget]()
+	- [Label 두가지 폰트](https://github.com/eujin811/TIL#label-%EB%91%90%EA%B0%80%EC%A7%80-%ED%8F%B0%ED%8A%B8)
+	- [Label 한글 줄바꿈](https://github.com/eujin811/TIL#label-linebreakstartegy)
+	- [selector없이 addTarget](https://github.com/eujin811/TIL#uiaction-addtarget)
 	
 - XCode
 	- [OAuth Login](https://github.com/eujin811/TIL#oauth-login)
