@@ -5,6 +5,13 @@
 - [Scheduler](https://github.com/eujin811/TIL/tree/master/RxSwift#scheduler)
 - [Subject](https://github.com/eujin811/TIL/tree/master/RxSwift#subject)
 - [other](https://github.com/eujin811/TIL/tree/master/RxSwift#other)
+- [Traits]()
+	- [Single]()
+	- [Maybe]()
+	- [Completable]()
+	- [Driver]()
+- [bind]()
+
 
 - [Marbles](http://reactivex.io/documentation/ko/observable.html)
 	- 단순 그림으로 용어 이해하기 좋음.
@@ -392,11 +399,190 @@
 - Observable로 부터 배출된 마지막 값만 배출하고 소스 Observable의 동작 완료후 동작한다.
 	- 만약 Observable이 아무 값도 배출하지 않으면 AsyncSubject도 아무 값도 배출하지 않는다.
 
+# Traits
 
-
+- RxSwift Traits
+	- [Single]()
+	- [Maybe]()
+	- [Completable]()
+- RxCocoa traits
+	- [Driver]()
+	- [Signal](https://github.com/ReactiveX/RxSwift/blob/main/Documentation/Traits.md#signal)
+	- [ControlProperty / controlEvent](https://github.com/ReactiveX/RxSwift/blob/main/Documentation/Traits.md#controlproperty--controlevent)
 ## Single
 - [공식문서](http://reactivex.io/documentation/single.html)
+- Observable
+- 한 가지 값 또는 에러 발행.
+- stream에서 single로 사용시 single로 시작해야됨. 중간에 asSingle 변환시 문제 발생
+- success가 next, completed 두가지 모두의 성격 포함
+	- completed 이벤트 발행 불가
+	- 1회성프로세스에 적합.	
+- asSingle 사용시 next 없으면 error 전달됨
+ 
+ ```swift
+	// 예시
+	Single<[Movie]>.create { obsever -> Disposable in
+            guard let url = baseURL
+            else {
+                obsever(.failure(SMError.emptyData))
+                return Disposables.create()
+            }
+            
+            let jsonObject = type.jsonObject
+            
+            AF.request(
+                url,
+                method: .get,
+                parameters: jsonObject,
+                encoding: URLEncoding.default,
+                headers: headers)
+            .responseDecodable(of: MovieResults.self) { response in
+                switch response.result {
+                case .success(let result):
+                    print("result", result)
+                    obsever(.success(result.items))
+                case .failure(let error):
+                    print("Error: (\(error)), \(error.localizedDescription)")
+                    obsever(.failure(error))
+                }
+            }
+            
+            return Disposables.create()
+        }
 
+	// 예시 2
+    	return Single<[String: Any]>.create { single in
+        	let task = URLSession.shared.dataTask(with: URL(string: "https://api.github.com/repos/\(repo)")!) { data, _, error in
+	            if let error = error {
+	                single(.failure(error))
+	                return
+	            }
+	
+	            guard let data = data,
+	                  let json = try? JSONSerialization.jsonObject(with: data, options: .mutableLeaves),
+	                  let result = json as? [String: Any] else {
+	                single(.failure(DataError.cantParseJSON))
+	                return
+	            }
+	
+	            single(.success(result))
+	        }
+	
+	        task.resume()
+	
+	        return Disposables.create { task.cancel() }
+	    }
+ ```
+
+## Maybe
+- [공식문서](https://github.com/ReactiveX/RxSwift/blob/main/Documentation/Traits.md#maybe)
+- success, completed, error 모두 방출
+	- 성공 실패여부와 상관없이 특정 값 배출 가능
+- asMaybe() 통해 손쉽게 Observable을 Maybe로 변환 가능. 
+
+ ```swift
+	func generateString() -> Maybe<String> {
+	    return Maybe<String>.create { maybe in
+	        maybe(.success("RxSwift"))
+	
+	        // OR
+	
+	        maybe(.completed)
+	
+	        // OR
+	
+	        maybe(.error(error))
+	
+	        return Disposables.create {}
+	    }
+	}
+ ```
+ ```swift
+	// 예시 1
+	generateString()
+	    .subscribe { maybe in
+	        switch maybe {
+	            case .success(let element):
+	                print("Completed with element \(element)")
+	            case .completed:
+	                print("Completed with no element")
+	            case .error(let error):
+	                print("Completed with an error \(error.localizedDescription)")
+	        }
+	    }
+	    .disposed(by: disposeBag)
+	
+	// 예시 2
+	generateString()
+	    .subscribe(onSuccess: { element in
+	                   print("Completed with element \(element)")
+	               },
+	               onError: { error in
+	                   print("Completed with an error \(error.localizedDescription)")
+	               },
+	               onCompleted: {
+	                   print("Completed with no element")
+	               })
+	    .disposed(by: disposeBag)
+ ```
+
+## Completable
+- [공식문서](https://github.com/ReactiveX/RxSwift/blob/main/Documentation/Traits.md#completable)
+- 구독 삭제되기 전 단일 completed, error 이벤트만 생성 
+- 성공여부 반환 여부 관련 작업에 유용
+
+ ```swift
+	func cacheLocally() -> Completable {
+	    return Completable.create { completable in
+	       // Store some data locally
+	       ...
+	       ...
+	
+	       guard success else {
+	           completable(.error(CacheError.failedCaching))
+	           return Disposables.create {}
+	       }
+	
+	       completable(.completed)
+	       return Disposables.create {}
+	    }
+	}
+ ```
+
+ ```swift
+	// 예시 1
+	cacheLocally()
+	    .subscribe { completable in
+	        switch completable {
+	            case .completed:
+	                print("Completed with no error")
+	            case .error(let error):
+	                print("Completed with an error: \(error.localizedDescription)")
+	        }
+	    }
+	    .disposed(by: disposeBag)
+
+	// 예시 2
+	cacheLocally()
+	    .subscribe(onCompleted: {
+	                   print("Completed with no error")
+	               },
+	               onError: { error in
+	                   print("Completed with an error: \(error.localizedDescription)")
+	               })
+	    .disposed(by: disposeBag)
+ ```
+
+## Driver
+- [공식문서](https://github.com/ReactiveX/RxSwift/blob/main/Documentation/Traits.md#driver)
+- 구독하는 옵저버가 늘어도 스트림은 하나로 유지된다.
+- 스트림 공유가능.
+- 스케쥴러 Main-Thread
+- 스트림도 공유 가능하고 error 처리같은 것도 driver로 만들기 전 asDriver에서 넘겨서 처리할 수 있어서 VM에서 되도록 driver로 넘기는게 맞을것 같음.
+
+## bind
+- observer가 추가될 때 마다 새로운 스트림이 실행된다.
+- 구독하는 옵저버가 늘어날 경우 스트림도 늘어남.
 
 ## other
 
