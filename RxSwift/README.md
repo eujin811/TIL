@@ -5,12 +5,12 @@
 - [Scheduler](https://github.com/eujin811/TIL/tree/master/RxSwift#scheduler)
 - [Subject](https://github.com/eujin811/TIL/tree/master/RxSwift#subject)
 - [other](https://github.com/eujin811/TIL/tree/master/RxSwift#other)
-- [Traits]()
-	- [Single]()
-	- [Maybe]()
-	- [Completable]()
-	- [Driver]()
-- [bind]()
+- [Traits](https://github.com/eujin811/TIL/tree/master/RxSwift#traits)
+	- [Single](https://github.com/eujin811/TIL/tree/master/RxSwift#single)
+	- [Maybe](https://github.com/eujin811/TIL/tree/master/RxSwift#maybe)
+	- [Completable](https://github.com/eujin811/TIL/tree/master/RxSwift#completable)
+	- [Driver](https://github.com/eujin811/TIL/tree/master/RxSwift#driver)
+- [bind](https://github.com/eujin811/TIL/tree/master/RxSwift#bind)
 
 
 - [Marbles](http://reactivex.io/documentation/ko/observable.html)
@@ -402,11 +402,11 @@
 # Traits
 
 - RxSwift Traits
-	- [Single]()
-	- [Maybe]()
-	- [Completable]()
+	- [Single](https://github.com/eujin811/TIL/tree/master/RxSwift#single)
+	- [Maybe](https://github.com/eujin811/TIL/tree/master/RxSwift#maybe)
+	- [Completable](https://github.com/eujin811/TIL/tree/master/RxSwift#completable)
 - RxCocoa traits
-	- [Driver]()
+	- [Driver](https://github.com/eujin811/TIL/tree/master/RxSwift#driver)
 	- [Signal](https://github.com/ReactiveX/RxSwift/blob/main/Documentation/Traits.md#signal)
 	- [ControlProperty / controlEvent](https://github.com/ReactiveX/RxSwift/blob/main/Documentation/Traits.md#controlproperty--controlevent)
 ## Single
