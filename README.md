@@ -5,6 +5,7 @@ Swift, Xcode, iOS 관련
 - [RIBs](https://github.com/eujin811/TIL/tree/master/RIBs)
 
 - [Swift](https://github.com/eujin811/TIL#swift)
+    - [Swift5.7](https://github.com/eujin811/TIL#Swift5.7)
 	- [기초문법](https://github.com/eujin811/TIL#%EA%B8%B0%EC%B4%88%EB%AC%B8%EB%B2%95)
 	- [Dictionary]()
 	- [Closer](https://github.com/eujin811/TIL#closure)
@@ -4418,4 +4419,116 @@ iBeacon
 	button.addAction(action, for: .touchUpInside)
    ```
 
+## Swift5.7
 
+- 옵셔널 언래핑 간소화 (SE-0345)
+- 클로저 반환타입 추론 가능 (SE-0326)
+- Clock (SE-0329)
+- 비동기 불가 어노테이션 @available(*, noasync) (SE-0340)
+ 
+
+옵셔널 언래핑 간소화 (SE-0345)
+
+- 기존 
+
+    ``` swift
+    let oldString: String? = "기존 방식"
+        
+    if let str = oldString {
+        print(str)
+    }
+    ```
+
+- Swift 5.7
+
+    ```swift
+     let newString = "새로운 방식"
+     
+     if let newString {
+         print(newString)
+     }
+     ```
+ 
+
+클로저 반환타입 추론 가능 (SE--326)
+- 기존 
+
+    ```swift
+     let numbers = [1, 2, 3, 4]
+     
+     let numStrings1 = numbers.map { number -> String in
+         "\(number)"
+     }
+    
+     let numStrings2: [String] = numbers.map { number in
+         "\(number)"
+     }
+    ```
+
+- swift 5.7
+
+    ```swift
+     let newNums = [1, 2, 3, 4]
+    
+     let numbersStrings = numbers.map { "\($0)" }
+    
+     let numbersStrings = numbers.map { num in
+         let numStr = "\(num)"
+         return numStr
+     }
+    ```
+
+Clock (SE-0329)
+- API 허용오차 지정 가능
+    - 최소 범위와 오차범위 +시간 가능.
+    - 최소 1초 최대 1.5초까지 기다릴 수 있다.
+    - 최소 1초전 종료 x
+    
+```swift
+    try await Task.sleep(until: .now + .seconds(1),
+                     tolerance: .seconds(0.5), 
+                     clock: .continuous)
+```
+
+- 작업시간 측정 가능 (작업시간 측정)
+    - 파일 내보내기 걸린시간 같은것 보여주기 편하다.
+    - iOS 16 이상
+
+```swift
+    let clock = ContinuousClock()
+    
+    let time = clock.measure {
+        // complex work here
+    }
+
+    print("Took \(time.components.seconds) seconds")
+```
+
+비동기 불가 어노테이션 (SE-0340)
+- 비동기 상황시 문제가 있을 수 있다는 것을 표기
+    - 잠재적 위험상황을 알릴 수 있게됨.
+    - 단, 한번 랩핑하고 호출시 error 발생하지 않음!
+    - 저장소, 잠금, 음소거 등
+
+```swift
+    @available(*, noasync)
+    func doRiskFunc() {
+        // 비동기 사용시 위험한 코드
+    }
+
+    // 동기
+    func synchronousCall() {
+        doRiskFunc()
+    }
+    
+    // 비동기 
+    // 에러 발생.
+    func asynchronousCall() async {
+        doRiskFunc()
+    }
+    
+    // 동기 함수로 한번 감쌀경우 에러 미발생
+    func sneakyCall() async {
+        synchronousCall()
+    }
+```
