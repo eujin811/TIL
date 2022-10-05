@@ -5,7 +5,7 @@ Swift, Xcode, iOS 관련
 - [RIBs](https://github.com/eujin811/TIL/tree/master/RIBs)
 
 - [Swift](https://github.com/eujin811/TIL#swift)
-    - [Swift5.7](https://github.com/eujin811/TIL#Swift5.7)
+    - [Swift5.7](https://github.com/eujin811/TIL#swift57)
 	- [기초문법](https://github.com/eujin811/TIL#%EA%B8%B0%EC%B4%88%EB%AC%B8%EB%B2%95)
 	- [Dictionary]()
 	- [Closer](https://github.com/eujin811/TIL#closure)
