@@ -4532,3 +4532,16 @@ Clock (SE-0329)
         synchronousCall()
     }
 ```
+
+
+## Javascript core
+
+NSAttributedString의 초기 사용
+html 데이터를 파싱하기 위해 NSAttributedString 을 처음 호출할 때 iOS는 몇 개의 스레드,
+특히 JavaScriptCore 및 WebThread 스레드를 할당 합니다.
+이는 WebKit 이 후드 아래에서 html을 구문 분석하는 데만 사용됨을 나타냅니다.
+
+따라서 WebKit 및 기타 필요한 모듈이 구축되고 있으며 실제로 상당한 시간이 걸립니다.
+
+[참고](https://medium.com/trendyol-tech/html-parsing-with-nsattributedstring-6a2c088ce181)
+
