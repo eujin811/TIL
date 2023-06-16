@@ -428,6 +428,21 @@ type(of: firstIndex)
 	 }
 	```
 
+- Enum protocol 주입
+	```swift
+	 protocol CommunityListAction {
+	    static var refresh: Self { get }
+	    static func onScroll(_: Bool) -> Self
+	 }
+	
+	 enum Action: CommunityListAction {
+            case refresh
+            case onScroll(Bool)
+    	 }
+
+	```
+
+
 ## Dictionary
 
 - grouping
